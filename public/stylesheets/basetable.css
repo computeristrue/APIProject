@@ -1,0 +1,164 @@
+.fieldLabel {
+    display: block;
+    height: 40px;
+    line-height: 40px;
+    font-weight: normal;
+    text-align: right;
+}
+
+#myTab {
+    border: 0px solid transparent;
+}
+
+/*在谷歌下移除input[number]的上下箭头*/
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0;
+}
+
+/*在firefox下移除input[number]的上下箭头*/
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.table thead th {
+    color: #404040;
+    font-style: normal;
+    font-variant-ligatures: normal;
+    font-variant-caps: normal;
+    font-variant-numeric: normal;
+    font-variant-east-asian: normal;
+    font-weight: 400;
+    font-stretch: normal;
+    font-size: 13px;
+    line-height: 19px;
+    font-family: "Open Sans", "Helvetica Neue", helvetica, arial, verdana, sans-serif;
+}
+
+.table-bordered>tbody>tr>td {
+    border: 0px solid rgba(255, 255, 255, 0.5);
+}
+
+.colStyle {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.pagination-info {
+    margin-left: 10px;
+}
+
+.fieldLabelLeft {
+    display: block;
+    height: 38px;
+    line-height: 38px;
+    font-weight: normal;
+    padding-left: 20px;
+}
+
+.deptCombo {
+    margin: auto -10%;
+}
+
+.sumInfo {
+    color: black;
+    font-weight: bold;
+}
+
+.styled-select {
+    text-align: right;
+    font-weight: normal
+}
+
+.styled-select-left {
+    text-align: left;
+    font-weight: normal
+}
+
+.styled-select select,
+.styled-select-left select {
+    border: solid 1px #dddddd;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    padding-right: 30px;
+    background-color: #FFF;
+    background-image: url(../images/arrow.gif);
+    background-repeat: no-repeat;
+    background-position: right 7px;
+    height: 25px;
+    padding: 3px 40px 4px 9px;
+    color: #000;
+    font-size: 12px;
+    line-height: 20px;
+    font-weight: normal
+}
+
+.styled-select select::-ms-expand {
+    display: none;
+}
+
+.show-font {
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.table-striped>tbody>tr:nth-child(odd)>td,
+.table-striped>tbody>tr:nth-child(odd)>th {
+    background-color: rgb(246, 246, 246);
+}
+
+
+label.xrequired:before {
+    content: '* ';
+    color: red;
+}
+
+.alert {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 300px;
+    max-width: 600px;
+    transform: translate(-50%, -50%);
+    z-index: 99999;
+    text-align: center;
+    padding: 15px;
+    border-radius: 3px;
+}
+
+.alert-success {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
+
+.alert-info {
+    color: #31708f;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+}
+
+.alert-warning {
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+}
+
+.alert-danger {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
+/* layUI去掉输入框前面的文字 */
+.layui-input-block{
+    margin-left: 10px;
+}
+/* 模糊搜索框总是在最上层 */
+/* ui-menu ui-widget ui-widget-content ui-autocomplete ui-front */
+.ui-menu,.ui-autocomplete{
+    z-index: 999999;
+}

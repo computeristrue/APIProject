@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>帮助面板</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../../layuiadmin/style/admin.css" media="all">
+</head>
+
+<body>
+
+
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md12">
+                <div class="layui-card">
+
+                    <div class="layui-card-header">API接口配置帮助文档</div>
+                    <div class="layui-card-body">
+                        <div class="layui-collapse" lay-accordion="">
+                            <div class="layui-colla-item">
+                                <h2 class="layui-colla-title">API接口配置大概流程</h2>
+                                <div class="layui-colla-content layui-show">
+                                    <p>1、配置CRM、对接系统的基础信息（包括数据库信息、接口地址、CRM的地址还需要配置API日志的保存方法、authToken等）</p>
+                                    <p>2、配置CRM、对接系统的字段对应关系，包括字段类型、名称、必填、唯一、数据字典</p>
+                                    <p>3、配置每个接口的对接方式，是否加密，解密规则</p>
+                                    <p>4、制作demo进行测试</p>
+                                </div>
+                            </div>
+                            <div class="layui-colla-item">
+                                <h2 class="layui-colla-title">接口所需基础信息</h2>
+                                <div class="layui-colla-content">
+                                    <p>1、CRM，对接系统分别使用<b>什么数据库</b>？数据库的<b>地址、端口、账号、密码、名称</b></p>
+                                    <p>2、如果需要CRM推送数据到其他系统，则需要在CRM系统中配置<b>API日志模块</b>、在CRM后台管理中设置一个<b>永久的authToken</b>，关联的员工一般选择管理员</p>
+                                    <p>同时在本系统中配置CRM的访问地址、以及在CRM后台中配置的永久authToken</p>
+                                </div>
+                            </div>
+                            <div class="layui-colla-item">
+                                <h2 class="layui-colla-title">字段对接要点</h2>
+                                <div class="layui-colla-content">
+                                    <p>1、<b>字符串类型：</b>最为普通的字段，只需要对应好两边字段的名称即可</p>
+                                    <p>2、<b>时间类型：</b>需要定好CRM的字段类型（不要选择错误的字段类型），以及两边系统的格式化要求，比如YYYY-MM-DD 或者YYYY-MM-DD HH:mm:ss等</p>
+                                    <p>3、<b>浮点类型：</b>需要定好CRM的字段类型（不要选择错误的字段类型），以及系统对小数位数的要求</p>
+                                    <p>3、<b>数据字典类型：</b>需要定好CRM的字段类型（CRM企业字段的数值类型，非特殊情况不要使用其他类型字段）。对应好两边系统的数据字典，对方系统
+                                        数据字典的显示值、实际值分别对应CRM系统的text、encode，在接口传递中CRM推送其他系统使用显示值还是实际值？读取其他系统时他们给的数据是使用的显示值还是实际值？</p>
+                                    <p>4、<b>固定值：</b>固定值可以不在CRM系统配置对应字段，在接口推送数据或者拉取数据时会自动加上对应的固定值</p>
+                                    <p>5、<b>如果拉取数据，则务必要求对方提供每条数据的唯一字段、数据的修改时间（精确到秒），用来确定每条数据的唯一性。CRM系统推荐使用decode字段接收唯一字段的值。
+                                        对方的数据修改需要实时修改数据的修改时间，CRM系统在配置的时间间隔拉取对应的数据并更新CRM数据库</b></p>
+                                </div>
+                            </div>
+                            <div class="layui-colla-item">
+                                <h2 class="layui-colla-title">接口对接方式</h2>
+                                <div class="layui-colla-content">
+                                    <p>1、HTTP请求对接，无加密方式</p>
+                                    <p>先试制作以上对接方式，以后根据业务需求逐渐完善</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../../layuiadmin/layui/layui.js"></script>
+    <script>
+        layui.config({
+            base: '../../../layuiadmin/' //静态资源所在路径
+        }).extend({
+            index: 'lib/index' //主入口模块
+        }).use(['index'], function () {
+            var $ = layui.$
+                , admin = layui.admin
+                , element = layui.element
+                , router = layui.router();
+
+            element.render('collapse');
+
+            //监听折叠
+            element.on('collapse(component-panel)', function (data) {
+                layer.msg('展开状态：' + data.show);
+            });
+        });
+    </script>
+</body>
+
+</html>
