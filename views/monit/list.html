@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>进程监控</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" href="../../../layuiadmin/layui/css/layui.css" media="all">
+  <link rel="stylesheet" href="../../../layuiadmin/style/admin.css" media="all">
+</head>
+
+<body>
+
+
+  <div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+      <div class="layui-col-md12">
+        <div class="layui-card">
+          <div class="layui-card-header">进程监控</div>
+          <div class="layui-card-body">
+            <div class="layui-btn-group test-table-operate-btn" style="margin-bottom: 10px;">
+              <button class="layui-btn" data-type="startup">设置开机自启</button>
+            </div>
+
+            <table class="layui-hide" id="test-table-operate" lay-filter="test-table-operate"></table>
+
+            <script type="text/html" id="test-table-operate-barDemo">
+              <a class="layui-btn layui-btn-xs" lay-event='start'>启动</a>
+              <a class="layui-btn layui-btn-xs" lay-event='stop'>停止</a>
+              <a class="layui-btn layui-btn-xs" lay-event='restart'>重启</a>
+              <a class="layui-btn layui-btn-danger layui-btn-xs"lay-event='del'>删除</a>
+            </script>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../../layuiadmin/layui/layui.js"></script>
+  <script>
+    layui.config({
+      base: '../../../layuiadmin/' //静态资源所在路径
+    }).extend({
+      index: 'lib/index' //主入口模块
+    }).use(['index', 'table', 'view'], function () {
+      var table = layui.table
+        , admin = layui.admin
+        , view = layui.view;
+      table.render({
+        elem: '#test-table-operate'
+        , url: 'searchList'
+        , cols: [[
+          { type: 'checkbox', fixed: 'left' }
+          , { field: 'pm_id', title: 'ID', sort: true, fixed: 'left' }
+          , { field: 'pid', title: 'PID', sort: true, fixed: 'left' }
+          , { field: 'name', title: '名称' }
+          , { field: 'status', title: '状态' }
+          , { field: 'restartTime', title: '重启次数' }
+          , { field: 'memory', title: '内存' }
+          , { field: 'cpu', title: 'CPU' }
+          , { field: 'outPath', title: '输出日志路径' }
+          , { field: 'errPath', title: '错误日志路径' }
+          , { field: 'created', title: '创建时间' }
+          , { field: 'username', title: '创建者' }
+          , { minWidth: 300, align: 'center', fixed: 'right', toolbar: '#test-table-operate-barDemo' }
+        ]]
+        // , page: true
+      });
+
+      //监听表格复选框选择
+      table.on('checkbox(test-table-operate)', function (obj) {
+        console.log(obj)
+      });
+      //监听工具条
+      table.on('tool(test-table-operate)', function (obj) {
+        var data = obj.data;
+        var str = '启动';
+
+        if (obj.event === 'start') {
+          str = "启动";
+        } else if (obj.event === 'stop') {
+          str = "停止";
+        } else if (obj.event === 'restart') {
+          str = "重启";
+        } else if (obj.event === 'del') {
+          str = "删除";
+        }
+        layer.confirm(`是否${str}进程?`, function (index) {
+          doAjax(obj.event, data.name);
+          layer.close(index);
+        });
+      });
+      setInterval(() => {//自动刷新页面
+        reloadTable();
+      }, 1000 * 10);
+      function doAjax(type, name) {
+        view.req({
+          url: 'operation',
+          type: 'get',
+          async: false,
+          data: { type: type, name: name },
+          success: function (data, textStatus) {
+            reloadTable();
+          }
+        })
+      }
+      function reloadTable() {
+        table.reload('test-table-operate', {
+          url: 'searchList'
+        })
+      }
+
+
+      var $ = layui.$, active = {
+      startup: function(){ //开机自启
+        layer.confirm(`设置该列表中所有进程开机自启？（仅支持centos系统，其他系统仍需自行配置）`, function (index) {
+          doAjax("startup","centos");
+          layer.close(index);
+        });
+      }
+    };
+    
+    $('.test-table-operate-btn .layui-btn').on('click', function(){
+      var type = $(this).data('type');
+      active[type] ? active[type].call(this) : '';
+    });
+
+
+    });
+  </script>
+</body>
+
+</html>
