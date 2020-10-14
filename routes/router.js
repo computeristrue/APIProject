@@ -4,6 +4,7 @@ var router = express.Router();
 var indexRouter = require('./index');
 var commandRouter = require('./command');
 var monitRouter = require('./monit');
+var projectRouter = require('./project');
 
 router.use('/', indexRouter);
 
@@ -24,6 +25,10 @@ router.use('/sys',commandRouter);
  */
 router.use('/monit',monitRouter);
 
+/**
+ * 项目管理
+ */
+router.use('/project',projectRouter);
 
 
 
