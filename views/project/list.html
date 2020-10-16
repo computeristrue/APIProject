@@ -10,6 +10,10 @@
         content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" href="../../../layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="../../../layuiadmin/style/admin.css" media="all">
+    <!-- <link rel="stylesheet" href="../../../stylesheets/basetable.css" media="all"> -->
+
+    <script src="../../../javascripts/jquery-3.3.1.min.js"></script>
+    <script src="../../../javascripts/basetable.js"></script>
 </head>
 
 <body>
@@ -28,15 +32,125 @@
                         <table class="layui-hide" id="test-table-operate" lay-filter="test-table-operate"></table>
 
                         <script type="text/html" id="test-table-operate-barDemo">
-              <a class="layui-btn layui-btn-xs" lay-event='start'>启动</a>
-              <a class="layui-btn layui-btn-xs" lay-event='stop'>停止</a>
-              <a class="layui-btn layui-btn-xs" lay-event='restart'>重启</a>
-              <a class="layui-btn layui-btn-danger layui-btn-xs"lay-event='del'>删除</a>
-            </script>
+                            <a class="layui-btn layui-btn-xs" lay-event='edit'>修改</a>
+                            <a class="layui-btn layui-btn-xs" lay-event='view'>查看</a>
+                            <a class="layui-btn layui-btn-danger layui-btn-xs"lay-event='del'>删除</a>
+                        </script>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+
+
+    <div class="site-text" style="margin: 5% 5% 5% 0;display: none;" id="window">
+        <form class="layui-form" id="myForm" lay-filter="myForm">
+            <div class="layui-row">
+                <input type="hidden" name="id" autocomplete="off" class="layui-input">
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">项目名</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="name" lay-verify='required' autocomplete="off"
+                                placeholder="项目名(仅限字母)" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">监听端口</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="listener_port" lay-verify='required' autocomplete="off"
+                                placeholder="请输入监听端口" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">项目位置</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="path" lay-verify='required' autocomplete="off"
+                                placeholder="请输入项目保存路径" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">主机地址</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="host" lay-verify='required' autocomplete="off"
+                                placeholder="请输入CRM数据库端口" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">用户名</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="user" lay-verify='required' autocomplete="off"
+                                placeholder="请输入数据库账号" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">密码</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="password" lay-verify='required' autocomplete="off"
+                                placeholder="请输入数据库密码" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">端口</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="port" lay-verify='title' autocomplete="off" placeholder="请输入数据库端口"
+                                class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">数据库名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="database_" lay-verify='required' autocomplete="off"
+                                placeholder="请输入数据库名称" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">数据库类型</label>
+                        <div class="layui-input-block">
+                            <select name="kind" lay-verify="required" id="kind">
+                                <option value="">请选择数据库类型</option>
+                                <option value="1" selected>MySQL</option>
+                                <option value="2">SQL service</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">CRM域名</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="url" lay-verify='required' autocomplete="off"
+                                placeholder="请输入CRM域名" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">authToken</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="authToken" lay-verify='required' autocomplete="off"
+                                placeholder="请输入绑定员工的authToken" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 
     <script src="../../../layuiadmin/layui/layui.js"></script>
@@ -45,76 +159,61 @@
             base: '../../../layuiadmin/' //静态资源所在路径
         }).extend({
             index: 'lib/index' //主入口模块
-        }).use(['index', 'table', 'view'], function () {
+        }).use(['index', 'table', 'view', 'form'], function () {
             var table = layui.table
                 , admin = layui.admin
-                , view = layui.view;
-            table.render({
+                , view = layui.view
+                , form = layui.form;
+            var tableIns = table.render({
                 elem: '#test-table-operate'
                 , url: 'searchList'
                 , cols: [[
                     { type: 'checkbox', fixed: 'left' }
-                    , { field: 'pm_id', title: '项目名', sort: true, fixed: 'left' }
-                    , { field: 'pid', title: 'CRM数据库' }
-                    , { field: 'name', title: '对接系统数据库' }
-                    , { field: 'status', title: '状态' }
-                ]]
-                // , page: true
-            });
-
-            //监听表格复选框选择
-            table.on('checkbox(test-table-operate)', function (obj) {
-                console.log(obj)
-            });
-            //监听工具条
-            table.on('tool(test-table-operate)', function (obj) {
-                var data = obj.data;
-                var str = '启动';
-
-                if (obj.event === 'start') {
-                    str = "启动";
-                } else if (obj.event === 'stop') {
-                    str = "停止";
-                } else if (obj.event === 'restart') {
-                    str = "重启";
-                } else if (obj.event === 'del') {
-                    str = "删除";
-                }
-                layer.confirm(`是否${str}进程?`, function (index) {
-                    doAjax(obj.event, data.name);
-                    layer.close(index);
-                });
-            });
-            function doAjax(type, name) {
-                view.req({
-                    url: 'add',
-                    type: 'get',
-                    async: false,
-                    data: { type: type, name: name },
-                    success: function (data, textStatus) {
-                        reloadTable();
+                    , { field: 'id', title: 'id', hide: true }
+                    , { field: 'name', title: '项目名', sort: true, fixed: 'left' }
+                    , { field: 'listener_port', title: '监听端口' }
+                    , { field: 'path', title: '项目位置' }
+                    , { field: 'host', title: 'CRM数据库主机地址' }
+                    , { field: 'user', title: '用户名' }
+                    , { field: 'password', title: '密码' }
+                    , { field: 'port', title: '端口' }
+                    , { field: 'database_', title: '数据库名称' }
+                    , {
+                        field: 'kind', title: '数据库类型', templet: (d) => {
+                            var str = "";
+                            if (d.kind == 1) str = 'MySQL';
+                            if (d.kind == 2) str = 'SQL service';
+                            return str;
+                        }
                     }
-                })
-            }
-            function reloadTable() {
-                table.reload('test-table-operate', {
-                    url: 'searchList'
-                })
-            }
-
+                    , { field: 'url', title: 'CRM域名' }
+                    , { field: 'authToken', title: 'authToken' }
+                    , { minWidth: 300, align: 'center', fixed: 'right', toolbar: '#test-table-operate-barDemo' }
+                ]],
+            });
 
             var $ = layui.$, active = {
                 add: function () { //新增项目
-                    doAjax("天上", "天下");
+                    openMain('save', null, form, 'myForm', tableIns);
                 }
             };
-
             $('.test-table-operate-btn .layui-btn').on('click', function () {
                 var type = $(this).data('type');
                 active[type] ? active[type].call(this) : '';
             });
 
-
+            //监听工具条
+            table.on('tool(test-table-operate)', function (obj) {
+                var data = obj.data;
+                if (obj.event === 'edit') {
+                    openMain('save', data, form, 'myForm', tableIns);
+                } else if (obj.event === 'view') {
+                    openMain(null, data, form, 'myForm', tableIns);
+                } else if (obj.event === 'del') {
+                    console.log(data.id);
+                    baseDel('del',data.id,tableIns);
+                }
+            });
         });
     </script>
 </body>

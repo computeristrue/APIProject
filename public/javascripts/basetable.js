@@ -186,7 +186,7 @@ function getInfo(name, customerArr, saleChanceArr, salechanceMoneyArr, agreeMent
     }
 }
 
-function createMOHU(name, type,moduleId,condition = null) {
+function createMOHU(name, type, moduleId, condition = null) {
     var textName = name;
     var hiddenName = name.replace("Text", "");
     var showField = name.replace("Text", "Show");
@@ -209,30 +209,30 @@ function createMOHU(name, type,moduleId,condition = null) {
         url = "getDeptMOHU";
         valueField = "id";
     }
-    if(type == 'pinpai'){
+    if (type == 'pinpai') {
         url = "getPinPai";
         valueField = "extend75"
     }
-    if(type == 'xinghao'){
+    if (type == 'xinghao') {
         url = 'getXingHao';
         valueField = "extend12";
     }
     $(`#${textName}`).bind("input propertychange", function (event) {
         var thiVal = $(`#${textName}`).val();
-        if(!thiVal){
+        if (!thiVal) {
             $(`#${hiddenName}`).val(null);
             $(`#${showField}`).hide();
         }
     });
     $(`#${textName}`).autocomplete({
-        delay:500,
+        delay: 500,
         source: function (request, response) {
             var params = {
                 "key": $(`#${textName}`).val(),
-                "moduleId":moduleId
+                "moduleId": moduleId
             }
-            if(condition){
-                for(var key in condition){
+            if (condition) {
+                for (var key in condition) {
                     params[key] = condition[key];
                 }
             }
@@ -356,7 +356,7 @@ function initEmployeeTree(elemId, treeSelect) {
     });
 }
 
-   //table转ul函数
+//table转ul函数
 //    $.fn.setTable = function () {
 //     var el=this;
 //     this.start=function(){
@@ -402,11 +402,86 @@ function initEmployeeTree(elemId, treeSelect) {
 // };
 
 //显示描述
-function show_shopm(t){
-    var row=$(t).attr('data-d'); //获取显示内容
+function show_shopm(t) {
+    var row = $(t).attr('data-d'); //获取显示内容
     //小tips
-    layer.tips(row,t,{
-        tips:[2,'#3595CC'],
-        time:4000
+    layer.tips(row, t, {
+        tips: [2, '#3595CC'],
+        time: 4000
     })
+}
+
+/**
+ * 提交URL
+ * 原数据
+ * layui.form
+ * formId
+ * table实例 
+ **/
+function openMain(url, record, form, formId, tableIns) {
+    if (record && typeof record == 'object') {
+        form.val(formId, record);//如果已有数据则填充表单;
+    }
+    var btn = ['确定', '取消'];
+    if (!url) {
+        btn = ['关闭'];
+    }
+    layer.open({
+        type: 1,
+        area: ['50%', '50%'],
+        btn: btn,
+        content: $("#window"),
+        yes: function (index, layero) {
+            var params = form.val(formId);
+            console.log(params);
+            if (!url) {
+                layer.close(index);//关闭弹出层
+                $(`#${formId}`)[0].reset();
+                form.render();//重置form
+            } else {
+                $.ajax({
+                    url: url,
+                    type: 'get',
+                    async: false,
+                    data: params,
+                    success: function (data, textStatus) {
+                        layer.msg(data.msg);
+                        layer.close(index);//关闭弹出层
+                        $(`#${formId}`)[0].reset();
+                        form.render();//重置form
+                        reloadTable(tableIns);
+                    }
+                });
+            }
+        }
+    });
+};
+
+function reloadTable(tableIns) {
+    var page = tableIns.page;
+    if (page) {
+        tableIns.reload({
+            page: {
+                curr: 1
+            }
+        })
+    } else {
+        tableIns.reload();
+    }
+}
+
+function baseDel(url, id, tableIns) {
+    layer.confirm(`是否删除项目?`, function (index) {
+        $.ajax({
+            url: url,
+            type: 'get',
+            async: false,
+            data: {id:id},
+            success: function (data, textStatus) {
+                layer.msg(data.msg);
+                reloadTable(tableIns);
+            }
+        })
+        layer.close(index);
+    });
 }
