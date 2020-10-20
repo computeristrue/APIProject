@@ -432,26 +432,30 @@ function openMain(url, record, form, formId, tableIns) {
         btn: btn,
         content: $("#window"),
         yes: function (index, layero) {
-            var params = form.val(formId);
-            console.log(params);
+            var submitID = 'form_submit_btn'
+            ,submit = layero.find('#'+ submitID);
             if (!url) {
                 layer.close(index);//关闭弹出层
                 $(`#${formId}`)[0].reset();
                 form.render();//重置form
             } else {
-                $.ajax({
-                    url: url,
-                    type: 'get',
-                    async: false,
-                    data: params,
-                    success: function (data, textStatus) {
-                        layer.msg(data.msg);
-                        layer.close(index);//关闭弹出层
-                        $(`#${formId}`)[0].reset();
-                        form.render();//重置form
-                        reloadTable(tableIns);
-                    }
-                });
+                form.on(`submit(${submitID})`,(data=>{
+                    var params = data.field;
+                    $.ajax({
+                        url: url,
+                        type: 'get',
+                        async: false,
+                        data: params,
+                        success: function (data, textStatus) {
+                            layer.msg(data.msg);
+                            layer.close(index);//关闭弹出层
+                            $(`#${formId}`)[0].reset();
+                            form.render();//重置form
+                            reloadTable(tableIns);
+                        }
+                    });
+                }));
+                submit.trigger('click');
             }
         }
     });
@@ -470,13 +474,13 @@ function reloadTable(tableIns) {
     }
 }
 
-function baseDel(url, id, tableIns) {
-    layer.confirm(`是否删除项目?`, function (index) {
+function baseDel(url, id, tableIns,tableName) {
+    layer.confirm(`是否删除?`, function (index) {
         $.ajax({
             url: url,
             type: 'get',
             async: false,
-            data: {id:id},
+            data: {id:id,tableName:tableName},
             success: function (data, textStatus) {
                 layer.msg(data.msg);
                 reloadTable(tableIns);

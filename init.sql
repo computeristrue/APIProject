@@ -2,6 +2,20 @@ CREATE DATABASE IF NOT EXISTS api default charset utf8 COLLATE utf8_general_ci;
 
 use api;
 
+-- 管理员表
+create table if not exists adminUser(
+    id int not null auto_increment PRIMARY KEY,
+    name VARCHAR(30) not null,
+    account VARCHAR(30) not null,
+    password VARCHAR(30) not null,
+    kind int not null, -- 类型 1、超级管理员 2、普通管理员
+    deleteFlag bit default 0, -- 删除标记
+    dateCreated datetime, -- 创建时间
+    lastUpdated datetime -- 修改时间
+);
+
+insert into adminUser(name,account,password,kind,deleteFlag,dateCreated,lastUpdated) values('管理员','admin','1',1,0,now(),now());
+
 -- 项目表
 create table if not exists project (
     id int not null auto_increment PRIMARY KEY,

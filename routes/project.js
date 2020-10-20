@@ -11,7 +11,7 @@ router.use('/list', (req, res) => {
 });
 
 router.use('/searchList', (req, res) => {
-    var sql = `select * from project`;
+    var sql = `select * from project where deleteFlag = 0`;
     mysql.query(sql).then(re => {
         res.json({
             code: 0,
@@ -43,23 +43,5 @@ router.use('/save', (req, res) => {
         })
     })
 });
-
-router.use('/del',(req,res)=>{
-    var params = req.query;
-    var id = params.id;
-    var sql = `update project set delete_flag = 1 where id = ${id}`;
-    mysql.query(sql).then(re=>{
-        res.json({
-            code: 0,
-            msg: '删除成功'
-        })
-    }).catch(err=>{
-        res.json({
-            code: 0,
-            msg: '删除失败'
-        })
-    })
-})
-
 
 module.exports = router;

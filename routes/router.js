@@ -5,6 +5,10 @@ var indexRouter = require('./index');
 var commandRouter = require('./command');
 var monitRouter = require('./monit');
 var projectRouter = require('./project');
+var adminRouter = require('./admin');
+var moduleRouter = require('./module');
+var dictRouter = require('./dict');
+var baseRouter = require('./base');
 
 router.use('/', indexRouter);
 
@@ -30,6 +34,25 @@ router.use('/monit',monitRouter);
  */
 router.use('/project',projectRouter);
 
+/**
+ * 用户管理
+ */
+router.use('/admin',adminRouter);
+
+/**
+ * 模块管理
+ */
+router.use('/module',moduleRouter);
+
+/**
+ * 数据字典
+ */
+router.use('/dict',dictRouter);
+
+/**
+ * base
+ */
+router.use('/base',baseRouter);
 
 
 

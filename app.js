@@ -2,6 +2,7 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+var session = require("express-session");//session
 var logger = require('morgan');
 var ejs = require('ejs');//更改支持的页面类型
 
@@ -20,6 +21,29 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(session({//开启session
+  secret: "keyboard cat",
+  resave: false,
+  saveUninitialized: true,
+  cookie: ('name', 'value', { maxAge: 1000 * 60 * 60 * 12, secure: false })
+}));
+
+app.all('/*',(req,res,next)=>{//权限控制
+  // authToken(req,res,next);
+  var session = req.session;
+  var url = req.url;
+  console.log(session.user);
+  var regx = /^\/admin*/;
+  console.log(url,regx.test(url));
+  if(!regx.test(url) && !session.user){
+    res.redirect('/admin');
+  }else if(url == '/admin' && session.user){
+    res.redirect('/');
+  }else{
+    next();
+  }
+});
 
 app.use(cors());//实现跨域
 app.use(router);//使用路由
