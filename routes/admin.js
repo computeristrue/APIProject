@@ -11,7 +11,6 @@ router.get('/login',(req,res)=>{
     var session = req.session;
     var account = params.account,password = params.password;
     var sql = `select * from adminUser where deleteFlag = 0 and account = '${account}' and password = '${password}'`;
-    console.log(sql);
     var json = {
         code:0,
         msg:'登录成功'
@@ -31,7 +30,6 @@ router.get('/login',(req,res)=>{
     }).finally(()=>{
         res.json(json);
     })
-    console.log(params);
 });
 
 module.exports = router;

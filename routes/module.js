@@ -32,7 +32,6 @@ router.get('/searchList', (req, res) => {
 router.get('/save', (req, res) => {
     var params = req.query;
     var sql = saveInfo(params, { id: 'int', kind: 'int', project_id: 'int', read_db_id: 'int', write_db_id: 'int', send_api_id: 'int', polling_mode: 'int' }, 'module');
-    console.log(sql);
     var json = { code: 0, msg: '保存成功' };
     mysql.query(sql).catch(err => {
         json.code = 0;

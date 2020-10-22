@@ -33,9 +33,7 @@ app.all('/*',(req,res,next)=>{//权限控制
   // authToken(req,res,next);
   var session = req.session;
   var url = req.url;
-  console.log(session.user);
   var regx = /^\/admin*/;
-  console.log(url,regx.test(url));
   if(!regx.test(url) && !session.user){
     res.redirect('/admin');
   }else if(url == '/admin' && session.user){

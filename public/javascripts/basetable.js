@@ -418,7 +418,7 @@ function show_shopm(t) {
  * formId
  * table实例 
  **/
-function openMain(url, record, form, formId, tableIns) {
+function openMain(url, record, form, formId, tableIns,tableName) {
     if (record && typeof record == 'object') {
         form.val(formId, record);//如果已有数据则填充表单;
     }
@@ -445,7 +445,7 @@ function openMain(url, record, form, formId, tableIns) {
                         url: url,
                         type: 'get',
                         async: false,
-                        data: params,
+                        data: {tableName:tableName,param:params},
                         success: function (data, textStatus) {
                             layer.msg(data.msg);
                             layer.close(index);//关闭弹出层

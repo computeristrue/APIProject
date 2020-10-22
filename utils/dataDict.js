@@ -5,7 +5,6 @@ var dict = {};
 dict.get = function(dictId){
     return new Promise((resolve,reject)=>{
         var sql = `select id,name from ${dictId} where deleteFlag = 0 order by name`;
-        console.log(sql);
         var obj = {};
         mysql.query(sql).then(re=>{
             for(var i = 0;i<re.length;i++){

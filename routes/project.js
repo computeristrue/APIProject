@@ -19,7 +19,6 @@ router.use('/searchList', (req, res) => {
             data: re
         })
     }).catch(err => {
-        console.log(err);
         res.json({
             code: 0,
             msg: '查询失败'
@@ -36,7 +35,6 @@ router.use('/save', (req, res) => {
             msg: '保存成功'
         })
     }).catch(err => {
-        console.log(err);
         res.json({
             code: 0,
             msg: '保存失败'

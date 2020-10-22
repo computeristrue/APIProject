@@ -60,8 +60,8 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">模块名</label>
                         <div class="layui-input-block">
-                            <input type="text" name="name" lay-verify='required' autocomplete="off"
-                                placeholder="模块名" class="layui-input">
+                            <input type="text" name="name" lay-verify='required' autocomplete="off" placeholder="模块名"
+                                class="layui-input">
                         </div>
                     </div>
                 </div>
@@ -141,14 +141,14 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">间隔时间</label>
                         <div class="layui-input-block">
-                            <input type="text" name="interval_" lay-verify='title' autocomplete="off" placeholder="请输入间隔时间"
-                                class="layui-input">
+                            <input type="text" name="interval_" lay-verify='title' autocomplete="off"
+                                placeholder="请输入间隔时间" class="layui-input">
                         </div>
                     </div>
                 </div>
                 <div class="layui-form-item layui-hide">
                     <input type="button" lay-submit lay-filter="form_submit_btn" id="form_submit_btn" value="确认">
-                  </div>
+                </div>
             </div>
         </form>
     </div>
@@ -159,7 +159,7 @@
             base: '../../../layuiadmin/' //静态资源所在路径
         }).extend({
             index: 'lib/index' //主入口模块
-        }).use(['index', 'table', 'view', 'form','util','myUtils'], function () {
+        }).use(['index', 'table', 'view', 'form', 'util', 'myUtils'], function () {
             var table = layui.table
                 , admin = layui.admin
                 , view = layui.view
@@ -169,43 +169,53 @@
             myUtils.relObj(['project_id']);//查询关联对象
             var tableIns = table.render({
                 elem: '#test-table-operate'
-                , url: 'searchList'
+                , url: '/base/searchList'
+                , where: { tableName: 'module' }
                 , cols: [[
                     { type: 'checkbox', fixed: 'left' }
                     , { field: 'id', title: 'id', hide: true }
-                    , { field: 'project' ,title: '项目名',fixed: 'left'}
+                    , { field: 'project', title: '项目名', fixed: 'left' }
                     , { field: 'name', title: '模块名', fixed: 'left' }
                     , { field: 'moduleId', title: '模块ID' }
-                    , { field: 'kind', title: '模块类型' ,templet:(d)=>{
-                        var str = "";
-                        if(d.kind == 1) str = "推送";
-                        if(d.kind == 2) str = "拉取";
-                        return str;
-                    }}
+                    , {
+                        field: 'kind', title: '模块类型', templet: (d) => {
+                            var str = "";
+                            if (d.kind == 1) str = "推送";
+                            if (d.kind == 2) str = "拉取";
+                            return str;
+                        }
+                    }
                     , { field: 'table_name', title: '关联CRM表名' }
                     , { field: 'read_db', title: '读取数据库' }
                     , { field: 'write_db', title: '写入数据库' }
                     , { field: 'send_api', title: '推送信息接口' }
-                    , { field: 'polling_mode', title: '拉取信息轮询方式' ,templet:(d)=>{
-                        var str = "";
-                        if(d.polling_mode == 1) str = "间隔X毫秒拉取";
-                        if(d.polling_mode == 2) str = "固定时间点拉取";
-                        return str;
-                    }}
+                    , {
+                        field: 'polling_mode', title: '拉取信息轮询方式', templet: (d) => {
+                            var str = "";
+                            if (d.polling_mode == 1) str = "间隔X毫秒拉取";
+                            if (d.polling_mode == 2) str = "固定时间点拉取";
+                            return str;
+                        }
+                    }
                     , { field: 'interval_', title: '间隔时间' }
-                    , { field: 'dateCreated', title: '创建时间' ,templet:(d)=>{
-                        return util.toDateString(d.dateCreated, "yyyy-MM-dd HH:mm:ss");
-                    }}
-                    , { field: 'lastUpdated', title: '修改时间' ,templet:(d)=>{
-                        return util.toDateString(d.lastUpdated, "yyyy-MM-dd HH:mm:ss");
-                    }}
+                    , {
+                        field: 'dateCreated', title: '创建时间', templet: (d) => {
+                            return util.toDateString(d.dateCreated, "yyyy-MM-dd HH:mm:ss");
+                        }
+                    }
+                    , {
+                        field: 'lastUpdated', title: '修改时间', templet: (d) => {
+                            return util.toDateString(d.lastUpdated, "yyyy-MM-dd HH:mm:ss");
+                        }
+                    }
                     , { minWidth: 180, align: 'center', fixed: 'right', toolbar: '#test-table-operate-barDemo' }
                 ]],
+                page : true
             });
 
             var $ = layui.$, active = {
                 add: function () { //新增
-                    openMain('save', null, form, 'myForm', tableIns);
+                    openMain('/base/save', null, form, 'myForm', tableIns,'module');
                 }
             };
             $('.test-table-operate-btn .layui-btn').on('click', function () {
@@ -221,7 +231,7 @@
                 } else if (obj.event === 'view') {
                     openMain(null, data, form, 'myForm', tableIns);
                 } else if (obj.event === 'del') {
-                    baseDel('/base/del',data.id,tableIns,'module');
+                    baseDel('/base/del', data.id, tableIns, 'module');
                 }
             });
         });
