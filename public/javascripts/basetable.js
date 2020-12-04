@@ -441,11 +441,12 @@ function openMain(url, record, form, formId, tableIns,tableName) {
             } else {
                 form.on(`submit(${submitID})`,(data=>{
                     var params = data.field;
+                    params.tableName = tableName;
                     $.ajax({
                         url: url,
                         type: 'get',
                         async: false,
-                        data: {tableName:tableName,param:params},
+                        data: params,
                         success: function (data, textStatus) {
                             layer.msg(data.msg);
                             layer.close(index);//关闭弹出层

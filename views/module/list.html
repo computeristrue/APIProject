@@ -166,11 +166,12 @@
                 , form = layui.form
                 , util = layui.util
                 , myUtils = layui.myUtils;
+            var tableName = 'module';
             myUtils.relObj(['project_id']);//查询关联对象
             var tableIns = table.render({
                 elem: '#test-table-operate'
                 , url: '/base/searchList'
-                , where: { tableName: 'module' }
+                , where: { tableName: tableName }
                 , cols: [[
                     { type: 'checkbox', fixed: 'left' }
                     , { field: 'id', title: 'id', hide: true }
@@ -215,7 +216,7 @@
 
             var $ = layui.$, active = {
                 add: function () { //新增
-                    openMain('/base/save', null, form, 'myForm', tableIns,'module');
+                    openMain('/base/save', null, form, 'myForm', tableIns,tableName);
                 }
             };
             $('.test-table-operate-btn .layui-btn').on('click', function () {
@@ -227,11 +228,11 @@
             table.on('tool(test-table-operate)', function (obj) {
                 var data = obj.data;
                 if (obj.event === 'edit') {
-                    openMain('save', data, form, 'myForm', tableIns);
+                    openMain('/base/save', data, form, 'myForm', tableIns,tableName);
                 } else if (obj.event === 'view') {
                     openMain(null, data, form, 'myForm', tableIns);
                 } else if (obj.event === 'del') {
-                    baseDel('/base/del', data.id, tableIns, 'module');
+                    baseDel('/base/del', data.id, tableIns, tableName);
                 }
             });
         });

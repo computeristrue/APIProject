@@ -9,6 +9,7 @@ var adminRouter = require('./admin');
 var moduleRouter = require('./module');
 var dictRouter = require('./dict');
 var baseRouter = require('./base');
+var userFieldRouter = require('./userField');
 
 router.use('/', indexRouter);
 
@@ -53,6 +54,11 @@ router.use('/dict',dictRouter);
  * base
  */
 router.use('/base',baseRouter);
+
+/**
+ * 字段管理
+ */
+router.use('/userField',userFieldRouter);
 
 
 

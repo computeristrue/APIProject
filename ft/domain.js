@@ -41,4 +41,26 @@ domain.module = {
     interval_                           : 'string',
 }
 
+/**
+ * 字段表
+ */
+domain.userField = {
+    id                                  : "int",
+    project_id                          : "int@project#project",
+    module_id                           : "int@module#module",
+    orgin_field                         : "string",
+    target_field                        : "string",
+    is_weiyi                            : "int",
+    is_default                          : "int",
+    is_dict                             : "int",
+    is_double                           : "int",
+    is_date                             : "int",
+    dict_id                             : "int",
+    dict_text                           : "string",
+    default_field                       : "string",
+    decimal_place                       : "int",
+    sdf                                 : "string",
+    table_name                          : "string"
+}
+
 module.exports = domain;

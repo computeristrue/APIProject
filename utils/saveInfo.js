@@ -17,7 +17,7 @@ function insert(params,ft,tableName){
         var val = params[key];
         var dbType = ft[key] ? ft[key] : 'string';
         if(dbType == 'string'){
-            val = val ? `'${val}'` : null;
+            val = val ? `'${val}'` : 'null';
         }
         if((dbType == 'double' || dbType == 'int') && key != 'id'){
             val = val ? val : 0;
@@ -36,6 +36,7 @@ function insert(params,ft,tableName){
     fieldArr.push('deleteFlag');
     valueArr.push('0');
     sql += `(${fieldArr.join(',')}) values (${valueArr.join(',')})`;
+    console.debug(sql);
     return sql;
 }
 
@@ -47,7 +48,7 @@ function update(params,ft,tableName) {
         var val = params[key];
         var dbType = ft[key] ? ft[key] : 'string';
         if(dbType == 'string'){
-            val = val ? `'${val}'` : null;
+            val = val ? `'${val}'` : 'null';
         }
         if((dbType == 'double' || dbType == 'int') && key != 'id'){
             val = val ? val : 0;
@@ -63,5 +64,6 @@ function update(params,ft,tableName) {
         sql = sql.substring(0,sql.length - 1);
     };
     sql += condition;
+    console.debug(sql);
     return sql;
 }

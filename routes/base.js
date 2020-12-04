@@ -50,7 +50,12 @@ router.get('/searchList',(req,res)=>{
 router.get('/save',(req,res)=>{
     var params = req.query;
     var tableName = params.tableName;
-    var param = params.param;
+    var param = {};
+    for(var key in params){
+        if(key != 'tableName'){
+            param[key] = params[key];
+        }
+    }
     var sql = base.save(param,tableName);
     var json = {code:0,msg:'保存成功'};
     mysql.query(sql).catch(err=>{

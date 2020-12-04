@@ -1,4 +1,3 @@
-const { json } = require('express');
 var express = require('express');
 var router = express.Router();
 
@@ -19,8 +18,8 @@ router.get('/searchDict',(req,res)=>{
     }
     Promise.all(fn).then(re=>{
         for(var i = 0;i<dictIds.length;i++){
-            console.log(objId);
             var objId = dictIds[i].split('&')[0]
+            console.log(objId);
             json[objId] = re[i];
         }
         res.json(json);

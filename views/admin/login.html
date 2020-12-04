@@ -91,7 +91,9 @@
                             , icon: 1
                             , time: 1000
                         }, function () {
+                            console.log(res);
                             location.href = '../'; //后台主页
+                            window.localStorage.setItem('user',JSON.stringify(res.user));
                         });
                     }
                 });

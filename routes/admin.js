@@ -20,6 +20,7 @@ router.get('/login',(req,res)=>{
             var record = re[0];
             session.user = record.name;
             session.userKind = record.kind;
+            json.user = record;
         }else{
             json.code = 1;
             json.msg = '登录失败，账号或密码错误';
