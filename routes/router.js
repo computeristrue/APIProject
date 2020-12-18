@@ -10,8 +10,26 @@ var moduleRouter = require('./module');
 var dictRouter = require('./dict');
 var baseRouter = require('./base');
 var userFieldRouter = require('./userField');
+var dbConfigRouter = require('./dbConfig');
 
 router.use('/', indexRouter);
+
+/**
+ * 匹配以/list结尾的URL并渲染对应页面
+ */
+router.get(/\/list$/,(req,res)=>{
+    var url = req.url;
+    if(url.startsWith('/')){
+        url = url.substring(1,url.length);
+    }
+    res.render(url);
+});
+
+/**
+ * base
+ * 处理简单的增删改查
+ */
+router.use('/base',baseRouter);
 
 /**
  * 帮助文档
@@ -30,36 +48,44 @@ router.use('/sys',commandRouter);
  */
 router.use('/monit',monitRouter);
 
-/**
- * 项目管理
- */
-router.use('/project',projectRouter);
+// /**
+//  * 项目管理
+//  */
+// router.use('/project',projectRouter);
 
 /**
  * 用户管理
  */
 router.use('/admin',adminRouter);
 
-/**
- * 模块管理
- */
-router.use('/module',moduleRouter);
+// /**
+//  * 模块管理
+//  */
+// router.use('/module',moduleRouter);
 
 /**
  * 数据字典
  */
 router.use('/dict',dictRouter);
 
-/**
- * base
- */
-router.use('/base',baseRouter);
+// /**
+//  * 字段管理
+//  */
+// router.use('/userField',userFieldRouter);
 
-/**
- * 字段管理
- */
-router.use('/userField',userFieldRouter);
+// /**
+//  * 数据库管理
+//  */
+// router.use('/dbConfig',dbConfigRouter);
 
+ /**
+  * 接口管理
+  */
+
+
+  /**
+   * 字典管理
+   */
 
 
 

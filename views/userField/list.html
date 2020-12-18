@@ -50,7 +50,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">项目名</label>
                         <div class="layui-input-block">
-                            <select name="project_id" lay-verify="required" id="project_id" dict="project">
+                            <select name="project_id" lay-verify="required" id="project_id" dict="project" lay-filter="project_id" link="module_id">
                                 <option value="">请选择所属项目</option>
                             </select>
                         </div>
@@ -60,7 +60,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">模块名</label>
                         <div class="layui-input-block">
-                            <select name="module_id" lay-verify="required" id="module_id" dict="module">
+                            <select name="module_id" lay-verify="required" id="module_id" dict="module" lay-filter="module_id">
                                 <option value="">请选择所属模块</option>
                             </select>
                         </div>

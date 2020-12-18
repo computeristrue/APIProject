@@ -27,7 +27,7 @@ create table if not exists project (
     password VARCHAR(30) not null,
     port VARCHAR(30),
     database_ VARCHAR(30) not null,
-    kind int not null, -- 数据库类型 1、MySQL 2、SQL service
+    kind int not null, -- 数据库类型 1、MySQL 2、SQL server
     url VARCHAR(255) not null, -- CRM域名
     authToken VARCHAR(50) not null, -- CRM的authToken
     deleteFlag bit default 0, -- 删除标记
@@ -86,7 +86,7 @@ create table if not exists dbConfig(
     password VARCHAR(30) not null,
     port VARCHAR(30),
     database_ VARCHAR(30) not null,
-    kind int not null, -- 数据库类型 1、MySQL 2、SQL service
+    kind int not null, -- 数据库类型 1、MySQL 2、SQL server
     remark VARCHAR(255),
     deleteFlag bit default 0, -- 删除标记
     dateCreated datetime, -- 创建时间

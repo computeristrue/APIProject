@@ -63,4 +63,43 @@ domain.userField = {
     table_name                          : "string"
 }
 
+/**
+ * 数据库配置表
+ */
+domain.dbConfig = {
+    id                                  : "int",
+    project_id                          : "int@project#project",
+    name                                : "string",
+    host                                : "string",
+    user                                : 'string',
+    password                            : 'string',
+    port                                : "string",
+    database_                           : "string",
+    kind                                : 'int',
+    remark                              : 'string'
+}
+
+/**
+ * 接口配置表
+ */
+domain.apiConfig ={
+    id                                  : 'int',
+    project_id                          : 'int@project#project',
+    name                                : 'string',
+    url                                 : 'string',
+    method                              : 'int',
+    type                                : 'int'
+}
+
+
+/**
+ * 数据字典表
+ */
+domain.dataDict = {
+    id                                  : "int",
+    name                                : "string",
+    field_name                          : "string",
+    dataId                              : "string"
+}
+
 module.exports = domain;
