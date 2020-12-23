@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>模块管理</title>
+    <title>接口管理</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -22,10 +22,10 @@
         <div class="layui-row layui-col-space15">
             <div class="layui-col-md12">
                 <div class="layui-card">
-                    <div class="layui-card-header">模块管理</div>
+                    <div class="layui-card-header">接口管理</div>
                     <div class="layui-card-body">
                         <div class="layui-btn-group test-table-operate-btn" style="margin-bottom: 10px;">
-                            <button class="layui-btn" data-type="add">新增模块</button>
+                            <button class="layui-btn" data-type="add">新增配置</button>
                         </div>
 
                         <table class="layui-hide" id="test-table-operate" lay-filter="test-table-operate"></table>
@@ -58,91 +58,43 @@
                 </div>
                 <div class="layui-col-xs6">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">模块名</label>
+                        <label class="layui-form-label">别名</label>
                         <div class="layui-input-block">
-                            <input type="text" name="name" lay-verify='required' autocomplete="off" placeholder="模块名"
-                                class="layui-input">
+                            <input type="text" name="name" lay-verify='required' autocomplete="off"
+                                placeholder="请输入接口名称" class="layui-input">
                         </div>
                     </div>
                 </div>
                 <div class="layui-col-xs6">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">模块ID</label>
+                        <label class="layui-form-label">URL</label>
                         <div class="layui-input-block">
-                            <input type="text" name="moduleId" lay-verify='required' autocomplete="off"
-                                placeholder="请输入模块ID" class="layui-input">
+                            <input type="text" name="url" lay-verify='required' autocomplete="off"
+                                placeholder="请输入接口URL" class="layui-input">
                         </div>
                     </div>
                 </div>
                 <div class="layui-col-xs6">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">模块类型</label>
+                        <label class="layui-form-label">提交方式</label>
                         <div class="layui-input-block">
-                            <select name="kind" lay-verify="required" id="kind">
-                                <option value="">请选择模块类型</option>
-                                <option value="1">推送</option>
-                                <option value="2">拉取</option>
+                            <select name="method" lay-verify="required">
+                                <option value="">请选择提交方式</option>
+                                <option value="1" selected>post</option>
+                                <option value="2">get</option>
                             </select>
                         </div>
                     </div>
                 </div>
                 <div class="layui-col-xs6">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">关联CRM表</label>
+                        <label class="layui-form-label">包装格式</label>
                         <div class="layui-input-block">
-                            <input type="text" name="table_name" lay-verify='required' autocomplete="off"
-                                placeholder="请输入关联CRM表名" class="layui-input">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">读取数据库</label>
-                        <div class="layui-input-block">
-                            <select name="read_db_id" lay-verify="" id="read_db_id" dict="dbConfig">
-                                <option value="">请选择读取数据库</option>
+                            <select name="type" lay-verify="required">
+                                <option value="">请选择包装格式</option>
+                                <option value="1" selected>json</option>
+                                <option value="2">xml</option>
                             </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">写入数据库</label>
-                        <div class="layui-input-block">
-                            <select name="write_db_id" lay-verify="" id="write_db_id" dict="dbConfig">
-                                <option value="">请选择写入数据库</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">推送接口</label>
-                        <div class="layui-input-block">
-                            <select name="send_api_id" lay-verify="" id="send_api_id" dict="apiConfig">
-                                <option value="">请选择推送信息接口</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">轮询方式</label>
-                        <div class="layui-input-block">
-                            <select name="polling_mode" lay-verify="required" id="polling_mode">
-                                <option value="">请选择拉取信息轮询方式</option>
-                                <option value="1">间隔X毫秒拉取</option>
-                                <option value="2">固定时间点拉取</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">间隔时间</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="interval_" lay-verify='title' autocomplete="off"
-                                placeholder="请输入间隔时间" class="layui-input">
                         </div>
                     </div>
                 </div>
@@ -166,8 +118,8 @@
                 , form = layui.form
                 , util = layui.util
                 , myUtils = layui.myUtils;
-            var tableName = 'module';
-            myUtils.relObj(['project_id','read_db_id','write_db_id','send_api_id']);//查询关联对象
+            var tableName = 'apiConfig';
+            myUtils.relObj(['project_id']);//查询关联对象
             var tableIns = table.render({
                 elem: '#test-table-operate'
                 , url: '/base/searchList'
@@ -176,29 +128,14 @@
                     { type: 'checkbox', fixed: 'left' }
                     , { field: 'id', title: 'id', hide: true }
                     , { field: 'project', title: '项目名', fixed: 'left' }
-                    , { field: 'name', title: '模块名', fixed: 'left' }
-                    , { field: 'moduleId', title: '模块ID' }
-                    , {
-                        field: 'kind', title: '模块类型', templet: (d) => {
-                            var str = "";
-                            if (d.kind == 1) str = "推送";
-                            if (d.kind == 2) str = "拉取";
-                            return str;
-                        }
-                    }
-                    , { field: 'table_name', title: '关联CRM表名' }
-                    , { field: 'read_db', title: '读取数据库' }
-                    , { field: 'write_db', title: '写入数据库' }
-                    , { field: 'send_api', title: '推送信息接口' }
-                    , {
-                        field: 'polling_mode', title: '拉取信息轮询方式', templet: (d) => {
-                            var str = "";
-                            if (d.polling_mode == 1) str = "间隔X毫秒拉取";
-                            if (d.polling_mode == 2) str = "固定时间点拉取";
-                            return str;
-                        }
-                    }
-                    , { field: 'interval_', title: '间隔时间' }
+                    , { field: 'name', title: '名称', fixed: 'left' }
+                    , { field: 'url', title: 'URL', fixed: 'left' }
+                    , { field: 'method', title: '提交方式',templet:(d)=>{
+                        return d.method == 1 ? 'POST' : "GET";
+                    }}
+                    , { field: 'type', title: '数据格式',templet:(d)=>{
+                        return d.type == 1 ? 'JSON' : 'XML';
+                    }}
                     , {
                         field: 'dateCreated', title: '创建时间', templet: (d) => {
                             return util.toDateString(d.dateCreated, "yyyy-MM-dd HH:mm:ss");

@@ -18,10 +18,10 @@ base.list = function (tableName,condition = "") {
             relInfo = value.split('@')[1];
             relName = relInfo.split('#')[0];
             relAlias = relInfo.split('#')[1];
-            field.push(relName.replace('~', '') + '.name' + ' as ' + relAlias);
+            field.push(`t_${relAlias.replace('~', '')}` + '.name' + ' as ' + relAlias);
             field.push(`${tableName}.${key}`);
             if (relName.indexOf('~') < 0) {
-                froms += ` left join ${relName} on ${tableName}.${key} = ${relName}.id`;
+                froms += ` left join ${relName} as t_${relAlias} on ${tableName}.${key} = t_${relAlias}.id`;
             }
         } else {
             field.push(`${tableName}.${key}`);
@@ -43,7 +43,7 @@ base.count = function(tableName,condition = ""){
             relName = relInfo.split('#')[0];
             relAlias = relInfo.split('#')[1];
             if (relName.indexOf('~') < 0) {
-                froms += ` left join ${relName} on ${tableName}.${key} = ${relName}.id`;
+                froms += ` left join ${relName} as t_${relAlias} on ${tableName}.${key} = t_${relAlias}.id`;
             }
         }
     }
