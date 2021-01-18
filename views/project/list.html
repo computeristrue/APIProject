@@ -34,6 +34,7 @@
                             <a class="layui-btn layui-btn-xs" lay-event='edit'>修改</a>
                             <a class="layui-btn layui-btn-xs" lay-event='view'>查看</a>
                             <a class="layui-btn layui-btn-danger layui-btn-xs"lay-event='del'>删除</a>
+                            <a class="layui-btn layui-btn-xs"lay-event='build'>部署</a>
                         </script>
                     </div>
                 </div>
@@ -210,7 +211,7 @@
                             return util.toDateString(d.lastUpdated, "yyyy-MM-dd HH:mm:ss");
                         }
                     }
-                    , { minWidth: 180, align: 'center', fixed: 'right', toolbar: '#test-table-operate-barDemo' }
+                    , { minWidth: 210, align: 'center', fixed: 'right', toolbar: '#test-table-operate-barDemo' }
                 ]],
             });
 
@@ -233,6 +234,16 @@
                     openMain(null, data, form, 'myForm', tableIns);
                 } else if (obj.event === 'del') {
                     baseDel('/base/del', data.id, tableIns, tableName);
+                } else if(obj.event == 'build'){
+                    $.ajax({
+                        url: '/project/reBuild',
+                        type: 'get',
+                        async: false,
+                        data: {project_id:data.id},
+                        success: function (data, textStatus) {
+                            layer.msg(data.msg);
+                        }
+                    });
                 }
             });
         });

@@ -48,10 +48,10 @@ router.use('/sys',commandRouter);
  */
 router.use('/monit',monitRouter);
 
-// /**
-//  * 项目管理
-//  */
-// router.use('/project',projectRouter);
+/**
+ * 项目管理
+ */
+router.use('/project',projectRouter);
 
 /**
  * 用户管理

@@ -2,6 +2,8 @@ var express = require("express");
 var router = express.Router();
 var mysql = require('../utils/mysql');
 var saveInfo = require('../utils/saveInfo');
+var pcon = require('../task/projectCon');
+var path = require('path');
 
 
 var project = {};
@@ -41,5 +43,29 @@ router.use('/save', (req, res) => {
         })
     })
 });
+
+router.get('/reBuild',(req,res)=>{
+    var params = req.query;
+    var project_id = params.project_id;
+    var sql = `select name,path from project where id = ${project_id}`;
+    var src = "",dst = "";
+    src = path.join(__dirname,'../public/module');
+    console.log(src);
+    mysql.query(sql).then(re=>{
+        if(re && re.length > 0){
+            dst = path.join(__dirname,`../public/${re[0].name}`);
+            pcon.copy(src,dst);
+            res.json({
+                code:0,
+                msg:dst
+            });
+        }
+    }).catch(err=>{
+        res.json({
+            code:1,
+            msg:'生成文件失败'
+        })
+    });
+})
 
 module.exports = router;

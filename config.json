@@ -1,9 +1,19 @@
 {
-    "db":{
-        "host": "127.0.0.1",
-        "user": "root",
-        "password": "root",
-        "port": "3306",
-        "database": "api"
+    "dbType":"mysql",
+    "db": {
+        "mysql": {
+            "host": "127.0.0.1",
+            "user": "root",
+            "password": "root",
+            "port": "3306",
+            "database": "api"
+        },
+        "sqlServer": {
+            "host": "127.0.0.1",
+            "user": "sa",
+            "password": "root",
+            "port": "1433",
+            "database": "wbwy"
+        }
     }
 }

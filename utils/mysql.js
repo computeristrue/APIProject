@@ -1,9 +1,19 @@
 var mysql = require('mysql');
 var config = require('../utils/config').config;
 var log = require('../utils/log').logger;
+var mssql = require('../utils/mssql');
 
-var pool = mysql.createPool(config.db);
-function query(sql) {
+var dbType = config.dbType;
+var pool = mysql.createPool(config.db.mysql);
+
+function query(sql){
+    if(dbType == 'mysql'){
+        return meQuery(sql);
+    }else if(dbType == 'sqlServer'){
+        return mssql.query(sql);
+    }
+}
+function meQuery(sql) {
     return new Promise((resolve, reject) => {
         pool.getConnection(function (err, connection) {
             if (err) {
