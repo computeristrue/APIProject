@@ -117,6 +117,16 @@
                 </div>
                 <div class="layui-col-xs6">
                     <div class="layui-form-item">
+                        <label class="layui-form-label">拉取接口</label>
+                        <div class="layui-input-block">
+                            <select name="pull_api_id" lay-verify="" id="pull_api_id" dict="apiConfig">
+                                <option value="">请选择拉取信息接口</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
                         <label class="layui-form-label">推送接口</label>
                         <div class="layui-input-block">
                             <select name="send_api_id" lay-verify="" id="send_api_id" dict="apiConfig">
@@ -167,7 +177,7 @@
                 , util = layui.util
                 , myUtils = layui.myUtils;
             var tableName = 'module';
-            myUtils.relObj(['project_id','read_db_id','write_db_id','send_api_id']);//查询关联对象
+            myUtils.relObj(['project_id','read_db_id','write_db_id','pull_api_id','send_api_id']);//查询关联对象
             var tableIns = table.render({
                 elem: '#test-table-operate'
                 , url: '/base/searchList'
@@ -189,6 +199,7 @@
                     , { field: 'table_name', title: '关联CRM表名' }
                     , { field: 'read_db', title: '读取数据库' }
                     , { field: 'write_db', title: '写入数据库' }
+                    , { field: 'pull_api', title: '拉取信息接口' }
                     , { field: 'send_api', title: '推送信息接口' }
                     , {
                         field: 'polling_mode', title: '拉取信息轮询方式', templet: (d) => {

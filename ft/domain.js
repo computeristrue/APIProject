@@ -36,6 +36,7 @@ domain.module = {
     table_name                          : 'string',
     read_db_id                          : 'int@dbConfig#read_db',
     write_db_id                         : 'int@dbConfig#write_db',
+    pull_api_id                         : 'int@apiConfig#pull_api',
     send_api_id                         : 'int@apiConfig#send_api',
     polling_mode                        : 'int',
     interval_                           : 'string',

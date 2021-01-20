@@ -1,0 +1,12 @@
+{
+    "db": {
+        "crm": {
+            "dbType": "CUSTOM_DB_TYPE",
+            "info": "CUSTOM_DB_CONFIG"
+        }
+    },
+    "api": {
+        "crm": {}
+    },
+    "module":{}
+}

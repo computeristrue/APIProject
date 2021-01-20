@@ -45,6 +45,7 @@ create table if not exists module(
     table_name VARCHAR(30) not null, -- 该模块默认关联的CRM表
     read_db_id int, -- 读取信息所用数据库
     write_db_id int, -- 写入信息所用数据库
+    pull_api_id int, -- 拉取信息所用接口
     send_api_id int, -- 推送信息所用接口
     polling_mode int, -- 拉取信息的轮询方式 1、间隔X毫秒拉取 2、固定时间点拉取
     interval_ VARCHAR(30), -- 间隔时间
