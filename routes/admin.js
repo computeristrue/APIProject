@@ -33,4 +33,17 @@ router.get('/login',(req,res)=>{
     })
 });
 
+/**
+ * 登出
+ */
+router.get('/logout',(req,res)=>{
+    var session = req.session;
+    delete session.user;
+    delete session.userKind;
+    res.json({
+        success:true,
+        msg:'登出成功'
+    })
+})
+
 module.exports = router;

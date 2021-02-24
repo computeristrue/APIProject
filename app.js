@@ -34,8 +34,10 @@ app.all('/*',(req,res,next)=>{//权限控制
   var session = req.session;
   var url = req.url;
   var regx = /^\/admin*/;
-  if(!regx.test(url) && !session.user){
-    res.redirect('/admin');
+  if(url == '/noSession'){
+    res.render('noSession');
+  }else if(!regx.test(url) && !session.user){
+    res.redirect('/noSession');
   }else if(url == '/admin' && session.user){
     res.redirect('/');
   }else{

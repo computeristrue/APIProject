@@ -119,5 +119,16 @@ pcon.reJson = async function (dst, project_id) {
     });
 }
 
+pcon.reWWW = async function(dst,project_id){
+    var json = JSON.parse(fs.readFileSync(`${dst}/bin/www`));
+    console.log(json);
+    var sql = `select * from project where deleteFlag = 0 and id = ${project_id}`;
+    mysql.query(sql).then({
+        
+    }).catch(err=>{
+        console.log(err);
+    })
+}
+
 
 module.exports = pcon;

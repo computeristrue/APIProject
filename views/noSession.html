@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex,nofollow">
+    <title>权限没有找到呢</title>
+    <style>
+        body {
+            font-size: 14px;
+            font-family: 'helvetica neue', tahoma, arial, 'hiragino sans gb', 'microsoft yahei', 'Simsun', sans-serif;
+            background-color: #fff;
+            color: #808080;
+        }
+
+        .wrap {
+            margin: 200px auto;
+            width: 510px;
+        }
+
+        td {
+            text-align: left;
+            padding: 2px 10px;
+        }
+
+        td.header {
+            font-size: 22px;
+            padding-bottom: 10px;
+            color: #000;
+        }
+
+        td.check-info {
+            padding-top: 20px;
+        }
+
+        a {
+            color: #808080;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <table>
+            <tr>
+                <td class="header">很抱歉！当前页面找不到了</td>
+            </tr>
+            <tr>
+                <td>原因一：你的登录已过期</td>
+            </tr>
+            <tr>
+                <td>原因二：是否未被授予权限</td>
+            </tr>
+            <tr>
+                <td>原因三：本系统正在升级，请稍后刷新页面</td>
+            </tr>
+            <tr>
+                <td>为了保护您的数据安全，请<span onclick="reLoad()" style="color: cornflowerblue;">重新登录</span></td>
+            </tr>
+        </table>
+    </div>
+</body>
+<script>
+    function reLoad() {
+        // location.reload('/');
+        window.location.href = '/admin';
+    }
+</script>
+
+</html>

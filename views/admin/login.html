@@ -36,7 +36,8 @@
                         placeholder="密码" class="layui-input">
                 </div>
                 <div class="layui-form-item">
-                    <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="LAY-user-login-submit" id="dr">登 入</button>
+                    <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="LAY-user-login-submit" id="dr">登
+                        入</button>
                 </div>
             </div>
         </div>
@@ -56,6 +57,8 @@
                 , router = layui.router()
                 , search = router.search;
 
+            if (window != top)
+                top.location.href = location.href;
             document.onkeydown = keyDownSearch;
             function keyDownSearch(e) {
                 // 兼容FF和IE和Opera    
@@ -93,7 +96,7 @@
                         }, function () {
                             console.log(res);
                             location.href = '../'; //后台主页
-                            window.localStorage.setItem('user',JSON.stringify(res.user));
+                            window.localStorage.setItem('user', JSON.stringify(res.user));
                         });
                     }
                 });
