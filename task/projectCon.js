@@ -3,6 +3,7 @@ var stat = fs.statSync
 var log = require('../utils/log').logger;
 var moment = require('moment');
 var mysql = require('../utils/mysql');
+var path = require('path');
 
 
 var pcon = {};
@@ -52,6 +53,8 @@ pcon.exists = function (src, dst, callback) {
  */
 pcon.reJson = async function (dst, project_id) {
     var json = JSON.parse(fs.readFileSync(`${dst}/config.json`));
+    var pm2ConfigPath = `${dst}/ecosystem.config.js`;
+    var pm2ConfigContext = fs.readFileSync(pm2ConfigPath,'utf-8');
     var sql1 = `select * from project where deleteFlag = 0 and id = ${project_id}`;
     var sql2 = `select * from dbConfig where deleteFlag = 0 and project_id = ${project_id}`;
     var sql3 = `select * from apiConfig where deleteFlag = 0 and project_id = ${project_id}`;
@@ -77,6 +80,12 @@ pcon.reJson = async function (dst, project_id) {
                 "api_log": "apiLog/insert",
             };
             json.CUSTOM_PORT = item.listener_port;
+            //PM2配置文件
+            var CUSTOM_PROJECT = item.name;
+            var CUSTOM_ERR_LOG = path.join(item.path,`${item.name}_err.log`);
+            var CUSTOM_OUT_LOG = path.join(item.path,`${item.name}_out.log`);
+            pm2ConfigContext = pm2ConfigContext.replace('CUSTOM_PROJECT',CUSTOM_PROJECT).replace('CUSTOM_ERR_LOG',CUSTOM_ERR_LOG).replace('CUSTOM_OUT_LOG',CUSTOM_OUT_LOG);
+            fs.writeFileSync(pm2ConfigPath,pm2ConfigContext,'utf-8');
         }
         var dbObj = {},apiObj = {};
         for(var i = 0;i<re2.length;i++){
@@ -134,8 +143,26 @@ pcon.reJson = async function (dst, project_id) {
  * @param {项目ID} project_id 
  */
 pcon.reFt = async function(dst,project_id){
-    var sql = `select m.moduleId,u.* from userField u left join module m on u.module_id = m.id where u.deleteFlag = 0 and u.project_id = ${project_id}`;
+    var ftPath = `${dst}/fieldTable/ft.js`;
+    var fileContext = fs.readFileSync(ftPath,'utf-8');
+    var sql = `select m.moduleId,u.orgin_field,u.target_field,u.is_weiyi,u.is_default,u.is_dict,u.is_double,u.is_date,u.dict_id,
+    u.dict_text,u.default_field,u.decimal_place,u.sdf,u.table_name from userField u left join module m on u.module_id = m.id 
+    where u.deleteFlag = 0 and u.project_id = ${project_id}`;
     return await mysql.query(sql).then(re=>{
+        var ft = {},moduleObj = {};
+        for(var i = 0;i<re.length;i++){
+            var item = re[i];
+            var moduleId = item.moduleId;
+            if(moduleObj[moduleId]){
+                var arr = moduleObj[moduleId];
+                arr.push(item);
+                moduleObj[moduleId] = arr;
+            }else{
+                moduleObj[moduleId] = [item];
+            }
+        }
+        fileContext = fileContext.replace('CUSTOM_OBJ',JSON.stringify(moduleObj));
+        fs.writeFileSync(ftPath,fileContext,'utf-8');
         return dst;
     }).catch(err=>{
         console.log(err);
