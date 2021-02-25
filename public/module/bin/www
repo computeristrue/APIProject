@@ -3,6 +3,9 @@
 /**
  * Module dependencies.
  */
+var config = require('../utils/config').config;
+var cTask = require('../task/CUSTOM_TASK');//自定义任务
+var CUSTOM_PORT = config.CUSTOM_PORT|| 3000;//端口号，默认是3000
 
 var app = require('../app');
 var debug = require('debug')('module:server');
@@ -88,8 +91,5 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
-  //note 自定义轮询任务
-  CUSTOM_TASK
-  //note 自定义定时任务
-  CUSTOM_SCHEDULE
+  cTask.begin();
 }

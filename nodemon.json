@@ -1,0 +1,4 @@
+{
+    "watch":"APIPorject",
+    "ignore":["public","zipDir","target"]
+}

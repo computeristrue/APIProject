@@ -1,5 +1,6 @@
 var express = require("express");
 var router = express.Router();
+var fs = require('fs');
 
 var indexRouter = require('./index');
 var commandRouter = require('./command');
@@ -78,14 +79,25 @@ router.use('/dict',dictRouter);
 //  */
 // router.use('/dbConfig',dbConfigRouter);
 
- /**
-  * 接口管理
-  */
-
-
-  /**
-   * 字典管理
-   */
+/**
+ * 下载文件，name,url
+ */
+router.get('/download', (req, res) => {
+    try {
+        var params = req.query;
+        var name = params.name, url = params.url;
+        var size = fs.statSync(url).size;
+        var f = fs.createReadStream(url);
+        res.writeHead(200, {
+            'Content-Type': 'application/force-download',
+            'Content-Disposition': 'attachment; filename=' + encodeURIComponent(name),
+            'Content-Length': size
+        });
+        f.pipe(res);
+    } catch (e) {
+        console.log(e);
+    }
+});
 
 
 

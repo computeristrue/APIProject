@@ -428,7 +428,7 @@ function openMain(url, record, form, formId, tableIns,tableName) {
     }
     layer.open({
         type: 1,
-        area: ['50%', '50%'],
+        area: ['60%', '60%'],
         btn: btn,
         content: $("#window"),
         yes: function (index, layero) {

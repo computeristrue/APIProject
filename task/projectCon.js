@@ -32,6 +32,9 @@ pcon.copy = function (src, dst, unique = true) {
     return dst;
 }
 
+/**
+ * 判断dst路径是否存在
+ */
 pcon.exists = function (src, dst, callback) {
     var exists = fs.existsSync(dst);
     if (exists) {
@@ -42,6 +45,11 @@ pcon.exists = function (src, dst, callback) {
     }
 }
 
+/**
+ * 根据项目ID替换目标路径下的config.json文件
+ * @param {目标路径} dst 
+ * @param {项目ID} project_id 
+ */
 pcon.reJson = async function (dst, project_id) {
     var json = JSON.parse(fs.readFileSync(`${dst}/config.json`));
     var sql1 = `select * from project where deleteFlag = 0 and id = ${project_id}`;
@@ -68,6 +76,7 @@ pcon.reJson = async function (dst, project_id) {
                 "authToken": item.authToken,
                 "api_log": "apiLog/insert",
             };
+            json.CUSTOM_PORT = item.listener_port;
         }
         var dbObj = {},apiObj = {};
         for(var i = 0;i<re2.length;i++){
@@ -119,14 +128,18 @@ pcon.reJson = async function (dst, project_id) {
     });
 }
 
-pcon.reWWW = async function(dst,project_id){
-    var json = JSON.parse(fs.readFileSync(`${dst}/bin/www`));
-    console.log(json);
-    var sql = `select * from project where deleteFlag = 0 and id = ${project_id}`;
-    mysql.query(sql).then({
-        
+/**
+ * 根据项目ID替换目标路径下的ft.js文件
+ * @param {目标路径} dst 
+ * @param {项目ID} project_id 
+ */
+pcon.reFt = async function(dst,project_id){
+    var sql = `select m.moduleId,u.* from userField u left join module m on u.module_id = m.id where u.deleteFlag = 0 and u.project_id = ${project_id}`;
+    return await mysql.query(sql).then(re=>{
+        return dst;
     }).catch(err=>{
         console.log(err);
+        return err;
     })
 }
 

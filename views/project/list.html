@@ -236,12 +236,19 @@
                     baseDel('/base/del', data.id, tableIns, tableName);
                 } else if(obj.event == 'build'){
                     $.ajax({
-                        url: '/project/reBuild',
+                        url: 'reBuild',
                         type: 'get',
                         async: false,
                         data: {project_id:data.id},
                         success: function (data, textStatus) {
-                            layer.msg(data.msg);
+                            var code = data.code;
+                            if (code == 0) {
+                                var fileName = data.name;
+                                var url = data.url;
+                                window.open(`/download?name=${fileName}.zip&url=${url}`, '_blank');
+                            } else {
+                                layer.msg(data.msg);
+                            }
                         }
                     });
                 }
