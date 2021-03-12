@@ -442,6 +442,9 @@ function openMain(url, record, form, formId, tableIns,tableName) {
                 form.on(`submit(${submitID})`,(data=>{
                     var params = data.field;
                     params.tableName = tableName;
+                    if(!record){
+                        delete params.id;
+                    }
                     $.ajax({
                         url: url,
                         type: 'get',

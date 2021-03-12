@@ -4,6 +4,9 @@
  * Module dependencies.
  */
 
+ var config = require('../utils/config').config;
+ var CUSTOM_PORT = config.CUSTOM_PORT|| 3000;//端口号，默认是3000
+
 var app = require('../app');
 var debug = require('debug')('apidemo:server');
 var http = require('http');
@@ -12,7 +15,7 @@ var http = require('http');
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3001');
+var port = normalizePort(CUSTOM_PORT);
 app.set('port', port);
 
 /**

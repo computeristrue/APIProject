@@ -7,7 +7,6 @@ var commandRouter = require('./command');
 var monitRouter = require('./monit');
 var projectRouter = require('./project');
 var adminRouter = require('./admin');
-var moduleRouter = require('./module');
 var dictRouter = require('./dict');
 var baseRouter = require('./base');
 var userFieldRouter = require('./userField');
@@ -59,25 +58,11 @@ router.use('/project',projectRouter);
  */
 router.use('/admin',adminRouter);
 
-// /**
-//  * 模块管理
-//  */
-// router.use('/module',moduleRouter);
-
 /**
  * 数据字典
  */
 router.use('/dict',dictRouter);
 
-// /**
-//  * 字段管理
-//  */
-// router.use('/userField',userFieldRouter);
-
-// /**
-//  * 数据库管理
-//  */
-// router.use('/dbConfig',dbConfigRouter);
 
 /**
  * 下载文件，name,url

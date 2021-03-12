@@ -1,50 +1,17 @@
 var express = require("express");
 var router = express.Router();
+
 var mysql = require('../utils/mysql');
-var saveInfo = require('../utils/saveInfo');
-var pcon = require('../task/projectCon');
+var pcon = require('../service/projectService');
 var path = require('path');
 var compressing = require('compressing');
 var fs = require('fs');
+var fileUtils = require('../utils/fileUtils');
+var projectService = require('../service/projectService');
 
 
 var project = {};
 
-router.use('/list', (req, res) => {
-    res.render('./project/list.html');
-});
-
-router.use('/searchList', (req, res) => {
-    var sql = `select * from project where deleteFlag = 0`;
-    mysql.query(sql).then(re => {
-        res.json({
-            code: 0,
-            msg: '查询成功',
-            data: re
-        })
-    }).catch(err => {
-        res.json({
-            code: 0,
-            msg: '查询失败'
-        })
-    })
-});
-
-router.use('/save', (req, res) => {
-    var params = req.query;
-    var sql = saveInfo(params, { id: 'int', kind: 'int' }, 'project');
-    mysql.query(sql).then(re => {
-        res.json({
-            code: 0,
-            msg: '保存成功'
-        })
-    }).catch(err => {
-        res.json({
-            code: 0,
-            msg: '保存失败'
-        })
-    })
-});
 
 router.get('/reBuild', (req, res) => {
     var params = req.query;
@@ -60,7 +27,7 @@ router.get('/reBuild', (req, res) => {
                 fs.mkdirSync(targetDir);
             }
             dst = path.join(targetDir,`${re[0].name}`);
-            dst = pcon.copy(src, dst);
+            dst = fileUtils.copy(src, dst);
             console.log(dst);
             pcon.reJson(dst, project_id);
             pcon.reFt(dst,project_id);
