@@ -24,7 +24,7 @@ numUtils.isInteger = function(n){
 }
 
 numUtils.isFloat = function(n){
-    return parseInt(n) < parseFloat(n);
+    return parseInt(n) != parseFloat(n);
 }
 
 

@@ -5,23 +5,23 @@ var log = require('./log').logger;
 
 var sql = {};
 
-var config = {
-    user: cfg.db.crm.user,
-    password: cfg.db.crm.password,
-    server: cfg.db.crm.server,
-    database: cfg.db.crm.database,
-    connectionTimeout: 300000,
-    requestTimeout:300000,
-    stream: false,
-    options: {
-        encrypt: false //Use this if you're on Windows Azure
-    },
-    pool: {
-        min: 0,
-        max: 400,
-        idleTimeoutMillis: 3000
-    }
-};
+// var config = {
+//     user: cfg.db.crm.user,
+//     password: cfg.db.crm.password,
+//     server: cfg.db.crm.server,
+//     database: cfg.db.crm.database,
+//     connectionTimeout: 300000,
+//     requestTimeout:300000,
+//     stream: false,
+//     options: {
+//         encrypt: false //Use this if you're on Windows Azure
+//     },
+//     pool: {
+//         min: 0,
+//         max: 400,
+//         idleTimeoutMillis: 3000
+//     }
+// };
 
 //如果config对象这种的连接不上，可以试试字符串这样的
 // var config = `mssql://${cfg.db.crm.user}:${cfg.db.crm.password}@${cfg.db.crm.server}/${cfg.db.crm.database}`;

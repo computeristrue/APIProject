@@ -2,6 +2,10 @@ var config = require('../utils/config').config;
 var schedule = require('node-schedule');
 var moment = require('moment');
 var moduleObj = config.module;
+var ftFile = require('../fieldTable/ft');
+var sf = require('../utils/sqlFactory');
+var bs = require('../utils/baseSql');
+
 
 
 var cTask = {};
@@ -37,7 +41,13 @@ cTask.f1 = function(moduleId,item){
  */
 cTask.f2 = function(moduleId,item){
     schedule.scheduleJob(item.interval_,()=>{
-        console.log(moduleId,moment().format('YYYY-MM-DD HH:mm:ss'));
+        var ft = ftFile[moduleId];
+        var dbInfo = config.db[item.read_db];
+        var sql = sf.MYSQL(ft,item.table_name,'',true);
+        bs.query(dbInfo,sql).then(re=>{
+            console.log(re);
+        })
+        console.log(`${moduleId}定时任务`,moment().format('YYYY-MM-DD HH:mm:ss'));
     });
 }
 

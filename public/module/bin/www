@@ -5,6 +5,7 @@
  */
 var config = require('../utils/config').config;
 var cTask = require('../task/CUSTOM_TASK');//自定义任务
+var syncDict = require('../utils/syncDict');//用到的数据字典
 var CUSTOM_PORT = config.CUSTOM_PORT|| 3000;//端口号，默认是3000
 
 var app = require('../app');
@@ -91,5 +92,6 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
-  cTask.begin();
+  cTask.begin();//自定义任务
+  syncDict();//初始化数据字典
 }

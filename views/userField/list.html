@@ -131,10 +131,11 @@
                 </div>
                 <div class="layui-col-xs6">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">关联字典ID</label>
+                        <label class="layui-form-label">关联字典</label>
                         <div class="layui-input-block">
-                            <input type="text" name="dict_id" autocomplete="off"
-                                placeholder="请输入关联数据字典ID" class="layui-input">
+                            <select name="dict_id" lay-verify="required" id="dict_id" dict="dataDict" lay-filter="dict_id">
+                                <option value="">请选择数据字典</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -143,7 +144,16 @@
                         <label class="layui-form-label">显示字段</label>
                         <div class="layui-input-block">
                             <input type="text" name="dict_text" autocomplete="off"
-                                placeholder="请输入数据字典对接字段" class="layui-input">
+                                placeholder="请输入数据字典显示字段" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">实际字段</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="dict_val" autocomplete="off"
+                                placeholder="请输入数据字典实际字段" class="layui-input">
                         </div>
                     </div>
                 </div>
@@ -204,7 +214,7 @@
                 , util = layui.util
                 , myUtils = layui.myUtils;
             var tableName = "userField";
-            myUtils.relObj(['project_id','module_id']);//查询关联对象
+            myUtils.relObj(['project_id','module_id','dict_id']);//查询关联对象
             var tableIns = table.render({
                 elem: '#test-table-operate'
                 , url: '/base/searchList'

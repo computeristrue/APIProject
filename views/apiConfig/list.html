@@ -98,6 +98,33 @@
                         </div>
                     </div>
                 </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">数据节点</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="data_place" lay-verify='required' autocomplete="off"
+                                placeholder="请输入数据根节点位置" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">成功节点</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="success_place" lay-verify='required' autocomplete="off"
+                                placeholder="请输入成功标记节点位置" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">成功值</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="success_val" lay-verify='required' autocomplete="off"
+                                placeholder="请输入成功标记的值" class="layui-input">
+                        </div>
+                    </div>
+                </div>
                 <div class="layui-form-item layui-hide">
                     <input type="button" lay-submit lay-filter="form_submit_btn" id="form_submit_btn" value="确认">
                 </div>
@@ -136,6 +163,9 @@
                     , { field: 'type', title: '数据格式',templet:(d)=>{
                         return d.type == 1 ? 'JSON' : 'XML';
                     }}
+                    , { field: 'data_place', title: '数据节点' }
+                    , { field: 'success_place', title: '成功节点' }
+                    , { field: 'success_val', title: '成功值' }
                     , {
                         field: 'dateCreated', title: '创建时间', templet: (d) => {
                             return util.toDateString(d.dateCreated, "yyyy-MM-dd HH:mm:ss");

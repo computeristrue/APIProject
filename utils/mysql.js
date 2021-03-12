@@ -21,6 +21,7 @@ function meQuery(sql) {
             }
             connection.query(sql, [], (err, rows) => {
                 if (err) {
+                    log.info('异常SQL：',sql);
                     log.info('MySql execute Error:' + JSON.stringify(err));
                     reject(err);
                     return

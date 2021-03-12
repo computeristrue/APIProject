@@ -76,6 +76,25 @@
                 </div>
                 <div class="layui-col-xs6">
                     <div class="layui-form-item">
+                        <label class="layui-form-label">是否子模块</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="is_child" value="1" title="是">
+                            <input type="radio" name="is_child" value="2" title="否" checked>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">父模块</label>
+                        <div class="layui-input-block">
+                            <select name="parent_module_id" lay-verify="" id="parent_module_id" dict="module">
+                                <option value="">请选择父模块</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
                         <label class="layui-form-label">模块类型</label>
                         <div class="layui-input-block">
                             <select name="kind" lay-verify="required" id="kind">
@@ -177,7 +196,7 @@
                 , util = layui.util
                 , myUtils = layui.myUtils;
             var tableName = 'module';
-            myUtils.relObj(['project_id','read_db_id','write_db_id','pull_api_id','send_api_id']);//查询关联对象
+            myUtils.relObj(['project_id','parent_module_id','read_db_id','write_db_id','pull_api_id','send_api_id']);//查询关联对象
             var tableIns = table.render({
                 elem: '#test-table-operate'
                 , url: '/base/searchList'
@@ -188,6 +207,8 @@
                     , { field: 'project', title: '项目名', fixed: 'left' }
                     , { field: 'name', title: '模块名', fixed: 'left' }
                     , { field: 'moduleId', title: '模块ID' }
+                    , { field: 'is_child', title: '是否子模块' }
+                    , { field: 'parent_module', title: '父模块' }
                     , {
                         field: 'kind', title: '模块类型', templet: (d) => {
                             var str = "";

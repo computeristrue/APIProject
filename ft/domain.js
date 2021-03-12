@@ -32,6 +32,8 @@ domain.module = {
     project_id                          : 'int@project#project',
     name                                : 'string',
     moduleId                            : 'string',
+    is_child                            : 'int',
+    parent_module_id                    : 'int@module#parent_module',
     kind                                : 'int',
     table_name                          : 'string',
     read_db_id                          : 'int@dbConfig#read_db',
@@ -56,8 +58,9 @@ domain.userField = {
     is_dict                             : "int",
     is_double                           : "int",
     is_date                             : "int",
-    dict_id                             : "int",
+    dict_id                             : "int@dataDict#dict",
     dict_text                           : "string",
+    dict_val                            : 'string',
     default_field                       : "string",
     decimal_place                       : "int",
     sdf                                 : "string",
@@ -89,7 +92,10 @@ domain.apiConfig ={
     name                                : 'string',
     url                                 : 'string',
     method                              : 'int',
-    type                                : 'int'
+    type                                : 'int',
+    data_place                          : 'string',
+    success_place                       : 'string',
+    success_val                         : 'string'
 }
 
 

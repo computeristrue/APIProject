@@ -41,6 +41,8 @@ create table if not exists module(
     project_id int not null,
     name VARCHAR(30) not null,
     moduleId VARCHAR(30) not null,
+    is_child int, -- 是否子模块
+    parent_module_id int, -- 父模块
     kind int not null, -- 模块类型 1、推送 2、拉取
     table_name VARCHAR(30) not null, -- 该模块默认关联的CRM表
     read_db_id int, -- 读取信息所用数据库
@@ -67,7 +69,8 @@ create table if not exists userField(
     is_double int not null, -- 是否数值字段 1、是 2、否
     is_date int not null, -- 是否时间类型字段 1、是 2、否
     dict_id int, -- 关联数据字典ID
-    dict_text VARCHAR(50), -- 数据字典对接的字段，id,text,encode等
+    dict_text VARCHAR(50), -- 数据字典显示值的字段，id,text,encode等
+    dict_val VARCHAR(50), -- 数据字典实际值的字段，
     default_field VARCHAR(50), -- 默认值
     decimal_place int, -- 小数位数
     sdf VARCHAR(30), -- 日期格式化
@@ -102,6 +105,9 @@ create table if not exists apiConfig(
     url VARCHAR(255) not null,
     method int not null, -- 接口提交方式 1、post 2、get
     type int not null, -- 数据包装方式 1、json 2、xml
+    data_place VARCHAR(50) not null, --返回数据的根节点位置
+    success_place VARCHAR(50) not null, --返回成功标记的根节点位置
+    success_val VARCHAR(50) not null, --成功标记的值
     deleteFlag bit default 0, -- 删除标记
     dateCreated datetime, -- 创建时间
     lastUpdated datetime -- 修改时间
