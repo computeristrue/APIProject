@@ -418,7 +418,7 @@ function show_shopm(t) {
  * formId
  * table实例 
  **/
-function openMain(url, record, form, formId, tableIns,tableName) {
+function openMain(url, record, form, formId, tableIns, tableName) {
     if (record && typeof record == 'object') {
         form.val(formId, record);//如果已有数据则填充表单;
     }
@@ -433,16 +433,16 @@ function openMain(url, record, form, formId, tableIns,tableName) {
         content: $("#window"),
         yes: function (index, layero) {
             var submitID = 'form_submit_btn'
-            ,submit = layero.find('#'+ submitID);
+                , submit = layero.find('#' + submitID);
             if (!url) {
                 layer.close(index);//关闭弹出层
                 $(`#${formId}`)[0].reset();
                 form.render();//重置form
             } else {
-                form.on(`submit(${submitID})`,(data=>{
+                form.on(`submit(${submitID})`, (data => {
                     var params = data.field;
                     params.tableName = tableName;
-                    if(!record){
+                    if (!record) {
                         delete params.id;
                     }
                     $.ajax({
@@ -461,6 +461,13 @@ function openMain(url, record, form, formId, tableIns,tableName) {
                 }));
                 submit.trigger('click');
             }
+        },
+        btn2: function (index, layero) {
+            $(`#${formId}`)[0].reset();
+            form.render();//重置form
+        },cancel:function(index,layero){
+            $(`#${formId}`)[0].reset();
+            form.render();//重置form
         }
     });
 };
@@ -478,13 +485,13 @@ function reloadTable(tableIns) {
     }
 }
 
-function baseDel(url, id, tableIns,tableName) {
+function baseDel(url, id, tableIns, tableName) {
     layer.confirm(`是否删除?`, function (index) {
         $.ajax({
             url: url,
             type: 'get',
             async: false,
-            data: {id:id,tableName:tableName},
+            data: { id: id, tableName: tableName },
             success: function (data, textStatus) {
                 layer.msg(data.msg);
                 reloadTable(tableIns);

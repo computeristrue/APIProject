@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var mysql = require('../utils/mysql');
 var baseService = require('../service/baseService');
+const moduleService = require('../service/moduleService');
+const dbConfigService = require('../service/dbConfigService');
 
 /**
  * 统一删除
@@ -34,13 +36,22 @@ router.get('/searchList', async (req, res) => {
 router.get('/save', async (req, res) => {
     var params = req.query;
     var tableName = params.tableName;
-    var param = {};
+    var p = {};
     for (var key in params) {
         if (key != 'tableName') {
-            param[key] = params[key];
+            p[key] = params[key];
         }
     }
-    var json = await baseService.save(params, tableName);
+    var json = await baseService.save(p, tableName);
+    switch (tableName) {
+        case 'module':
+            moduleService.refreshData();
+            break;
+        case 'dbConfig':
+            dbConfigService.refreshData();
+        default:
+            break;
+    }
     res.json(json);
 })
 

@@ -41,6 +41,4 @@ uc.save = function(){
 
 }
 
-uc.search(2);
-
 module.exports = uc;

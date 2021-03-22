@@ -34,11 +34,25 @@ app.all('/*',(req,res,next)=>{//权限控制
   var session = req.session;
   var url = req.url;
   var regx = /^\/admin*/;
-  if(url == '/noSession'){
-    res.render('noSession');
-  }else if(!regx.test(url) && !session.user){
-    res.redirect('/noSession');
-  }else if(url == '/admin' && session.user){
+  m = (url)=>{
+    let r = false;
+    const urlArr = ['/admin','/manualSync','/autoSync'];
+    for(let index in urlArr){
+      if(url.startsWith(urlArr[index])){
+        r = true;
+      }
+    }
+    return r;
+  }
+  if(!session.user){
+    if(m(url)){//不需要鉴权的地址
+      next();
+    }else if(url == '/noSession'){
+      res.render('noSession');
+    }else if(!regx.test(url)){
+      res.redirect('/noSession');
+    }
+  }else if(url == '/admin'){
     res.redirect('/');
   }else{
     next();

@@ -11,6 +11,7 @@ var dictRouter = require('./dict');
 var baseRouter = require('./base');
 var userFieldRouter = require('./userField');
 var dbConfigRouter = require('./dbConfig');
+var syncService = require('../service/syncService');
 
 router.use('/', indexRouter);
 
@@ -83,6 +84,17 @@ router.get('/download', (req, res) => {
         console.log(e);
     }
 });
+
+
+/**
+ * API级联更新
+ */
+router.post('/autoSync', syncService.autoSync);
+
+/**
+ * 手动触发
+ */
+router.get('/manualSync',syncService.manualSync);
 
 
 

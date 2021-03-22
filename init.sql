@@ -40,7 +40,7 @@ create table if not exists module(
     id int not null auto_increment PRIMARY KEY,
     project_id int not null,
     name VARCHAR(30) not null,
-    moduleId VARCHAR(30) not null,
+    moduleId VARCHAR(30) not null unique,
     is_child int, -- 是否子模块
     parent_module_id int, -- 父模块
     kind int not null, -- 模块类型 1、推送 2、拉取
