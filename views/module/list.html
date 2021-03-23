@@ -48,16 +48,6 @@
                 <input type="hidden" name="id" autocomplete="off" class="layui-input">
                 <div class="layui-col-xs6">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">项目名</label>
-                        <div class="layui-input-block">
-                            <select name="project_id" lay-verify="required" id="project_id" dict="project">
-                                <option value="">请选择所属项目</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
                         <label class="layui-form-label">模块名</label>
                         <div class="layui-input-block">
                             <input type="text" name="name" lay-verify='required' autocomplete="off" placeholder="模块名"
@@ -158,7 +148,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">轮询方式</label>
                         <div class="layui-input-block">
-                            <select name="polling_mode" lay-verify="required" id="polling_mode">
+                            <select name="polling_mode" lay-verify="" id="polling_mode">
                                 <option value="">请选择拉取信息轮询方式</option>
                                 <option value="1">间隔X毫秒拉取</option>
                                 <option value="2">固定时间点拉取</option>
@@ -196,7 +186,7 @@
                 , util = layui.util
                 , myUtils = layui.myUtils;
             var tableName = 'module';
-            myUtils.relObj(['project_id','parent_module_id','read_db_id','write_db_id','pull_api_id','send_api_id']);//查询关联对象
+            myUtils.relObj(['parent_module_id','read_db_id','write_db_id','pull_api_id','send_api_id']);//查询关联对象
             var tableIns = table.render({
                 elem: '#test-table-operate'
                 , url: '/base/searchList'
@@ -204,7 +194,6 @@
                 , cols: [[
                     { type: 'checkbox', fixed: 'left' }
                     , { field: 'id', title: 'id', hide: true }
-                    , { field: 'project', title: '项目名', fixed: 'left' }
                     , { field: 'name', title: '模块名', fixed: 'left' }
                     , { field: 'moduleId', title: '模块ID' }
                     , { field: 'is_child', title: '是否子模块' }

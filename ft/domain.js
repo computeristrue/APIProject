@@ -12,7 +12,6 @@ var domain = {};
 domain.project = {
     id                                  : 'int',
     name                                : 'string',
-    listener_port                       : 'string',
     path                                : 'string',
     host                                : 'string',
     user                                : 'string',
@@ -29,7 +28,6 @@ domain.project = {
  */
 domain.module = {
     id                                  : 'int',
-    project_id                          : 'int@project#project',
     name                                : 'string',
     moduleId                            : 'string',
     is_child                            : 'int',
@@ -49,7 +47,6 @@ domain.module = {
  */
 domain.userField = {
     id                                  : "int",
-    project_id                          : "int@project#project",
     module_id                           : "int@module#module",
     orgin_field                         : "string",
     target_field                        : "string",
@@ -72,7 +69,6 @@ domain.userField = {
  */
 domain.dbConfig = {
     id                                  : "int",
-    project_id                          : "int@project#project",
     name                                : "string",
     host                                : "string",
     user                                : 'string',
@@ -88,7 +84,6 @@ domain.dbConfig = {
  */
 domain.apiConfig ={
     id                                  : 'int',
-    project_id                          : 'int@project#project',
     name                                : 'string',
     url                                 : 'string',
     method                              : 'int',
@@ -105,7 +100,6 @@ domain.apiConfig ={
 domain.dataDict = {
     id                                  : "int",
     name                                : "string",
-    field_name                          : "string",
     dataId                              : "string"
 }
 

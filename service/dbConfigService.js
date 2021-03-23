@@ -9,21 +9,26 @@ const refreshData = async () => {
         const record = records[i];
         const id = record.id;
         let json = {};
+        let info = {};
+        let obj = {};
         let kindText;
         if (record.kind == 1) {
-            kindText = 'MySQL';
-            json.port = record.port;
+            kindText = 'mysql';
+            obj.port = record.port;
         } else if (record.kind == 2) {
-            kindText = 'SQL server';
+            kindText = 'sqlServer';
         }
+        json.dbType = kindText;
         const proArr = ['host', 'user', 'password', 'database_'];
         for (const index in proArr) {
             let key = proArr[index];
             let val = record[key];
             if(!val) val = "";
             if(key == 'database_') key = 'database';
-            json[key] = val;
+            obj[key] = val;
         }
+        info[kindText] = obj;
+        json.info = info;
         redis.set(`API_DB_ID_${id}`, json);
     }
 }

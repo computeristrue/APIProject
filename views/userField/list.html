@@ -48,16 +48,6 @@
                 <input type="hidden" name="id" autocomplete="off" class="layui-input">
                 <div class="layui-col-xs6">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">项目名</label>
-                        <div class="layui-input-block">
-                            <select name="project_id" lay-verify="required" id="project_id" dict="project" lay-filter="project_id" link="module_id">
-                                <option value="">请选择所属项目</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
                         <label class="layui-form-label">模块名</label>
                         <div class="layui-input-block">
                             <select name="module_id" lay-verify="required" id="module_id" dict="module" lay-filter="module_id">
@@ -214,7 +204,7 @@
                 , util = layui.util
                 , myUtils = layui.myUtils;
             var tableName = "userField";
-            myUtils.relObj(['project_id','module_id','dict_id']);//查询关联对象
+            myUtils.relObj(['module_id','dict_id']);//查询关联对象
             var tableIns = table.render({
                 elem: '#test-table-operate'
                 , url: '/base/searchList'
@@ -222,7 +212,6 @@
                 , cols: [[
                     { type: 'checkbox', fixed: 'left' }
                     , { field: 'id', title: 'id', hide: true }
-                    , { field: 'project', title: '项目名', fixed: 'left' ,width:100,align:'center'}
                     , { field: 'module', title: '模块名', fixed: 'left' ,width:100,align:'center'}
                     , { field: 'orgin_field', title: '原字段' ,width:100,align:'center'}
                     , { field: 'target_field', title: '目标字段' ,width:100,align:'center'}

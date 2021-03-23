@@ -48,16 +48,6 @@
                 <input type="hidden" name="id" autocomplete="off" class="layui-input">
                 <div class="layui-col-xs6">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">项目名</label>
-                        <div class="layui-input-block">
-                            <select name="project_id" lay-verify="required" id="project_id" dict="project">
-                                <option value="">请选择所属项目</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
                         <label class="layui-form-label">别名</label>
                         <div class="layui-input-block">
                             <input type="text" name="name" lay-verify='required' autocomplete="off"
@@ -152,7 +142,6 @@
                 , util = layui.util
                 , myUtils = layui.myUtils;
             var tableName = 'dbConfig';
-            myUtils.relObj(['project_id']);//查询关联对象
             var tableIns = table.render({
                 elem: '#test-table-operate'
                 , url: '/base/searchList'
@@ -160,7 +149,6 @@
                 , cols: [[
                     { type: 'checkbox', fixed: 'left' }
                     , { field: 'id', title: 'id', hide: true }
-                    , { field: 'project', title: '项目名', fixed: 'left' }
                     , { field: 'name', title: '别名', fixed: 'left' }
                     , { field: 'host', title: '主机IP', fixed: 'left' }
                     , { field: 'user', title: '账号'}

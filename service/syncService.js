@@ -9,25 +9,18 @@ const autoSync = async (req, res) => {
         , opt = params.opt;
     const key = `${moduleId}_${id}`;
     console.log(params);
-    if (moduleId && id) {
-        const isExist = await redis.get(key);
-        if (Number(isExist)) {
-            res.json({
-                success: false,
-                msg: 'Do not repeat submission！'
-            })
-        } else {
-            await sync(params);
-            redis.setex(key, 15, 1);
-            res.json({
-                success: true,
-                msg: 'SUCCESS!'
-            })
-        }
-    } else {
+    const isExist = await redis.get(key);
+    if (Number(isExist)) {
         res.json({
             success: false,
-            msg: 'moduleId,id required!'
+            msg: 'Do not repeat submission！'
+        })
+    } else {
+        await sync(params);
+        redis.setex(key, 15, 1);
+        res.json({
+            success: true,
+            msg: 'SUCCESS!'
         })
     }
 }
@@ -38,25 +31,18 @@ const manualSync = async (req, res) => {
         , id = params.id
         , opt = params.opt;
     const key = `${moduleId}_${id}`;
-    if (moduleId && id) {
-        const isExist = redis.get(key);
-        if (Number(isExist)) {
-            res.json({
-                success: false,
-                msg: 'Do not repeat submission！'
-            })
-        } else {
-            await sync(params);
-            redis.setex(key, 15, 1);
-            res.json({
-                success: true,
-                msg: 'SUCCESS!'
-            })
-        }
-    } else {
+    const isExist = redis.get(key);
+    if (Number(isExist)) {
         res.json({
             success: false,
-            msg: 'moduleId,id required!'
+            msg: 'Do not repeat submission！'
+        })
+    } else {
+        await sync(params);
+        redis.setex(key, 15, 1);
+        res.json({
+            success: true,
+            msg: 'SUCCESS!'
         })
     }
 }

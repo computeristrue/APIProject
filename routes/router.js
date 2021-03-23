@@ -9,8 +9,6 @@ var projectRouter = require('./project');
 var adminRouter = require('./admin');
 var dictRouter = require('./dict');
 var baseRouter = require('./base');
-var userFieldRouter = require('./userField');
-var dbConfigRouter = require('./dbConfig');
 var syncService = require('../service/syncService');
 
 router.use('/', indexRouter);

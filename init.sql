@@ -20,7 +20,7 @@ insert into adminUser(name,account,password,kind,deleteFlag,dateCreated,lastUpda
 create table if not exists project (
     id int not null auto_increment PRIMARY KEY,
     name VARCHAR(30) not null,
-    listener_port VARCHAR(30) not null, -- 项目监听端口
+    -- listener_port VARCHAR(30) not null, -- 项目监听端口
     path VARCHAR(50) not null, -- 项目位置
     host VARCHAR(30) not null, -- CRM数据库配置
     user VARCHAR(30) not null,
@@ -38,7 +38,7 @@ create table if not exists project (
 -- 模块表
 create table if not exists module(
     id int not null auto_increment PRIMARY KEY,
-    project_id int not null,
+    -- project_id int not null,
     name VARCHAR(30) not null,
     moduleId VARCHAR(30) not null unique,
     is_child int, -- 是否子模块
@@ -59,7 +59,7 @@ create table if not exists module(
 -- 字段表
 create table if not exists userField(
     id int not null auto_increment PRIMARY KEY,
-    project_id int not null,
+    -- project_id int not null,
     module_id int not null,
     orgin_field VARCHAR(50) not null, -- 原字段
     target_field VARCHAR(50) not null,-- 目标字段  根据之后选择的各种属性按照约定拼接而成
@@ -83,7 +83,7 @@ create table if not exists userField(
 -- 数据库配置表
 create table if not exists dbConfig(
     id int not null auto_increment PRIMARY KEY,
-    project_id int not null,
+    -- project_id int not null,
     name VARCHAR(30) not null,
     host VARCHAR(30) not null,
     user VARCHAR(30) not null,
@@ -100,14 +100,14 @@ create table if not exists dbConfig(
 -- 接口配置表
 create table if not exists apiConfig(
     id int not null auto_increment PRIMARY KEY,
-    project_id int not null,
+    -- project_id int not null,
     name VARCHAR(30) not null,
     url VARCHAR(255) not null,
     method int not null, -- 接口提交方式 1、post 2、get
     type int not null, -- 数据包装方式 1、json 2、xml
-    data_place VARCHAR(50) not null, --返回数据的根节点位置
-    success_place VARCHAR(50) not null, --返回成功标记的根节点位置
-    success_val VARCHAR(50) not null, --成功标记的值
+    data_place VARCHAR(50) not null, -- 返回数据的根节点位置
+    success_place VARCHAR(50) not null, -- 返回成功标记的根节点位置
+    success_val VARCHAR(50) not null, -- 成功标记的值
     deleteFlag bit default 0, -- 删除标记
     dateCreated datetime, -- 创建时间
     lastUpdated datetime -- 修改时间
@@ -117,7 +117,7 @@ create table if not exists apiConfig(
 create table if not exists dataDict(
     id int not null auto_increment PRIMARY KEY,
     name VARCHAR(30) not null,
-    field_name VARCHAR(30) not null, -- 数据字典同步的字段
+    -- field_name VARCHAR(30) not null, -- 数据字典同步的字段(弃用)
     dataId VARCHAR(30) not null, -- CRM中对应数据字典的id(后台显示的那个ID，不是数据库ID)
     deleteFlag bit default 0, -- 删除标记
     dateCreated datetime, -- 创建时间

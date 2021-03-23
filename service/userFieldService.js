@@ -1,44 +1,43 @@
-var log = require('../utils/log').logger;
-var mysql = require('../utils/mysql');
+const log = require('../utils/log').logger;
+const mysql = require('../utils/mysql');
+const redis = require('../utils/redis');
 
-var uc = {};
-
-uc.search = function(project_id){
-    var sql = `select u.*,m.moduleId from userField u left join module m on u.module_id = m.id where u.deleteFlag = 0 and u.project_id = ${project_id};`;
-    mysql.query(sql).then(re=>{
-        var json = {};
-        for(var i = 0;i<re.length;i++){
-            var item = re[i];
-            var obj = {};
-            for(var key in item){
-                if(key != 'id' && key != 'project_id' && key != "module_id" && key != "deleteFlag" && key != "dateCreated" && key != "lastUpdated"){
-                    obj[key] = item[key];
+const refreshData = async () => {
+    const sql = `select u.*,m.moduleId from userField u left join module m on u.module_id = m.id where u.deleteFlag = 0 and m.deleteFlag = 0`;
+    const records = await mysql.query(sql);
+    let obj = {};
+    for (let i = 0; i < records.length; i++) {
+        const record = records[i];
+        const moduleId = record.moduleId;
+        let info = {};
+        for (const key in record) {
+            if (Object.hasOwnProperty.call(record, key)) {
+                const val = record[key];
+                if (['deleteFlag', 'dateCreated', 'lastUpdated', 'id', 'project_id', 'module_id'].indexOf(key) < 0) {
+                    info[key] = val;
                 }
             }
-            var moduleId = item.moduleId;
-            if(json[moduleId]){
-                var arr = json[moduleId];
-                arr.push(obj);
-                json[moduleId] = arr;
-            }else{
-                json[moduleId] = [obj];
-            }
         }
-        console.log(json);
-    })
-}
-
-uc.dealData = function(records){
-    var json = {};
-    if(records && records.length > 0){
-
-    }else{
-        console.log('字段更新完成');
+        if (obj[moduleId]) {
+            let arr = obj[moduleId];
+            arr.push(info);
+            obj[moduleId] = arr;
+        } else {
+            let arr = [];
+            arr.push(info);
+            obj[moduleId] = arr;
+        }
+    }
+    for (const moduleId in obj) {
+        if (Object.hasOwnProperty.call(obj, moduleId)) {
+            const info = obj[moduleId];
+            redis.hset(`API_${moduleId}`, 'ft', JSON.stringify(info));
+        }
     }
 }
 
-uc.save = function(){
 
-}
 
-module.exports = uc;
+module.exports = {
+    refreshData: refreshData
+};

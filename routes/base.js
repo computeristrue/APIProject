@@ -4,6 +4,9 @@ var mysql = require('../utils/mysql');
 var baseService = require('../service/baseService');
 const moduleService = require('../service/moduleService');
 const dbConfigService = require('../service/dbConfigService');
+const userFieldService = require('../service/userFieldService');
+const projectService = require('../service/projectService');
+const dataDictService = require('../service/dataDictService');
 
 /**
  * 统一删除
@@ -49,6 +52,16 @@ router.get('/save', async (req, res) => {
             break;
         case 'dbConfig':
             dbConfigService.refreshData();
+            break;
+        case 'userField':
+            userFieldService.refreshData();
+            break;
+        case 'project':
+            projectService.refreshData();
+            break;
+        case 'dataDict':
+            dataDictService.refreshData();
+            break;
         default:
             break;
     }

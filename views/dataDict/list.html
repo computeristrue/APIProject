@@ -55,7 +55,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="layui-col-xs6">
+                <!-- <div class="layui-col-xs6">
                     <div class="layui-form-item">
                         <label class="layui-form-label">显示字段</label>
                         <div class="layui-input-block">
@@ -63,7 +63,7 @@
                                 placeholder="请输入显示字段" class="layui-input">
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="layui-col-xs6">
                     <div class="layui-form-item">
                         <label class="layui-form-label">字典Id</label>
@@ -94,7 +94,7 @@
                 , util = layui.util
                 , myUtils = layui.myUtils;
             var tableName = 'dataDict';
-            myUtils.relObj(['project_id']);//查询关联对象
+            // myUtils.relObj(['project_id']);//查询关联对象
             var tableIns = table.render({
                 elem: '#test-table-operate'
                 , url: '/base/searchList'
@@ -103,7 +103,7 @@
                     { type: 'checkbox', fixed: 'left' }
                     , { field: 'id', title: 'id', hide: true }
                     , { field: 'name', title: '名称', fixed: 'left' }
-                    , { field: 'field_name', title: '显示字段', fixed: 'left' }
+                    // , { field: 'field_name', title: '显示字段', fixed: 'left' }
                     , { field: 'dataId', title: '字典Id'}
                     , {
                         field: 'dateCreated', title: '创建时间', templet: (d) => {

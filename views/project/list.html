@@ -10,6 +10,7 @@
         content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" href="../../../layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="../../../layuiadmin/style/admin.css" media="all">
+    <link rel="stylesheet" href="../../../stylesheets/custom.css" media="all">
 
     <script src="../../../javascripts/jquery-3.3.1.min.js"></script>
     <script src="../../../javascripts/basetable.js"></script>
@@ -24,18 +25,18 @@
                 <div class="layui-card">
                     <div class="layui-card-header">项目管理</div>
                     <div class="layui-card-body">
-                        <div class="layui-btn-group test-table-operate-btn" style="margin-bottom: 10px;">
+                        <!-- <div class="layui-btn-group test-table-operate-btn" style="margin-bottom: 10px;">
                             <button class="layui-btn" data-type="add">新增项目</button>
-                        </div>
+                        </div> -->
 
-                        <table class="layui-hide" id="test-table-operate" lay-filter="test-table-operate"></table>
+                        <!-- <table class="layui-hide" id="test-table-operate" lay-filter="test-table-operate"></table>
 
                         <script type="text/html" id="test-table-operate-barDemo">
                             <a class="layui-btn layui-btn-xs" lay-event='edit'>修改</a>
                             <a class="layui-btn layui-btn-xs" lay-event='view'>查看</a>
                             <a class="layui-btn layui-btn-danger layui-btn-xs"lay-event='del'>删除</a>
                             <a class="layui-btn layui-btn-xs"lay-event='build'>部署</a>
-                        </script>
+                        </script> -->
                     </div>
                 </div>
             </div>
@@ -43,25 +44,17 @@
     </div>
 
 
-    <div class="site-text" style="margin: 5% 5% 5% 0;display: none;" id="window">
-        <form class="layui-form" id="myForm" lay-filter="myForm">
+    <div class="site-text" style="margin: 5% 5% 5% 0;">
+        <form class="layui-form" id="myForm" lay-filter="myForm" action="/base/save">
             <div class="layui-row">
                 <input type="hidden" name="id" autocomplete="off" class="layui-input">
+                <input type="hidden" name="tableName" autocomplete="off" class="layui-input" value="project">
                 <div class="layui-col-xs6">
                     <div class="layui-form-item">
                         <label class="layui-form-label">项目名</label>
                         <div class="layui-input-block">
                             <input type="text" name="name" lay-verify='required|onlyAZ' autocomplete="off"
                                 placeholder="项目名(仅限字母)" class="layui-input">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">监听端口</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="listener_port" lay-verify='required' autocomplete="off"
-                                placeholder="请输入监听端口" class="layui-input">
                         </div>
                     </div>
                 </div>
@@ -149,8 +142,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="layui-form-item layui-hide">
-                    <input type="button" lay-submit lay-filter="form_submit_btn" id="form_submit_btn" value="确认">
+                <div class="layui-col-xs12" style="width: 100%;text-align: center;">
+                    <div class="layui-form-item">
+                        <button type="submit" class="layui-btn" lay-submit lay-filter="form_sb" id="form_sb">确认</button>
+                    </div>
                 </div>
             </div>
         </form>
@@ -176,84 +171,44 @@
                     }
                 }
             });
-            var tableIns = table.render({
-                elem: '#test-table-operate'
-                , url: '/base/searchList'
-                , where: { tableName: tableName }
-                , cols: [[
-                    { type: 'checkbox', fixed: 'left' }
-                    , { field: 'id', title: 'id', hide: true }
-                    , { field: 'name', title: '项目名', sort: true, fixed: 'left' }
-                    , { field: 'listener_port', title: '监听端口' }
-                    , { field: 'path', title: '项目日志位置' }
-                    , { field: 'host', title: 'CRM数据库主机地址' }
-                    , { field: 'user', title: '用户名' }
-                    , { field: 'password', title: '密码' }
-                    , { field: 'port', title: '端口' }
-                    , { field: 'database_', title: '数据库名称' }
-                    , {
-                        field: 'kind', title: '数据库类型', templet: (d) => {
-                            var str = "";
-                            if (d.kind == 1) str = 'MySQL';
-                            if (d.kind == 2) str = 'SQL server';
-                            return str;
-                        }
+            initData(form);
+            form.on('submit(form_sb)', function (data) {
+                //重新加载数据
+                params = data.field;
+                console.log(params);
+                $.ajax({
+                    url: '/base/save',
+                    type: 'get',
+                    data: params,
+                    async: false,
+                    success: function (data, textStatus) {
+                        var code = data.code;
+                        const record = data.data;
+                        layer.msg(data.msg);
+                        initData(form);
                     }
-                    , { field: 'url', title: 'CRM域名' }
-                    , { field: 'authToken', title: 'authToken' }
-                    , {
-                        field: 'dateCreated', title: '创建时间', templet: (d) => {
-                            return util.toDateString(d.dateCreated, "yyyy-MM-dd HH:mm:ss");
-                        }
-                    }
-                    , {
-                        field: 'lastUpdated', title: '修改时间', templet: (d) => {
-                            return util.toDateString(d.lastUpdated, "yyyy-MM-dd HH:mm:ss");
-                        }
-                    }
-                    , { minWidth: 210, align: 'center', fixed: 'right', toolbar: '#test-table-operate-barDemo' }
-                ]],
-            });
-
-            var $ = layui.$, active = {
-                add: function () { //新增项目
-                    openMain('/base/save', null, form, 'myForm', tableIns, tableName);
-                }
-            };
-            $('.test-table-operate-btn .layui-btn').on('click', function () {
-                var type = $(this).data('type');
-                active[type] ? active[type].call(this) : '';
-            });
-
-            //监听工具条
-            table.on('tool(test-table-operate)', function (obj) {
-                var data = obj.data;
-                if (obj.event === 'edit') {
-                    openMain('/base/save', data, form, 'myForm', tableIns, tableName);
-                } else if (obj.event === 'view') {
-                    openMain(null, data, form, 'myForm', tableIns);
-                } else if (obj.event === 'del') {
-                    baseDel('/base/del', data.id, tableIns, tableName);
-                } else if(obj.event == 'build'){
-                    $.ajax({
-                        url: 'reBuild',
-                        type: 'get',
-                        async: false,
-                        data: {project_id:data.id},
-                        success: function (data, textStatus) {
-                            var code = data.code;
-                            if (code == 0) {
-                                var fileName = data.name;
-                                var url = data.url;
-                                window.open(`/download?name=${fileName}.zip&url=${url}`, '_blank');
-                            } else {
-                                layer.msg(data.msg);
-                            }
-                        }
-                    });
-                }
+                });
+                return false;
             });
         });
+        function initData(form) {
+            $.ajax({
+                url: 'initData',
+                type: 'get',
+                async: false,
+                success: function (data, textStatus) {
+                    var code = data.code;
+                    const record = data.data;
+                    if (code == 0) {
+                        console.log(record);
+                        form.val('myForm', record);
+
+                    } else {
+                        layer.msg('查询异常');
+                    }
+                }
+            });
+        }
     </script>
 </body>
 
