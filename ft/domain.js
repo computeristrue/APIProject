@@ -34,12 +34,14 @@ domain.module = {
     parent_module_id                    : 'int@module#parent_module',
     kind                                : 'int',
     table_name                          : 'string',
+    target_table_name                   : 'string',
     read_db_id                          : 'int@dbConfig#read_db',
     write_db_id                         : 'int@dbConfig#write_db',
     pull_api_id                         : 'int@apiConfig#pull_api',
     send_api_id                         : 'int@apiConfig#send_api',
     polling_mode                        : 'int',
     interval_                           : 'string',
+    condition_str                       : 'string'
 }
 
 /**

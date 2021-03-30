@@ -91,4 +91,6 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
   console.log('Listening on ' + bind);
+  const baseService = require('../service/baseService');
+  baseService.saveAllInfo();
 }

@@ -1,6 +1,11 @@
 var mysql = require('../utils/mysql');
 var ft = require('../ft/domain');
 var moment = require('moment');
+const moduleService = require('../service/moduleService');
+const dbConfigService = require('../service/dbConfigService');
+const userFieldService = require('../service/userFieldService');
+const projectService = require('../service/projectService');
+const dataDictService = require('../service/dataDictService');
 
 var me = {};
 
@@ -90,11 +95,11 @@ me.generateCountSql = function (tableName, condition = "") {
  */
 me.searchCount = async (params) => {
     var total = 0;
-    try{
+    try {
         var tableName = params.tableName;
         var countSql = me.generateCountSql(tableName);
         total = await mysql.query(countSql)[0];
-    }catch(error){
+    } catch (error) {
         console.log(error);
     };
     return total;
@@ -108,7 +113,7 @@ me.searchCount = async (params) => {
  */
 me.save = async function (params, tableName) {
     var json = { code: 0, msg: '保存失败' };
-    try{
+    try {
         var saveSql = '';
         var fieldInfo = {};
         var domain = ft[tableName];
@@ -124,7 +129,7 @@ me.save = async function (params, tableName) {
         }
         await mysql.query(saveSql);
         json = { code: 0, msg: '保存成功' };
-    }catch(error){
+    } catch (error) {
         console.log(error);
     };
     return json
@@ -207,16 +212,27 @@ me.generateUpdateSql = (params, ft, tableName) => {
  * @param {*} tableName 
  * @returns 
  */
-me.delete = async(id,tableName)=>{
+me.delete = async (id, tableName) => {
     var json = { code: 0, msg: '删除失败' };
     var sql = `update ${tableName} set deleteFlag = 1 where id = ${id}`;
-    try{
+    try {
         await mysql.query(sql);
         json = { code: 0, msg: '删除成功' };
-    }catch(error){
+    } catch (error) {
         console.log(error);
     };
     return json
+}
+
+/**
+ * 缓存所有配置信息
+ */
+me.saveAllInfo = async () => {
+    await moduleService.refreshData();
+    await dbConfigService.refreshData();
+    await userFieldService.refreshData();
+    await projectService.refreshData();
+    await dataDictService.refreshData();
 }
 
 module.exports = me;

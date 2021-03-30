@@ -17,6 +17,7 @@ refreshData = async () => {
                 }
             }
         }
+        console.log(`模块配置信息缓存完毕`);
     }
 }
 

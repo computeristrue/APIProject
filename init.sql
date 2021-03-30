@@ -44,13 +44,15 @@ create table if not exists module(
     is_child int, -- 是否子模块
     parent_module_id int, -- 父模块
     kind int not null, -- 模块类型 1、推送 2、拉取
-    table_name VARCHAR(30) not null, -- 该模块默认关联的CRM表
+    table_name VARCHAR(30), -- 该模块默认关联的CRM表
+    target_table_name VARCHAR(30), -- 该模块对应对方的表
     read_db_id int, -- 读取信息所用数据库
     write_db_id int, -- 写入信息所用数据库
     pull_api_id int, -- 拉取信息所用接口
     send_api_id int, -- 推送信息所用接口
     polling_mode int, -- 拉取信息的轮询方式 1、间隔X毫秒拉取 2、固定时间点拉取
     interval_ VARCHAR(30), -- 间隔时间
+    condition_str VARCHAR(1000), -- 查询时补充条件
     deleteFlag bit default 0, -- 删除标记
     dateCreated datetime, -- 创建时间
     lastUpdated datetime -- 修改时间

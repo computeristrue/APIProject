@@ -42,6 +42,7 @@ const refreshData = async () => {
     redis.hset(key, "path", record.path);
     redis.hset(key, 'url', record.url);
     redis.hset(key, 'authToken', record.authToken);
+    console.log('基本信息缓存完毕');
 }
 
 

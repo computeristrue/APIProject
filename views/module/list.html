@@ -99,8 +99,17 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">关联CRM表</label>
                         <div class="layui-input-block">
-                            <input type="text" name="table_name" lay-verify='required' autocomplete="off"
+                            <input type="text" name="table_name" lay-verify='' autocomplete="off"
                                 placeholder="请输入关联CRM表名" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">关联对方表</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="target_table_name" lay-verify='' autocomplete="off"
+                                placeholder="请输入关联对方表名" class="layui-input">
                         </div>
                     </div>
                 </div>
@@ -165,6 +174,15 @@
                         </div>
                     </div>
                 </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">查询条件</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="condition_str" lay-verify='' autocomplete="off"
+                                placeholder="读取数据库时的附加条件" class="layui-input">
+                        </div>
+                    </div>
+                </div>
                 <div class="layui-form-item layui-hide">
                     <input type="button" lay-submit lay-filter="form_submit_btn" id="form_submit_btn" value="确认">
                 </div>
@@ -207,6 +225,7 @@
                         }
                     }
                     , { field: 'table_name', title: '关联CRM表名' }
+                    , { field: 'target_table_name', title: '关联对方表名' }
                     , { field: 'read_db', title: '读取数据库' }
                     , { field: 'write_db', title: '写入数据库' }
                     , { field: 'pull_api', title: '拉取信息接口' }

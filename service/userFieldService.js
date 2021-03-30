@@ -34,6 +34,7 @@ const refreshData = async () => {
             redis.hset(`API_${moduleId}`, 'ft', JSON.stringify(info));
         }
     }
+    console.log("字段配置缓存完毕");
 }
 
 

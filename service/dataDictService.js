@@ -20,6 +20,7 @@ const refreshData = async () => {
         });
         redis.hset("API_DATA_DICT", record.dataId, itemInfo);
     }
+    console.log('数据字典配置缓存完毕');
 }
 
 

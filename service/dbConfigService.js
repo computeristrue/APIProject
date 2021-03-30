@@ -25,12 +25,14 @@ const refreshData = async () => {
             let val = record[key];
             if(!val) val = "";
             if(key == 'database_') key = 'database';
+            if(key == 'host' && kindText == 'sqlServer') key = 'server';
             obj[key] = val;
         }
         info[kindText] = obj;
         json.info = info;
         redis.set(`API_DB_ID_${id}`, json);
     }
+    console.log("数据库配置缓存完毕");
 }
 
 module.exports = {
