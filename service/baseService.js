@@ -98,7 +98,7 @@ me.searchCount = async (params) => {
     try {
         var tableName = params.tableName;
         var countSql = me.generateCountSql(tableName);
-        total = await mysql.query(countSql)[0];
+        total = (await mysql.query(countSql))[0].total;
     } catch (error) {
         console.log(error);
     };

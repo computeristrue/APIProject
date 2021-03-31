@@ -19,7 +19,7 @@ sf.MYSQL = function(ft,tableName,condition = "",isCRM = true){
     var forms = ` ${tableName}`;
     for(var i = 0;i<ft.length;i++){
         var item = ft[i];
-        var fieldName = item.orgin_field;
+        var fieldName = item.origin_field;
         var targetName = item.target_field;
         if(isCRM){
             if(item.is_default == 1){//是否默认值
@@ -38,14 +38,17 @@ sf.MYSQL = function(ft,tableName,condition = "",isCRM = true){
                 field.push(`${tableName}.${fieldName} as ${targetName}`);
             }
         }else{
-            field.push(`${tableName}.${fieldName}`);
+            if(item.is_default == 1){//是否默认值
+                field.push(`'${item.default_field}' as ${targetName}`);
+            }else{
+                field.push(`${tableName}.${fieldName}`);
+            }
         }
     }
     if(isCRM){
         condition += ` and ${tableName}.delete_flag = 0`;//and ${tableName}.user_id = 1 and
     }
     sql += `${field.toString()} from ${forms} where 1 = 1 ${condition}`;
-    console.log(sql);
     return sql;
 }
 
@@ -65,7 +68,7 @@ sf.MSSQL = function(ft,tableName,condition = "",isCRM = true){
     var forms = ` from ${tableName}`;
     for(var i = 0;i<ft.length;i++){
         var item = ft[i];
-        var fieldName = item.orgin_field;
+        var fieldName = item.origin_field;
         var targetName = item.target_field;
         if(isCRM){
             if(item.is_default == 1){//是否默认值
@@ -79,21 +82,23 @@ sf.MSSQL = function(ft,tableName,condition = "",isCRM = true){
                     forms += ` left join ${relTableName} on ${alias}_id = ${relTableName}.id`;
                     relTable[keyStr] = 1;
                 }
-                if(item.is_date){
+                if(item.is_date == 1){
                     field.push(`CONVERT(varchar(20),${relTableName}.${name},20) as ${targetName}`);
                 }else{
                     field.push(`${relTableName}.${name} as ${targetName}`);
                 }
             }else {
-                if(item.is_date){
+                if(item.is_date == 1){
                     field.push(`CONVERT(varchar(20),${tableName}.${fieldName},20) as ${targetName}`);
                 }else{
                     field.push(`${tableName}.${fieldName} as ${targetName}`);
                 }
             }
         }else{
-            if(item.is_date){
+            if(item.is_date == 1){
                 field.push(`CONVERT(varchar(20),${fieldName},20) as ${fieldName}`);
+            }else if(item.is_default == 1){//是否默认值
+                field.push(`'${item.default_field}' as ${targetName}`);
             }else{
                 field.push(`${tableName}.${fieldName}`);
             }
@@ -102,8 +107,7 @@ sf.MSSQL = function(ft,tableName,condition = "",isCRM = true){
     if(isCRM){
         condition += ` and ${tableName}.delete_flag = 0`;//and ${tableName}.user_id = 1 and
     }
-    sql += `${field.toString()} from ${forms} where 1 = 1 ${condition}`;
-    console.log(sql);
+    sql += `${field.toString()} ${forms} where 1 = 1 ${condition}`;
     return sql;
 }
 

@@ -44,8 +44,8 @@ create table if not exists module(
     is_child int, -- 是否子模块
     parent_module_id int, -- 父模块
     kind int not null, -- 模块类型 1、推送 2、拉取
-    table_name VARCHAR(30), -- 该模块默认关联的CRM表
-    target_table_name VARCHAR(30), -- 该模块对应对方的表
+    table_name VARCHAR(30), -- 该模块读取表名
+    target_table_name VARCHAR(30), -- 该模块写入表名
     read_db_id int, -- 读取信息所用数据库
     write_db_id int, -- 写入信息所用数据库
     pull_api_id int, -- 拉取信息所用接口
@@ -63,7 +63,7 @@ create table if not exists userField(
     id int not null auto_increment PRIMARY KEY,
     -- project_id int not null,
     module_id int not null,
-    orgin_field VARCHAR(50) not null, -- 原字段
+    origin_field VARCHAR(50) not null, -- 原字段
     target_field VARCHAR(50) not null,-- 目标字段  根据之后选择的各种属性按照约定拼接而成
     is_weiyi int not null, -- 是否作为唯一标识 1、是 2、否
     is_default int not null, -- 是否默认值 1、是 2、否

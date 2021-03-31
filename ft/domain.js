@@ -50,7 +50,7 @@ domain.module = {
 domain.userField = {
     id                                  : "int",
     module_id                           : "int@module#module",
-    orgin_field                         : "string",
+    origin_field                        : "string",
     target_field                        : "string",
     is_weiyi                            : "int",
     is_default                          : "int",

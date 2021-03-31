@@ -97,19 +97,19 @@
                 </div>
                 <div class="layui-col-xs6">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">关联CRM表</label>
+                        <label class="layui-form-label">读取表名</label>
                         <div class="layui-input-block">
                             <input type="text" name="table_name" lay-verify='' autocomplete="off"
-                                placeholder="请输入关联CRM表名" class="layui-input">
+                                placeholder="请输入读取表名" class="layui-input">
                         </div>
                     </div>
                 </div>
                 <div class="layui-col-xs6">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">关联对方表</label>
+                        <label class="layui-form-label">写入表名</label>
                         <div class="layui-input-block">
                             <input type="text" name="target_table_name" lay-verify='' autocomplete="off"
-                                placeholder="请输入关联对方表名" class="layui-input">
+                                placeholder="请输入写入表名" class="layui-input">
                         </div>
                     </div>
                 </div>
@@ -224,8 +224,8 @@
                             return str;
                         }
                     }
-                    , { field: 'table_name', title: '关联CRM表名' }
-                    , { field: 'target_table_name', title: '关联对方表名' }
+                    , { field: 'table_name', title: '读取表名' }
+                    , { field: 'target_table_name', title: '写入表名' }
                     , { field: 'read_db', title: '读取数据库' }
                     , { field: 'write_db', title: '写入数据库' }
                     , { field: 'pull_api', title: '拉取信息接口' }
