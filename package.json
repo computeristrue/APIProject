@@ -8,6 +8,7 @@
     "dev": "nodemon ./bin/www --config nodemon.json"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "bluebird": "^3.7.2",
     "child_process": "^1.0.2",
     "compressing": "^1.5.1",
