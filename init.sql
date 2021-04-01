@@ -53,6 +53,7 @@ create table if not exists module(
     polling_mode int, -- 拉取信息的轮询方式 1、间隔X毫秒拉取 2、固定时间点拉取
     interval_ VARCHAR(30), -- 间隔时间
     condition_str VARCHAR(1000), -- 查询时补充条件
+    state int, -- 是否已执行 1、是 2、否
     deleteFlag bit default 0, -- 删除标记
     dateCreated datetime, -- 创建时间
     lastUpdated datetime -- 修改时间

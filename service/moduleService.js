@@ -17,8 +17,8 @@ refreshData = async () => {
                 }
             }
         }
-        console.log(`模块配置信息缓存完毕`);
     }
+    console.log(`模块配置信息缓存完毕`);
 }
 
 module.exports = {

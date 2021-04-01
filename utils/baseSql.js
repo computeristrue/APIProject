@@ -3,23 +3,56 @@ const log = require('./log').logger;
 const mysql = require('mysql');
 const mssql = require('mssql');
 
-function mysqlQuery(info, sql) {
-    const pool = mysql.createPool(info);
-    return new Promise((resolve, reject) => {
-        pool.getConnection((err, connection) => {
-            if (err) {
-                log.info(err);
-            }
-            connection.query(sql, [], (err, rows) => {
+async function mysqlQuery(info, sql) {
+    let rows = [];
+    let connection;
+    try {
+        const pool = mysql.createPool(info);
+        connection = await getConnection(pool);
+        if (connection) {
+            rows = await mq(connection, sql);
+        } else {
+            log.info('获取连接失败');
+        }
+    } catch (error) {
+        log.info(error);
+    } finally {
+        if (connection) {
+            connection.destroy();//这个地方用release有问题，换成destroy
+        }
+        return rows;
+    };
+}
+
+function getConnection(pool, num = 1) {
+    if (num > 5) {
+        return
+    } else {
+        return new Promise((resolve, reject) => {
+            pool.getConnection((err, connection) => {
                 if (err) {
-                    log.info('异常SQL：', sql);
                     log.info('MySql execute Error:' + JSON.stringify(err));
-                    reject(err);
-                    return
+                    setTimeout(() => {
+                        getConnection(pool, num++);
+                    }, 1000 * 5);
+                } else {
+                    resolve(connection);
                 }
-                resolve(rows);
-                connection.release();
             })
+        })
+    }
+}
+
+function mq(connection, sql) {
+    return new Promise((resolve, reject) => {
+        connection.query(sql, [], (err, rows) => {
+            if (err) {
+                log.info('异常SQL：', sql);
+                log.info('MySql execute Error:' + JSON.stringify(err));
+                reject(err);
+            } else {
+                resolve(rows);
+            }
         })
     })
 }
@@ -50,7 +83,7 @@ function mssqlQuery(info, sql) {
 
 function mssqlBatchSave(info, SQL) {
     return new Promise((resolve, reject) => {
-        sql.queryViaStream(info, SQL, null, {
+        queryViaStreamWithParams(info, SQL, null, {
             error: function (err) {
                 reject(err);
             },

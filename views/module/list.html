@@ -33,6 +33,7 @@
                         <script type="text/html" id="test-table-operate-barDemo">
                             <a class="layui-btn layui-btn-xs" lay-event='edit'>修改</a>
                             <a class="layui-btn layui-btn-xs" lay-event='view'>查看</a>
+                            <a class="layui-btn layui-btn-xs" lay-event='rebuild'>执行</a>
                             <a class="layui-btn layui-btn-danger layui-btn-xs"lay-event='del'>删除</a>
                         </script>
                     </div>
@@ -99,8 +100,8 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">读取表名</label>
                         <div class="layui-input-block">
-                            <input type="text" name="table_name" lay-verify='' autocomplete="off"
-                                placeholder="请输入读取表名" class="layui-input">
+                            <input type="text" name="table_name" lay-verify='' autocomplete="off" placeholder="请输入读取表名"
+                                class="layui-input">
                         </div>
                     </div>
                 </div>
@@ -196,15 +197,16 @@
             base: '../../../layuiadmin/' //静态资源所在路径
         }).extend({
             index: 'lib/index' //主入口模块
-        }).use(['index', 'table', 'view', 'form', 'util', 'myUtils'], function () {
+        }).use(['index', 'table', 'view', 'form', 'util', 'myUtils', 'layer'], function () {
             var table = layui.table
                 , admin = layui.admin
                 , view = layui.view
                 , form = layui.form
                 , util = layui.util
-                , myUtils = layui.myUtils;
+                , myUtils = layui.myUtils
+                , layer = layui.layer;
             var tableName = 'module';
-            myUtils.relObj(['parent_module_id','read_db_id','write_db_id','pull_api_id','send_api_id']);//查询关联对象
+            myUtils.relObj(['parent_module_id', 'read_db_id', 'write_db_id', 'pull_api_id', 'send_api_id']);//查询关联对象
             var tableIns = table.render({
                 elem: '#test-table-operate'
                 , url: '/base/searchList'
@@ -214,13 +216,28 @@
                     , { field: 'id', title: 'id', hide: true }
                     , { field: 'name', title: '模块名', fixed: 'left' }
                     , { field: 'moduleId', title: '模块ID' }
-                    , { field: 'is_child', title: '是否子模块' }
+                    , {
+                        field: 'is_child', title: '是否子模块', templet: (d) => {
+                            var str = "";
+                            if (d.is_child == 1) str = "是";
+                            if (d.is_child == 2) str = "否";
+                            return str;
+                        }
+                    }
                     , { field: 'parent_module', title: '父模块' }
                     , {
                         field: 'kind', title: '模块类型', templet: (d) => {
                             var str = "";
                             if (d.kind == 1) str = "推送";
                             if (d.kind == 2) str = "拉取";
+                            return str;
+                        }
+                    }
+                    , {
+                        field: 'state', title: '任务执行状态', templet: (d) => {
+                            var str = "";
+                            if (d.state == 1) str = "是";
+                            if (d.state == 2) str = "否";
                             return str;
                         }
                     }
@@ -249,14 +266,14 @@
                             return util.toDateString(d.lastUpdated, "yyyy-MM-dd HH:mm:ss");
                         }
                     }
-                    , { minWidth: 180, align: 'center', fixed: 'right', toolbar: '#test-table-operate-barDemo' }
+                    , { minWidth: 220, align: 'center', fixed: 'right', toolbar: '#test-table-operate-barDemo' }
                 ]],
-                page : true
+                page: true
             });
 
             var $ = layui.$, active = {
                 add: function () { //新增
-                    openMain('/base/save', null, form, 'myForm', tableIns,tableName);
+                    openMain('/base/save', null, form, 'myForm', tableIns, tableName);
                 }
             };
             $('.test-table-operate-btn .layui-btn').on('click', function () {
@@ -268,11 +285,23 @@
             table.on('tool(test-table-operate)', function (obj) {
                 var data = obj.data;
                 if (obj.event === 'edit') {
-                    openMain('/base/save', data, form, 'myForm', tableIns,tableName);
+                    openMain('/base/save', data, form, 'myForm', tableIns, tableName);
                 } else if (obj.event === 'view') {
                     openMain(null, data, form, 'myForm', tableIns);
                 } else if (obj.event === 'del') {
                     baseDel('/base/del', data.id, tableIns, tableName);
+                } else if (obj.event === 'rebuild') {
+                    $.ajax({
+                        url: '/base/rebuild',
+                        type: 'get',
+                        data: { id: data.id },
+                        async: false,
+                        success: function (data, textStatus) {
+                            var code = data.code;
+                            layer.msg(data.msg);
+                            reloadTable(tableIns);
+                        }
+                    });
                 }
             });
         });

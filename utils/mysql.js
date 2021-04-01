@@ -27,7 +27,7 @@ function meQuery(sql) {
                     return
                 }
                 resolve(rows);
-                connection.release();
+                connection.destroy();
             })
         })
     });

@@ -6,6 +6,7 @@ const dbConfigService = require('../service/dbConfigService');
 const userFieldService = require('../service/userFieldService');
 const projectService = require('../service/projectService');
 const dataDictService = require('../service/dataDictService');
+const taskJobService = require('../service/taskJobService');
 
 var me = {};
 
@@ -233,6 +234,32 @@ me.saveAllInfo = async () => {
     await userFieldService.refreshData();
     await projectService.refreshData();
     await dataDictService.refreshData();
+    const sql = `update module set state = 2`;
+    await mysql.query(sql);
+}
+
+me.rebuild = async(id)=>{
+    let msg = "";
+    const sql = `select state,moduleId from module where id = ${id} and deleteFlag = 0`;
+    const re = await mysql.query(sql);
+    if(re && re.length > 0){
+        if(re[0].state == 1){
+            msg = "模块已执行任务，若要刷新请重启系统";
+        }else{
+            try{
+                await taskJobService.buildJob(re[0].moduleId);
+                const sql2 = `update module set state = 1 where id = ${id}`;
+                await mysql.query(sql2);
+                msg = "执行成功";
+            }catch(error){
+                log.info(error);
+                msg = "模块执行任务失败";
+            };
+        }
+    }else{
+        msg = "找不到对应模块";
+    }
+    return msg;
 }
 
 module.exports = me;

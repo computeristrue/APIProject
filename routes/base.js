@@ -68,4 +68,14 @@ router.get('/save', async (req, res) => {
     res.json(json);
 })
 
+router.get('/rebuild',async (req,res)=>{
+    const params = req.query;
+    const id = params.id;
+    const msg = await baseService.rebuild(id);
+    res.json({
+        code:0,
+        msg:msg
+    })
+})
+
 module.exports = router;

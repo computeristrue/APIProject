@@ -41,7 +41,8 @@ domain.module = {
     send_api_id                         : 'int@apiConfig#send_api',
     polling_mode                        : 'int',
     interval_                           : 'string',
-    condition_str                       : 'string'
+    condition_str                       : 'string',
+    state                               : 'int'
 }
 
 /**
