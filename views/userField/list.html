@@ -24,8 +24,20 @@
                 <div class="layui-card">
                     <div class="layui-card-header">字段管理</div>
                     <div class="layui-card-body">
-                        <div class="layui-btn-group test-table-operate-btn" style="margin-bottom: 10px;">
+                        <div class="layui-btn-group test-table-operate-btn">
                             <button class="layui-btn" data-type="add">新增字段</button>
+                        </div>
+                        <div class="test-table-reload-btn">
+                            <div class="layui-inline layui-form">
+                                <div class="layui-form-item">
+                                    <div class="layui-input-block">
+                                        <select name="moduleId" lay-verify="" id="moduleId">
+                                            <option value="">请选择所属模块</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="layui-btn" data-type="reload" style="margin-bottom: 15px;">搜索</button>
                         </div>
 
                         <table class="layui-hide" id="test-table-operate" lay-filter="test-table-operate"></table>
@@ -50,7 +62,8 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">模块名</label>
                         <div class="layui-input-block">
-                            <select name="module_id" lay-verify="required" id="module_id" dict="module" lay-filter="module_id">
+                            <select name="module_id" lay-verify="required" id="module_id" dict="module"
+                                lay-filter="module_id">
                                 <option value="">请选择所属模块</option>
                             </select>
                         </div>
@@ -133,8 +146,8 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">显示字段</label>
                         <div class="layui-input-block">
-                            <input type="text" name="dict_text" autocomplete="off"
-                                placeholder="请输入数据字典显示字段" class="layui-input">
+                            <input type="text" name="dict_text" autocomplete="off" placeholder="请输入数据字典显示字段"
+                                class="layui-input">
                         </div>
                     </div>
                 </div>
@@ -142,8 +155,8 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">实际字段</label>
                         <div class="layui-input-block">
-                            <input type="text" name="dict_val" autocomplete="off"
-                                placeholder="请输入数据字典实际字段" class="layui-input">
+                            <input type="text" name="dict_val" autocomplete="off" placeholder="请输入数据字典实际字段"
+                                class="layui-input">
                         </div>
                     </div>
                 </div>
@@ -151,8 +164,8 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">默认值</label>
                         <div class="layui-input-block">
-                            <input type="text" name="default_field" autocomplete="off"
-                                placeholder="请输入默认值" class="layui-input">
+                            <input type="text" name="default_field" autocomplete="off" placeholder="请输入默认值"
+                                class="layui-input">
                         </div>
                     </div>
                 </div>
@@ -160,8 +173,8 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">小数位数</label>
                         <div class="layui-input-block">
-                            <input type="number" name="decimal_place" autocomplete="off"
-                                placeholder="请输入小数位数" class="layui-input">
+                            <input type="number" name="decimal_place" autocomplete="off" placeholder="请输入小数位数"
+                                class="layui-input">
                         </div>
                     </div>
                 </div>
@@ -169,8 +182,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">日期格式化</label>
                         <div class="layui-input-block">
-                            <input type="text" name="sdf" autocomplete="off"
-                                placeholder="请输入日期格式化" class="layui-input">
+                            <input type="text" name="sdf" autocomplete="off" placeholder="请输入日期格式化" class="layui-input">
                         </div>
                     </div>
                 </div>
@@ -178,8 +190,8 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">关联CRM表</label>
                         <div class="layui-input-block">
-                            <input type="text" name="table_name" autocomplete="off"
-                                placeholder="请输入关联CRM表名" class="layui-input">
+                            <input type="text" name="table_name" autocomplete="off" placeholder="请输入关联CRM表名"
+                                class="layui-input">
                         </div>
                     </div>
                 </div>
@@ -204,7 +216,8 @@
                 , util = layui.util
                 , myUtils = layui.myUtils;
             var tableName = "userField";
-            myUtils.relObj(['module_id','dict_id']);//查询关联对象
+            myUtils.relObj(['module_id', 'dict_id']);//查询关联对象
+            generateDict(form);
             var tableIns = table.render({
                 elem: '#test-table-operate'
                 , url: '/base/searchList'
@@ -212,47 +225,47 @@
                 , cols: [[
                     { type: 'checkbox', fixed: 'left' }
                     , { field: 'id', title: 'id', hide: true }
-                    , { field: 'module', title: '模块名', fixed: 'left' ,width:100,align:'center'}
-                    , { field: 'origin_field', title: '原字段' ,width:100,align:'center'}
-                    , { field: 'target_field', title: '目标字段' ,width:100,align:'center'}
+                    , { field: 'module', title: '模块名', fixed: 'left', width: 100, align: 'center' }
+                    , { field: 'origin_field', title: '原字段', width: 100, align: 'center' }
+                    , { field: 'target_field', title: '目标字段', width: 100, align: 'center' }
                     , {
-                        field: 'is_weiyi', title: '是否唯一',width:100,align:'center', templet: (d) => {
+                        field: 'is_weiyi', title: '是否唯一', width: 100, align: 'center', templet: (d) => {
                             return d.is_weiyi == 1 ? '是' : '否';
                         }
                     }
                     , {
-                        field: 'is_default', title: '是否默认值',width:100,align:'center', templet: (d) => {
+                        field: 'is_default', title: '是否默认值', width: 100, align: 'center', templet: (d) => {
                             return d.is_default == 1 ? '是' : '否';
                         }
                     }
                     , {
-                        field: 'is_dict', title: '是否数据字典',width:100,align:'center', templet: (d) => {
+                        field: 'is_dict', title: '是否数据字典', width: 100, align: 'center', templet: (d) => {
                             return d.is_dict == 1 ? '是' : '否';
                         }
                     }
                     , {
-                        field: 'is_double', title: '是否数值',width:100,align:'center', templet: (d) => {
+                        field: 'is_double', title: '是否数值', width: 100, align: 'center', templet: (d) => {
                             return d.is_double == 1 ? '是' : '否';
                         }
                     }
                     , {
-                        field: 'is_date', title: '是否时间',width:100,align:'center', templet: (d) => {
+                        field: 'is_date', title: '是否时间', width: 100, align: 'center', templet: (d) => {
                             return d.is_date == 1 ? '是' : '否';
                         }
                     }
-                    , { field: 'dict_id', title: '关联数据字典ID' ,width:100,align:'center'}
-                    , { field: 'dict_text', title: '数据字典显示字段' ,width:100,align:'center'}
-                    , { field: 'default_field', title: '默认值' ,width:100,align:'center'}
-                    , { field: 'decimal_place', title: '小数位数' ,width:100,align:'center'}
-                    , { field: 'sdf', title: '日期格式' ,width:100,align:'center'}
-                    , { field: 'table_name', title: '关联CRM表名' ,width:100,align:'center'}
+                    , { field: 'dict_id', title: '关联数据字典ID', width: 100, align: 'center' }
+                    , { field: 'dict_text', title: '数据字典显示字段', width: 100, align: 'center' }
+                    , { field: 'default_field', title: '默认值', width: 100, align: 'center' }
+                    , { field: 'decimal_place', title: '小数位数', width: 100, align: 'center' }
+                    , { field: 'sdf', title: '日期格式', width: 100, align: 'center' }
+                    , { field: 'table_name', title: '关联CRM表名', width: 100, align: 'center' }
                     , {
-                        field: 'dateCreated', title: '创建时间',width:100,align:'center', templet: (d) => {
+                        field: 'dateCreated', title: '创建时间', width: 100, align: 'center', templet: (d) => {
                             return util.toDateString(d.dateCreated, "yyyy-MM-dd HH:mm:ss");
                         }
                     }
                     , {
-                        field: 'lastUpdated', title: '修改时间',width:100,align:'center', templet: (d) => {
+                        field: 'lastUpdated', title: '修改时间', width: 100, align: 'center', templet: (d) => {
                             return util.toDateString(d.lastUpdated, "yyyy-MM-dd HH:mm:ss");
                         }
                     }
@@ -264,8 +277,24 @@
             var $ = layui.$, active = {
                 add: function () { //新增
                     openMain('/base/save', null, form, 'myForm', tableIns, tableName);
+                },
+                reload: function () {
+                    var moduleId = $("#moduleId");
+                    //执行重载
+                    table.reload('test-table-operate', {
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                        , where: {
+                            moduleId: moduleId.val()
+                        }
+                    });
                 }
             };
+            $('.test-table-reload-btn .layui-btn').on('click', function () {
+                var type = $(this).data('type');
+                active[type] ? active[type].call(this) : '';
+            });
             $('.test-table-operate-btn .layui-btn').on('click', function () {
                 var type = $(this).data('type');
                 active[type] ? active[type].call(this) : '';
@@ -275,7 +304,7 @@
             table.on('tool(test-table-operate)', function (obj) {
                 var data = obj.data;
                 if (obj.event === 'edit') {
-                    openMain('/base/save', data, form, 'myForm', tableIns,tableName);
+                    openMain('/base/save', data, form, 'myForm', tableIns, tableName);
                 } else if (obj.event === 'view') {
                     openMain(null, data, form, 'myForm', tableIns);
                 } else if (obj.event === 'del') {
@@ -283,6 +312,22 @@
                 }
             });
         });
+        function generateDict(form) {
+            var dq = $("#moduleId");
+            $.ajax({
+                url: '/getModule',
+                type: 'get',
+                async: false,
+                success: function (data, textStatus) {
+                    var dict = data.arr;
+                    for (var index in dict) {
+                        var record = dict[index];
+                        dq.append(`<option value="${record.id}">${record.name}</option>`);
+                    }
+                    form.render();
+                }
+            });
+        }
     </script>
 </body>
 

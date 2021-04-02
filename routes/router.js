@@ -10,6 +10,7 @@ var adminRouter = require('./admin');
 var dictRouter = require('./dict');
 var baseRouter = require('./base');
 var syncService = require('../service/syncService');
+var moduleService = require('../service/moduleService');
 
 router.use('/', indexRouter);
 
@@ -82,6 +83,9 @@ router.get('/download', (req, res) => {
         console.log(e);
     }
 });
+
+
+router.get('/getModule',moduleService.getModule);
 
 
 /**

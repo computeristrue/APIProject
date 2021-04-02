@@ -50,12 +50,13 @@ me.generateListSql = (tableName, condition = "") => {
  * @param {*} params 
  * @returns 
  */
-me.searchList = async (params) => {
+me.searchList = async (params,condition) => {
     var results = [];
     try {
         var tableName = params.tableName;
         var page = params.page, limit = params.limit;
         var pageCondition = ` limit ${(page - 1) * limit},${limit}`;
+        pageCondition = condition + pageCondition;
         var listSql = me.generateListSql(tableName, pageCondition);
         results = await mysql.query(listSql);
     } catch (error) {
@@ -95,11 +96,11 @@ me.generateCountSql = function (tableName, condition = "") {
  * @param {*} params 
  * @returns 
  */
-me.searchCount = async (params) => {
+me.searchCount = async (params,condition) => {
     var total = 0;
     try {
         var tableName = params.tableName;
-        var countSql = me.generateCountSql(tableName);
+        var countSql = me.generateCountSql(tableName,condition);
         total = (await mysql.query(countSql))[0].total;
     } catch (error) {
         console.log(error);
