@@ -41,7 +41,7 @@ const update = async (moduleId, record, ft, tableName) => {
     return str;
 }
 
-const manageFieldValue = async (moduleId, record, ft, tableName) => {
+const manageFieldValue = async (moduleId, record, ft, tableName = null) => {
     let keyVal = {}, condition = "", finallyCondition = "";
     for (let i = 0; i < ft.length; i++) {
         const fieldInfo = ft[i];
@@ -87,5 +87,6 @@ const manageFieldValue = async (moduleId, record, ft, tableName) => {
 
 module.exports = {
     insert: insert,
-    update: update
+    update: update,
+    manageFieldValue:manageFieldValue
 }

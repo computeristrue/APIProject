@@ -31,7 +31,7 @@ const manualSync = async (req, res) => {
         , id = params.id
         , opt = params.opt;
     const key = `${moduleId}_${id}`;
-    const isExist = redis.get(key);
+    const isExist = await redis.get(key);
     if (Number(isExist)) {
         res.json({
             success: false,

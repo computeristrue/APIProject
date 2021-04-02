@@ -90,7 +90,9 @@ domain.apiConfig ={
     name                                : 'string',
     url                                 : 'string',
     method                              : 'int',
-    type                                : 'int',
+    contentType                         : 'int',
+    headers                             : 'string',
+    extraParam                          : 'string',
     data_place                          : 'string',
     success_place                       : 'string',
     success_val                         : 'string'

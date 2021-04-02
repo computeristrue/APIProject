@@ -107,7 +107,9 @@ create table if not exists apiConfig(
     name VARCHAR(30) not null,
     url VARCHAR(255) not null,
     method int not null, -- 接口提交方式 1、post 2、get
-    type int not null, -- 数据包装方式 1、json 2、xml
+    headers VARCHAR(255), -- headers 手动填写key:val并用分号隔开
+    contentType int not null, -- 数据包装方式 1、application/json 2、application/x-www-form-urlencoded 3、application/xml 4、multipart/form-data（划掉，先不搞这个）
+    extraParam VARCHAR(1000), -- 附加参数 手动填写key:val并用分号隔开
     data_place VARCHAR(50) not null, -- 返回数据的根节点位置
     success_place VARCHAR(50) not null, -- 返回成功标记的根节点位置
     success_val VARCHAR(50) not null, -- 成功标记的值

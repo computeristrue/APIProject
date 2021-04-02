@@ -2,6 +2,7 @@ const log = require('../utils/log').logger;
 const redis = require('../utils/redis');
 const sf = require('../utils/sqlFactory');
 const baseSql = require('../utils/baseSql');
+const doAxios = require('../utils/doAxios');
 
 /**
  * 从数据库读取数据
@@ -40,7 +41,11 @@ const readDB = async (redis_key, read_db_id, id) => {
 const readAPI = async (redis_key, pull_api_id, id) => {
     let result = [];
     try {
-
+        const API_CONFIG_ID = `API_CONFIG_ID_${pull_api_id}`;
+        const r = await doAxios.do(API_CONFIG_ID);
+        if(r.finallyData){
+            result = r.finallyData;
+        }
     } catch (error) {
         log.info(error);
     } finally {
@@ -62,6 +67,9 @@ module.exports = async (moduleId, id = null) => {
     } catch (error) {
         log.info(error);
     } finally {
+        if(!(result.length > 0)){
+            log.info(`${moduleId}_${id}未找到符合条件的数据`);
+        }
         return result;
     };
 }

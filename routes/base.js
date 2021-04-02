@@ -7,6 +7,7 @@ const dbConfigService = require('../service/dbConfigService');
 const userFieldService = require('../service/userFieldService');
 const projectService = require('../service/projectService');
 const dataDictService = require('../service/dataDictService');
+const apiConfigService = require('../service/apiConfigService');
 
 /**
  * 统一删除
@@ -61,6 +62,9 @@ router.get('/save', async (req, res) => {
             break;
         case 'dataDict':
             dataDictService.refreshData();
+            break;
+        case 'apiConfig':
+            apiConfigService.refreshData();
             break;
         default:
             break;

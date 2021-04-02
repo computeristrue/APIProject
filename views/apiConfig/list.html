@@ -78,12 +78,31 @@
                 </div>
                 <div class="layui-col-xs6">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">包装格式</label>
+                        <label class="layui-form-label">headers</label>
                         <div class="layui-input-block">
-                            <select name="type" lay-verify="required">
+                            <input type="text" name="headers" lay-verify='' autocomplete="off"
+                                placeholder="请输入key:val并用分号隔开" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">额外参数</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="extraParam" lay-verify='' autocomplete="off"
+                                placeholder="请输入key:val并用分号隔开" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">Content-Type</label>
+                        <div class="layui-input-block">
+                            <select name="contentType" lay-verify="required">
                                 <option value="">请选择包装格式</option>
-                                <option value="1" selected>json</option>
-                                <option value="2">xml</option>
+                                <option value="1" selected>application/json</option>
+                                <option value="2">application/x-www-form-urlencoded</option>
+                                <option value="3">application/xml</option>
                             </select>
                         </div>
                     </div>
@@ -148,8 +167,24 @@
                     , { field: 'method', title: '提交方式',templet:(d)=>{
                         return d.method == 1 ? 'POST' : "GET";
                     }}
+                    , { field: 'headers', title: 'headers' }
+                    , { field: 'extraParam', title: '额外参数' }
                     , { field: 'type', title: '数据格式',templet:(d)=>{
-                        return d.type == 1 ? 'JSON' : 'XML';
+                        let type = '';
+                        switch (d.contentType) {
+                            case 1:
+                                type = 'application/json';
+                                break;
+                            case 2:
+                                type = 'application/x-www-form-urlencoded';
+                                break;
+                            case 3:
+                                type = 'application/xml';
+                                break;
+                            default:
+                                break;
+                        }
+                        return type;
                     }}
                     , { field: 'data_place', title: '数据节点' }
                     , { field: 'success_place', title: '成功节点' }
