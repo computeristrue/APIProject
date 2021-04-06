@@ -42,7 +42,9 @@ domain.module = {
     polling_mode                        : 'int',
     interval_                           : 'string',
     condition_str                       : 'string',
-    state                               : 'int'
+    state                               : 'int',
+    timeField                           : 'string',
+    timestamp_                          : 'string'
 }
 
 /**
@@ -79,7 +81,8 @@ domain.dbConfig = {
     port                                : "string",
     database_                           : "string",
     kind                                : 'int',
-    remark                              : 'string'
+    remark                              : 'string',
+    isBasic                             : 'int'
 }
 
 /**

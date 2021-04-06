@@ -116,6 +116,18 @@
                 </div>
                 <div class="layui-col-xs6">
                     <div class="layui-form-item">
+                        <label class="layui-form-label">读取类型</label>
+                        <div class="layui-input-block">
+                            <select name="readKind" lay-verify="" lay-filter="readKind">
+                                <option value="">请选择读取数据类型</option>
+                                <option value="1" selected>数据库</option>
+                                <option value="2">接口</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 read1">
+                    <div class="layui-form-item">
                         <label class="layui-form-label">读取数据库</label>
                         <div class="layui-input-block">
                             <select name="read_db_id" lay-verify="" id="read_db_id" dict="dbConfig">
@@ -124,19 +136,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="layui-col-xs6">
+                <div class="layui-col-xs6 read2">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">写入数据库</label>
-                        <div class="layui-input-block">
-                            <select name="write_db_id" lay-verify="" id="write_db_id" dict="dbConfig">
-                                <option value="">请选择写入数据库</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">拉取接口</label>
+                        <label class="layui-form-label">读取接口</label>
                         <div class="layui-input-block">
                             <select name="pull_api_id" lay-verify="" id="pull_api_id" dict="apiConfig">
                                 <option value="">请选择拉取信息接口</option>
@@ -146,7 +148,29 @@
                 </div>
                 <div class="layui-col-xs6">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">推送接口</label>
+                        <label class="layui-form-label">写入类型</label>
+                        <div class="layui-input-block">
+                            <select name="writeKind" lay-verify="" lay-filter="writeKind">
+                                <option value="">请选择写入数据类型</option>
+                                <option value="1" selected>数据库</option>
+                                <option value="2">接口</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 write1">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">写入数据库</label>
+                        <div class="layui-input-block">
+                            <select name="write_db_id" lay-verify="" id="write_db_id" dict="dbConfig">
+                                <option value="">请选择写入数据库</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 write2">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">写入接口</label>
                         <div class="layui-input-block">
                             <select name="send_api_id" lay-verify="" id="send_api_id" dict="apiConfig">
                                 <option value="">请选择推送信息接口</option>
@@ -184,6 +208,24 @@
                         </div>
                     </div>
                 </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">时间字段</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="timeField" lay-verify='' autocomplete="off"
+                                placeholder="读取数据库时的时间字段" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">时间戳</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="timestamp_" lay-verify='' autocomplete="off"
+                                placeholder="上次拉取数据的时间" class="layui-input">
+                        </div>
+                    </div>
+                </div>
                 <div class="layui-form-item layui-hide">
                     <input type="button" lay-submit lay-filter="form_submit_btn" id="form_submit_btn" value="确认">
                 </div>
@@ -207,15 +249,38 @@
                 , layer = layui.layer;
             var tableName = 'module';
             myUtils.relObj(['parent_module_id', 'read_db_id', 'write_db_id', 'pull_api_id', 'send_api_id']);//查询关联对象
+            //处理字段之间的联动
+            jQuery(".read2").hide();
+            form.on('select(readKind)', function (data) {
+                if (data.value == 1) {
+                    jQuery(".read1").show();
+                    jQuery(".read2").hide();
+                } else if(data.value == 2){
+                    jQuery(".read1").hide();
+                    jQuery(".read2").show();
+                }
+            });
+            jQuery(".write2").hide();
+            form.on('select(writeKind)', function (data) {
+                if (data.value == 1) {
+                    jQuery(".write1").show();
+                    jQuery(".write2").hide();
+                } else if(data.value == 2){
+                    jQuery(".write1").hide();
+                    jQuery(".write2").show();
+                }
+            });
+
             var tableIns = table.render({
                 elem: '#test-table-operate'
                 , url: '/base/searchList'
                 , where: { tableName: tableName }
+                , cellMinWidth:100
                 , cols: [[
                     { type: 'checkbox', fixed: 'left' }
                     , { field: 'id', title: 'id', hide: true }
-                    , { field: 'name', title: '模块名', fixed: 'left' }
-                    , { field: 'moduleId', title: '模块ID' }
+                    , { field: 'name', title: '模块名', fixed: 'left' ,width:150}
+                    , { field: 'moduleId', title: '模块ID' ,width:150}
                     , {
                         field: 'is_child', title: '是否子模块', templet: (d) => {
                             var str = "";
@@ -256,6 +321,8 @@
                         }
                     }
                     , { field: 'interval_', title: '间隔时间' }
+                    , { field: 'timeField', title: '时间字段' }
+                    , { field: 'timestamp_', title: '时间戳' }
                     , {
                         field: 'dateCreated', title: '创建时间', templet: (d) => {
                             return util.toDateString(d.dateCreated, "yyyy-MM-dd HH:mm:ss");

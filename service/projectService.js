@@ -1,7 +1,8 @@
 const log = require('../utils/log').logger;
 const mysql = require('../utils/mysql');
 const redis = require('../utils/redis');
-
+const moment = require('moment');
+const dateUtils = require('../utils/dateUtils');
 
 const initData = async (req, res) => {
     try {
@@ -18,6 +19,54 @@ const initData = async (req, res) => {
             code: 1,
             data: {}
         })
+    };
+}
+
+const saveBasicDB = async()=>{
+    try{
+      let dbInfo = await redis.hget('API_BASIC_INFO','dbInfo');
+      dbInfo = JSON.parse(dbInfo);
+      let obj = {};
+      const dbType = dbInfo.dbType;
+      obj = dbInfo.info[dbType];
+      obj.name = 'CRM基础DB配置';
+      obj.remark = 'CRM基础DB配置';
+      if(dbInfo.dbType == 'mysql'){
+          obj.kind = 1;
+      }else if(dbInfo.dbType == 'sqlServer'){
+          obj.kind = 2;
+      }
+      obj.kind = dbInfo.dbType == 'mysql' ? 1 : 2;
+      obj.isBasic = 1;
+      obj.dateCreated = dateUtils.toString();
+      obj.lastUpdated = dateUtils.toString();
+      let fieldArr = [],valueArr = [],str = '';
+      for (let key in obj) {
+          if (Object.hasOwnProperty.call(obj, key)) {
+              let val = obj[key];
+              if(key == 'database'){
+                  key = 'database_';
+              }
+              val = `'${val}'`;
+              fieldArr.push(key);
+              valueArr.push(val);
+              str += `${key} = ${val},`;
+          }
+      }
+      if(str.endsWith(',')){
+        str = str.substring(0, str.length - 1);
+      }
+      const selectSql = `select id from dbConfig where isBasic = 1 and deleteFlag = 0`;
+      const insertSql = `insert into dbConfig(${fieldArr.join(',')}) values(${valueArr.join(',')})`;
+      const updateSql = `update dbConfig set ${str} where isBasic = 2 and deleteFlag = 0`;
+      const r1 = await mysql.query(selectSql);
+      if(r1 && r1.length > 0){
+          await mysql.query(updateSql);
+      }else{
+          await mysql.query(insertSql);
+      }
+    }catch(error){
+        log.info(error);
     };
 }
 
@@ -43,6 +92,7 @@ const refreshData = async () => {
     redis.hset(key, 'url', record.url);
     redis.hset(key, 'authToken', record.authToken);
     console.log('基本信息缓存完毕');
+    await saveBasicDB();//更新dbConfig中的那个默认配置
 }
 
 

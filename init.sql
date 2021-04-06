@@ -54,6 +54,8 @@ create table if not exists module(
     interval_ VARCHAR(30), -- 间隔时间
     condition_str VARCHAR(1000), -- 查询时补充条件
     state int, -- 是否已执行 1、是 2、否
+    timeField VARCHAR(30), -- 时间字段
+    timestamp_ VARCHAR(30), -- 时间戳
     deleteFlag bit default 0, -- 删除标记
     dateCreated datetime, -- 创建时间
     lastUpdated datetime -- 修改时间
@@ -95,6 +97,7 @@ create table if not exists dbConfig(
     database_ VARCHAR(30) not null,
     kind int not null, -- 数据库类型 1、MySQL 2、SQL server
     remark VARCHAR(255),
+    isBasic int default 2, -- 是否复制的基础信息
     deleteFlag bit default 0, -- 删除标记
     dateCreated datetime, -- 创建时间
     lastUpdated datetime -- 修改时间

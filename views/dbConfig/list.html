@@ -84,6 +84,18 @@
                 </div>
                 <div class="layui-col-xs6">
                     <div class="layui-form-item">
+                        <label class="layui-form-label">数据库类型</label>
+                        <div class="layui-input-block">
+                            <select name="kind" lay-verify="required" lay-filter="kind">
+                                <option value="">请选择数据库类型</option>
+                                <option value="1" selected>MySQL</option>
+                                <option value="2">SQL server</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 port">
+                    <div class="layui-form-item">
                         <label class="layui-form-label">端口号</label>
                         <div class="layui-input-block">
                             <input type="text" name="port" lay-verify='' autocomplete="off"
@@ -97,18 +109,6 @@
                         <div class="layui-input-block">
                             <input type="text" name="database_" lay-verify='required' autocomplete="off"
                                 placeholder="请输入数据库名称" class="layui-input">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">数据库类型</label>
-                        <div class="layui-input-block">
-                            <select name="kind" lay-verify="required">
-                                <option value="">请选择读取数据库</option>
-                                <option value="1" selected>MySQL</option>
-                                <option value="2">SQL server</option>
-                            </select>
                         </div>
                     </div>
                 </div>
@@ -142,6 +142,14 @@
                 , util = layui.util
                 , myUtils = layui.myUtils;
             var tableName = 'dbConfig';
+            //处理字段之间的联动
+            form.on('select(kind)', function (data) {
+                if (data.value == 1) {
+                    jQuery(".port").show();
+                } else if(data.value == 2){
+                    jQuery(".port").hide();
+                }
+            });
             var tableIns = table.render({
                 elem: '#test-table-operate'
                 , url: '/base/searchList'
@@ -188,7 +196,12 @@
             table.on('tool(test-table-operate)', function (obj) {
                 var data = obj.data;
                 if (obj.event === 'edit') {
-                    openMain('/base/save', data, form, 'myForm', tableIns,tableName);
+                    console.log(data);
+                    if(data.isBasic == 1){
+                        openMain(null, data, form, 'myForm', tableIns);
+                    }else{
+                        openMain('/base/save', data, form, 'myForm', tableIns,tableName);
+                    }
                 } else if (obj.event === 'view') {
                     openMain(null, data, form, 'myForm', tableIns);
                 } else if (obj.event === 'del') {
