@@ -69,12 +69,12 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">是否子模块</label>
                         <div class="layui-input-block">
-                            <input type="radio" name="is_child" value="1" title="是">
-                            <input type="radio" name="is_child" value="2" title="否" checked>
+                            <input type="radio" name="is_child" value="1" title="是" lay-filter="isChild">
+                            <input type="radio" name="is_child" value="2" title="否" checked lay-filter="isChild">
                         </div>
                     </div>
                 </div>
-                <div class="layui-col-xs6">
+                <div class="layui-col-xs6 parent">
                     <div class="layui-form-item">
                         <label class="layui-form-label">父模块</label>
                         <div class="layui-input-block">
@@ -98,24 +98,6 @@
                 </div>
                 <div class="layui-col-xs6">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">读取表名</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="table_name" lay-verify='' autocomplete="off" placeholder="请输入读取表名"
-                                class="layui-input">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">写入表名</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="target_table_name" lay-verify='' autocomplete="off"
-                                placeholder="请输入写入表名" class="layui-input">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
                         <label class="layui-form-label">读取类型</label>
                         <div class="layui-input-block">
                             <select name="readKind" lay-verify="" lay-filter="readKind">
@@ -133,6 +115,15 @@
                             <select name="read_db_id" lay-verify="" id="read_db_id" dict="dbConfig">
                                 <option value="">请选择读取数据库</option>
                             </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 read1">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">读取表名</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="table_name" lay-verify='' autocomplete="off" placeholder="请输入读取表名"
+                                class="layui-input">
                         </div>
                     </div>
                 </div>
@@ -165,6 +156,15 @@
                             <select name="write_db_id" lay-verify="" id="write_db_id" dict="dbConfig">
                                 <option value="">请选择写入数据库</option>
                             </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 write1">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">写入表名</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="target_table_name" lay-verify='' autocomplete="off"
+                                placeholder="请输入写入表名" class="layui-input">
                         </div>
                     </div>
                 </div>
@@ -249,38 +249,17 @@
                 , layer = layui.layer;
             var tableName = 'module';
             myUtils.relObj(['parent_module_id', 'read_db_id', 'write_db_id', 'pull_api_id', 'send_api_id']);//查询关联对象
-            //处理字段之间的联动
-            jQuery(".read2").hide();
-            form.on('select(readKind)', function (data) {
-                if (data.value == 1) {
-                    jQuery(".read1").show();
-                    jQuery(".read2").hide();
-                } else if(data.value == 2){
-                    jQuery(".read1").hide();
-                    jQuery(".read2").show();
-                }
-            });
-            jQuery(".write2").hide();
-            form.on('select(writeKind)', function (data) {
-                if (data.value == 1) {
-                    jQuery(".write1").show();
-                    jQuery(".write2").hide();
-                } else if(data.value == 2){
-                    jQuery(".write1").hide();
-                    jQuery(".write2").show();
-                }
-            });
-
+            cascadeField(form);
             var tableIns = table.render({
                 elem: '#test-table-operate'
                 , url: '/base/searchList'
                 , where: { tableName: tableName }
-                , cellMinWidth:100
+                , cellMinWidth: 100
                 , cols: [[
                     { type: 'checkbox', fixed: 'left' }
                     , { field: 'id', title: 'id', hide: true }
-                    , { field: 'name', title: '模块名', fixed: 'left' ,width:150}
-                    , { field: 'moduleId', title: '模块ID' ,width:150}
+                    , { field: 'name', title: '模块名', fixed: 'left', width: 150 }
+                    , { field: 'moduleId', title: '模块ID', width: 150 }
                     , {
                         field: 'is_child', title: '是否子模块', templet: (d) => {
                             var str = "";
@@ -372,6 +351,37 @@
                 }
             });
         });
+        function cascadeField(form) {
+            //处理字段之间的联动
+            jQuery(".parent").hide();
+            form.on('radio(isChild)', function (data) {
+                if (data.value == 1) {
+                    jQuery(".parent").show();
+                } else if (data.value == 2) {
+                    jQuery(".parent").hide();
+                }
+            });
+            jQuery(".read2").hide();
+            form.on('select(readKind)', function (data) {
+                if (data.value == 1) {
+                    jQuery(".read1").show();
+                    jQuery(".read2").hide();
+                } else if (data.value == 2) {
+                    jQuery(".read1").hide();
+                    jQuery(".read2").show();
+                }
+            });
+            jQuery(".write2").hide();
+            form.on('select(writeKind)', function (data) {
+                if (data.value == 1) {
+                    jQuery(".write1").show();
+                    jQuery(".write2").hide();
+                } else if (data.value == 2) {
+                    jQuery(".write1").hide();
+                    jQuery(".write2").show();
+                }
+            });
+        }
     </script>
 </body>
 

@@ -96,6 +96,18 @@
                 </div>
                 <div class="layui-col-xs6">
                     <div class="layui-form-item">
+                        <label class="layui-form-label">数据库类型</label>
+                        <div class="layui-input-block">
+                            <select name="kind" lay-verify="required" id="kind" lay-filter="kind">
+                                <option value="">请选择数据库类型</option>
+                                <option value="1" selected>MySQL</option>
+                                <option value="2">SQL server</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 port">
+                    <div class="layui-form-item">
                         <label class="layui-form-label">端口</label>
                         <div class="layui-input-block">
                             <input type="text" name="port" lay-verify='title' autocomplete="off" placeholder="请输入数据库端口"
@@ -109,18 +121,6 @@
                         <div class="layui-input-block">
                             <input type="text" name="database_" lay-verify='required' autocomplete="off"
                                 placeholder="请输入数据库名称" class="layui-input">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">数据库类型</label>
-                        <div class="layui-input-block">
-                            <select name="kind" lay-verify="required" id="kind">
-                                <option value="">请选择数据库类型</option>
-                                <option value="1" selected>MySQL</option>
-                                <option value="2">SQL server</option>
-                            </select>
                         </div>
                     </div>
                 </div>
@@ -172,6 +172,14 @@
                 }
             });
             initData(form);
+            //处理字段之间的联动
+            form.on('select(kind)', function (data) {
+                if (data.value == 1) {
+                    jQuery(".port").show();
+                } else if(data.value == 2){
+                    jQuery(".port").hide();
+                }
+            });
             form.on('submit(form_sb)', function (data) {
                 //重新加载数据
                 params = data.field;
