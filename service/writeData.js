@@ -12,10 +12,17 @@ const writeDB = async (moduleId, redis_key, write_db_id, record, id, wyFieldName
         const write_db_info = await redis.get(write_db_key);
         const writeIsMysql = write_db_info.dbType == 'mysql' ? true : false;
         const targetTableName = await redis.hget(redis_key, 'target_table_name');
+        let withOutDetailFt = [];
+        for (let i = 0; i < ft.length; i++) {
+            const f = ft[i];
+            if(f.is_detail != 1){
+                withOutDetailFt.push(f);
+            }
+        }
         if (wyFieldName) {//有唯一字段，进行更新，否则只新增
             var querySql = `select ${wyFieldName} from ${targetTableName} where ${wyFieldName} = '${record[wyFieldName]}'`;
-            var updateSql = await gSql.update(moduleId, record, ft, targetTableName);
-            var insertSql = await gSql.insert(moduleId, record, ft, targetTableName);
+            var updateSql = await gSql.update(moduleId, record, withOutDetailFt, targetTableName);
+            var insertSql = await gSql.insert(moduleId, record, withOutDetailFt, targetTableName);
             if (writeIsMysql) {//mySql没找到一句话可以实现有则新增，无则修改的方法，所以需要先查询，然后判断
                 let str = ""
                 const re = await baseSql.query(write_db_info, querySql);

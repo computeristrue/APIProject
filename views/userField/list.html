@@ -188,6 +188,15 @@
                 </div>
                 <div class="layui-col-xs6">
                     <div class="layui-form-item">
+                        <label class="layui-form-label">明细字段</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="is_detail" value="1" title="是" lay-filter="is_detail">
+                            <input type="radio" name="is_detail" value="2" title="否" lay-filter="is_detail" checked>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
                         <label class="layui-form-label">关联CRM表</label>
                         <div class="layui-input-block">
                             <input type="text" name="table_name" autocomplete="off" placeholder="源字段带点必填；请输入关联CRM表名"
@@ -253,6 +262,11 @@
                     , {
                         field: 'is_date', title: '是否时间', width: 100, align: 'center', templet: (d) => {
                             return d.is_date == 1 ? '是' : '否';
+                        }
+                    }
+                    , {
+                        field: 'is_detail', title: '明细字段', width: 100, align: 'center', templet: (d) => {
+                            return d.is_detail == 1 ? '是' : '否';
                         }
                     }
                     , { field: 'dict_id', title: '关联数据字典ID', width: 100, align: 'center' }

@@ -153,7 +153,7 @@ me.generateInsertSql = (params, ft, tableName) => {
         var val = params[key];
         var dbType = ft[key] ? ft[key] : 'string';
         if (dbType == 'string') {
-            val = val.replace(/'/g, "''");
+            val = val && val.replace(/'/g, "''");
             val = val ? `'${val}'` : 'null';
         }
         if ((dbType == 'double' || dbType == 'int') && key != 'id') {

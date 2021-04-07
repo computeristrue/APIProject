@@ -24,6 +24,7 @@ sf.MYSQL = function(ft,tableName,condition = "",isCRM = true){
         if(isCRM){
             if(item.is_default == 1){//是否默认值
                 field.push(`'${item.default_field}' as ${targetName}`);
+            }else if(item.is_detail == 1){//明细字段先不处理
             }else if(item.table_name){//关联的表
                 var relTableName = item.table_name;
                 var alias = fieldName.split('.')[0],
@@ -40,6 +41,7 @@ sf.MYSQL = function(ft,tableName,condition = "",isCRM = true){
         }else{
             if(item.is_default == 1){//是否默认值
                 field.push(`'${item.default_field}' as ${targetName}`);
+            }else if(item.is_detail == 1){//明细字段不处理
             }else{
                 field.push(`${tableName}.${fieldName} as ${targetName}`);
             }
@@ -73,6 +75,7 @@ sf.MSSQL = function(ft,tableName,condition = "",isCRM = true){
         if(isCRM){
             if(item.is_default == 1){//是否默认值
                 field.push(`'${item.default_field}' as ${targetName}`);
+            }else if(item.is_detail == 1){//明细字段不处理
             }else if(item.table_name){//关联的表
                 var relTableName = item.table_name;
                 var alias = fieldName.split('.')[0],
@@ -99,6 +102,7 @@ sf.MSSQL = function(ft,tableName,condition = "",isCRM = true){
                 field.push(`CONVERT(varchar(20),${fieldName},20) as ${targetName}`);
             }else if(item.is_default == 1){//是否默认值
                 field.push(`'${item.default_field}' as ${targetName}`);
+            }else if(item.is_detail == 1){//是否明细字段
             }else{
                 field.push(`${tableName}.${fieldName} as ${targetName}`);
             }

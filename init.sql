@@ -56,6 +56,7 @@ create table if not exists module(
     state int, -- 是否已执行 1、是 2、否
     timeField VARCHAR(30), -- 时间字段
     timestamp_ VARCHAR(30), -- 时间戳
+    remark VARCHAR(255), -- 备注
     deleteFlag bit default 0, -- 删除标记
     dateCreated datetime, -- 创建时间
     lastUpdated datetime -- 修改时间
@@ -73,6 +74,7 @@ create table if not exists userField(
     is_dict int not null, -- 是否数据字典 1、是 2、否
     is_double int not null, -- 是否数值字段 1、是 2、否
     is_date int not null, -- 是否时间类型字段 1、是 2、否
+    is_detail int not null, -- 是否是明细字段 1、是 2、否
     dict_id int, -- 关联数据字典ID
     dict_text VARCHAR(50), -- 数据字典显示值的字段，id,text,encode等
     dict_val VARCHAR(50), -- 数据字典实际值的字段，

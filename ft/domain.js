@@ -44,7 +44,8 @@ domain.module = {
     condition_str                       : 'string',
     state                               : 'int',
     timeField                           : 'string',
-    timestamp_                          : 'string'
+    timestamp_                          : 'string',
+    remark                              : 'string'
 }
 
 /**
@@ -60,6 +61,7 @@ domain.userField = {
     is_dict                             : "int",
     is_double                           : "int",
     is_date                             : "int",
+    is_detail                           : 'int',
     dict_id                             : "int@dataDict#dict",
     dict_text                           : "string",
     dict_val                            : 'string',

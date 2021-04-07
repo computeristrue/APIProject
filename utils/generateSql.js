@@ -75,6 +75,8 @@ const manageFieldValue = async (moduleId, record, ft, tableName = null) => {
             if (fieldInfo.sdf && val) {
                 val = `'${moment(val).format(fieldInfo.sdf)}'`;
             }
+        } else if(fieldInfo.is_detail == 1){
+            val = val ? JSON.stringify(val) : "";//note 明细字段
         } else if (typeof val == 'string') {
             val = val.replace(/'/g, "''");
             val = val ? `'${val}'` : 'null';
