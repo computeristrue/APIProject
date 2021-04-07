@@ -41,7 +41,7 @@ sf.MYSQL = function(ft,tableName,condition = "",isCRM = true){
             if(item.is_default == 1){//是否默认值
                 field.push(`'${item.default_field}' as ${targetName}`);
             }else{
-                field.push(`${tableName}.${fieldName}`);
+                field.push(`${tableName}.${fieldName} as ${targetName}`);
             }
         }
     }
@@ -96,11 +96,11 @@ sf.MSSQL = function(ft,tableName,condition = "",isCRM = true){
             }
         }else{
             if(item.is_date == 1){
-                field.push(`CONVERT(varchar(20),${fieldName},20) as ${fieldName}`);
+                field.push(`CONVERT(varchar(20),${fieldName},20) as ${targetName}`);
             }else if(item.is_default == 1){//是否默认值
                 field.push(`'${item.default_field}' as ${targetName}`);
             }else{
-                field.push(`${tableName}.${fieldName}`);
+                field.push(`${tableName}.${fieldName} as ${targetName}`);
             }
         }
     }

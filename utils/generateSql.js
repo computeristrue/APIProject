@@ -46,7 +46,7 @@ const manageFieldValue = async (moduleId, record, ft, tableName = null) => {
     for (let i = 0; i < ft.length; i++) {
         const fieldInfo = ft[i];
         const origin_field = fieldInfo.origin_field, target_field = fieldInfo.target_field;
-        let val = record[origin_field] || "";
+        let val = record[target_field] || "";
         if (fieldInfo.is_weiyi == 1) {
             if (typeof val == 'string') {
                 val = val.replace(/'/g, "''");
@@ -55,6 +55,9 @@ const manageFieldValue = async (moduleId, record, ft, tableName = null) => {
             condition += ` where ${target_field} = ${val}`;
         } else if (fieldInfo.is_default == 1) {
             val = fieldInfo.default_field || "";
+            if(val.indexOf('(') < 0 && val.indexOf(')') < 0){
+                val = `'${val}'`;
+            }
         } else if (fieldInfo.is_dict == 1) {
             let dict = await redis.hget('API_DATA_DICT', fieldInfo.dict_id);
             dict = JSON.parse(dict);

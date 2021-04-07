@@ -3,6 +3,8 @@ const redis = require('../utils/redis');
 const sf = require('../utils/sqlFactory');
 const baseSql = require('../utils/baseSql');
 const doAxios = require('../utils/doAxios');
+const dateUtils = require('../utils/dateUtils');
+const mysql = require('../utils/mysql');
 
 /**
  * 从数据库读取数据
@@ -23,6 +25,11 @@ const readDB = async (redis_key, read_db_id, id) => {
         if (id) {
             condition += ` and ${tableName}.id = ${id}`;
         }
+        const timeField = await redis.hget(redis_key,'timeField');
+        const timestamp_ = await redis.hget(redis_key,'timestamp_') || dateUtils.toString();
+        if(timeField){
+            condition += ` and ${timeField} >= '${timestamp_}'`;
+        }
         const kind = Number(await redis.hget(redis_key, 'kind'));//推送还是拉取
         let isCRM = kind == 1 ? true : false;
         if (readIsMysql) {
@@ -34,6 +41,11 @@ const readDB = async (redis_key, read_db_id, id) => {
     } catch (error) {
         log.info(error);
     } finally {
+        const moduleId = redis_key.replace('API_','');
+        const kind = Number(await redis.hget(`API_${moduleId}`,'kind'));
+        if(kind == 2){
+            await writeDate(moduleId);
+        }
         return result;
     };
 }
@@ -49,8 +61,27 @@ const readAPI = async (redis_key, pull_api_id, id) => {
     } catch (error) {
         log.info(error);
     } finally {
+        const moduleId = redis_key.replace('API_','');
+        const kind = Number(await redis.hget(`API_${moduleId}`,'kind'));
+        if(kind == 2){
+            await writeDate(moduleId);
+        }
         return result;
     };
+}
+
+/**
+ * 写入读取时间
+ * @param {*} moduleId 
+ * @param {*} date 
+ */
+const writeDate = async (moduleId,date)=>{
+    let timestamp_ = await redis.hget(`API_${moduleId}`,'timestamp_');
+    date = dateUtils.toString(date);
+    redis.hset(`API_${moduleId}`,'timestamp_',date);
+    const sql = `update module set timestamp_ = '${date}' where moduleId = '${moduleId}'`;
+    await mysql.query(sql);
+
 }
 
 module.exports = async (moduleId, id = null) => {
