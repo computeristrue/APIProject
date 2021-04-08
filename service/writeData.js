@@ -94,8 +94,21 @@ const writeAPI = async (moduleId, redis_key, send_api_id, record, id, wyFieldNam
     let subject = wyFieldName ? wyFieldName : '推送数据';
     try {
         const API_CONFIG_ID = `API_CONFIG_ID_${send_api_id}`;
-        const keyVal = gSql.manageFieldValue(moduleId,record,ft);
-        const r = await doAxios.do(API_CONFIG_ID, keyVal);
+        let keyVal = (await gSql.manageFieldValue(moduleId,record,ft)).keyVal;
+        let obj = {};
+        for (const key in keyVal) {
+            if (Object.hasOwnProperty.call(keyVal, key)) {
+                let val = keyVal[key];
+                if(val){
+                    val = val.toString();
+                    if(val.startsWith(`'`) && val.endsWith(`'`)){
+                        val = val.substring(1,val.length - 1);
+                    }
+                }
+                obj[key] = val;
+            }
+        }
+        const r = await doAxios.do(API_CONFIG_ID, obj);
         syncResult = r.syncResult || 0;
         msg = r.finallyData || "";
         if (msg) msg = JSON.stringify(msg);
@@ -131,6 +144,7 @@ module.exports = async (moduleId, record, id = null) => {
         const write_db_id = await redis.hget(redis_key, 'write_db_id');
         const send_api_id = await redis.hget(redis_key, 'send_api_id');
         const ft = JSON.parse(await redis.hget(redis_key, 'ft'));
+        let wyFieldName = "";
         for (let i = 0; i < ft.length; i++) {
             const item = ft[i];
             if (item.is_weiyi == 1) {

@@ -99,7 +99,7 @@
                         <label class="layui-form-label">端口号</label>
                         <div class="layui-input-block">
                             <input type="text" name="port" lay-verify='' autocomplete="off"
-                                placeholder="请输入端口号（仅MySQL）" class="layui-input">
+                                placeholder="请输入端口号" class="layui-input">
                         </div>
                     </div>
                 </div>
@@ -142,14 +142,6 @@
                 , util = layui.util
                 , myUtils = layui.myUtils;
             var tableName = 'dbConfig';
-            //处理字段之间的联动
-            form.on('select(kind)', function (data) {
-                if (data.value == 1) {
-                    jQuery(".port").show();
-                } else if(data.value == 2){
-                    jQuery(".port").hide();
-                }
-            });
             var tableIns = table.render({
                 elem: '#test-table-operate'
                 , url: '/base/searchList'
@@ -199,7 +191,7 @@
                 if (obj.event === 'edit') {
                     console.log(data);
                     if(data.isBasic == 1){
-                        openMain(null, data, form, 'myForm', tableIns);
+                        layer.msg('默认配置禁止修改');
                     }else{
                         openMain('/base/save', data, form, 'myForm', tableIns,tableName);
                     }

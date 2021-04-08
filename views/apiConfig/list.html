@@ -57,15 +57,6 @@
                 </div>
                 <div class="layui-col-xs6">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">URL</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="url" lay-verify='required' autocomplete="off"
-                                placeholder="请输入接口URL" class="layui-input">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
                         <label class="layui-form-label">提交方式</label>
                         <div class="layui-input-block">
                             <select name="method" lay-verify="required">
@@ -73,6 +64,15 @@
                                 <option value="1" selected>post</option>
                                 <option value="2">get</option>
                             </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs12">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">URL</label>
+                        <div class="layui-input-block">
+                            <textarea type="text" name="url" lay-verify='required' autocomplete="off"
+                                placeholder="请输入接口URL" class="layui-textarea"></textarea>
                         </div>
                     </div>
                 </div>

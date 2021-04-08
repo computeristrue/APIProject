@@ -142,6 +142,15 @@
                         </div>
                     </div>
                 </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">企业ID</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="user_id" lay-verify='required' autocomplete="off"
+                                placeholder="请输入企业ID" class="layui-input" value="1">
+                        </div>
+                    </div>
+                </div>
                 <div class="layui-col-xs12" style="width: 100%;text-align: center;">
                     <div class="layui-form-item">
                         <button type="submit" class="layui-btn" lay-submit lay-filter="form_sb" id="form_sb">确认</button>
@@ -173,17 +182,9 @@
             });
             initData(form);
             //处理字段之间的联动
-            form.on('select(kind)', function (data) {
-                if (data.value == 1) {
-                    jQuery(".port").show();
-                } else if(data.value == 2){
-                    jQuery(".port").hide();
-                }
-            });
             form.on('submit(form_sb)', function (data) {
                 //重新加载数据
                 params = data.field;
-                console.log(params);
                 $.ajax({
                     url: '/base/save',
                     type: 'get',
@@ -208,9 +209,7 @@
                     var code = data.code;
                     const record = data.data;
                     if (code == 0) {
-                        console.log(record);
                         form.val('myForm', record);
-
                     } else {
                         layer.msg('查询异常');
                     }

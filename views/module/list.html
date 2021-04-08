@@ -102,7 +102,7 @@
                         <div class="layui-input-block">
                             <select name="readKind" lay-verify="" lay-filter="readKind">
                                 <option value="">请选择读取数据类型</option>
-                                <option value="1" selected>数据库</option>
+                                <option value="1">数据库</option>
                                 <option value="2">接口</option>
                             </select>
                         </div>
@@ -143,7 +143,7 @@
                         <div class="layui-input-block">
                             <select name="writeKind" lay-verify="" lay-filter="writeKind">
                                 <option value="">请选择写入数据类型</option>
-                                <option value="1" selected>数据库</option>
+                                <option value="1">数据库</option>
                                 <option value="2">接口</option>
                             </select>
                         </div>
@@ -182,20 +182,42 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">轮询方式</label>
                         <div class="layui-input-block">
-                            <select name="polling_mode" lay-verify="" id="polling_mode">
+                            <select name="polling_mode" lay-verify="" lay-filter="polling_mode" id="polling_mode"
+                                lay-search>
                                 <option value="">请选择拉取信息轮询方式</option>
-                                <option value="1">间隔X毫秒拉取</option>
+                                <option value="1">间隔X分钟拉取</option>
+                                <option value="3">固定时间点拉取（一般模式）</option>
                                 <option value="2">固定时间点拉取</option>
                             </select>
                         </div>
                     </div>
                 </div>
-                <div class="layui-col-xs6">
+                <div class="layui-col-xs6 mode1">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">间隔时间</label>
+                        <label class="layui-form-label">时间设置</label>
                         <div class="layui-input-block">
                             <input type="text" name="interval_" lay-verify='title' autocomplete="off"
-                                placeholder="请输入间隔时间" class="layui-input">
+                                placeholder="请输入时间" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 mode2">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">小时</label>
+                        <div class="layui-input-block">
+                            <select name="hourIndex" lay-verify="required" lay-filter="dict_val" id="hourIndex">
+                                <option value="">请选择小时</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 mode2">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">分钟</label>
+                        <div class="layui-input-block">
+                            <select name="minuteIndex" lay-verify="required" lay-filter="dict_val" id="minuteIndex">
+                                <option value="">请选择分钟</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -203,7 +225,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">查询条件</label>
                         <div class="layui-input-block">
-                            <input type="text" name="condition_str" lay-verify='' autocomplete="off"
+                            <input type="text" name="condition_str" lay-verify='sqlVerify' autocomplete="off"
                                 placeholder="读取数据库时的附加条件" class="layui-input">
                         </div>
                     </div>
@@ -248,8 +270,26 @@
                 , myUtils = layui.myUtils
                 , layer = layui.layer;
             var tableName = 'module';
+            form.verify({
+                sqlVerify: function (value, item) {
+                    if (value.indexOf(';') > -1) {
+                        return '不允许输入特殊符号';
+                    }
+                    const arr = ['delete ', 'update ', 'insert ', 'truncate ', 'drop ', 'alter ', 'add '];
+                    for (let i = 0; i < arr.length; i++) {
+                        const item = arr[i];
+                        if (value) {
+                            const val = value.toLowerCase();
+                            if (val.indexOf(item) > -1) {
+                                return '含有违法关键字';
+                            }
+                        }
+                    }
+                }
+            });
             myUtils.relObj(['parent_module_id', 'read_db_id', 'write_db_id', 'pull_api_id', 'send_api_id']);//查询关联对象
             cascadeField(form);
+            createOption(form);
             var tableIns = table.render({
                 elem: '#test-table-operate'
                 , url: '/base/searchList'
@@ -381,6 +421,31 @@
                     jQuery(".write2").show();
                 }
             });
+            form.on('select(polling_mode)', function (data) {
+                if (data.value == 1) {
+                    jQuery(".mode1").show();
+                    jQuery(".mode2").hide();
+                } else if (data.value == 2) {
+                    jQuery(".mode1").show();
+                    jQuery(".mode2").hide();
+                } else if (data.value == 3) {
+                    jQuery(".mode1").hide();
+                    jQuery(".mode2").show();
+                }
+            })
+        }
+        function createOption(form) {
+            const hourIndex = jQuery('#hourIndex');
+            const minuteIndex = jQuery('#minuteIndex');
+            for (let i = 1; i < 61; i++) {
+                let text = "00" + i;
+                text = text.slice(-2);
+                if (i < 25) {
+                    hourIndex.append(`<option value="${text}">${text}</option>`);
+                }
+                minuteIndex.append(`<option value="${text}">${text}</option>`);
+            }
+            form.render();
         }
     </script>
 </body>

@@ -20,7 +20,8 @@ domain.project = {
     database_                           : 'string',
     kind                                : 'int',
     url                                 : 'string',
-    authToken                           : 'string'
+    authToken                           : 'string',
+    user_id                             : 'int'
 }
 
 /**
@@ -45,6 +46,8 @@ domain.module = {
     state                               : 'int',
     timeField                           : 'string',
     timestamp_                          : 'string',
+    hourIndex                           : 'string',
+    minuteIndex                         : 'string',
     remark                              : 'string'
 }
 

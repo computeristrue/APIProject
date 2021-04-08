@@ -127,7 +127,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">关联字典</label>
                         <div class="layui-input-block">
-                            <select name="dict_id" lay-verify="" id="dict_id" dict="dataDict" lay-filter="dict_id">
+                            <select name="dict_id" lay-verify="" id="dict_id" lay-filter="dict_id" lay-search>
                                 <option value="">请选择数据字典</option>
                             </select>
                         </div>
@@ -135,19 +135,29 @@
                 </div>
                 <div class="layui-col-xs6 dictP">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">显示字段</label>
+                        <label class="layui-form-label">读取显示字段</label>
                         <div class="layui-input-block">
-                            <input type="text" name="dict_text" autocomplete="off" placeholder="请输入数据字典显示字段"
-                                class="layui-input">
+                            <select name="dict_text" lay-verify="required" lay-filter="dict_text">
+                                <option value="">请选择显示字段</option>
+                                <option value="id">id</option>
+                                <option value="text">名称</option>
+                                <option value="encode">编码</option>
+                                <option value="three_part_code">第三方编码</option>
+                            </select>
                         </div>
                     </div>
                 </div>
                 <div class="layui-col-xs6 dictP">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">实际字段</label>
+                        <label class="layui-form-label">写入实际字段</label>
                         <div class="layui-input-block">
-                            <input type="text" name="dict_val" autocomplete="off" placeholder="请输入数据字典实际字段"
-                                class="layui-input">
+                            <select name="dict_val" lay-verify="required" lay-filter="dict_val">
+                                <option value="">请选择显示字段</option>
+                                <option value="id">id</option>
+                                <option value="text">名称</option>
+                                <option value="encode">编码</option>
+                                <option value="three_part_code">第三方编码</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -225,14 +235,14 @@
                 , util = layui.util
                 , myUtils = layui.myUtils;
             var tableName = "userField";
-            myUtils.relObj(['module_id', 'dict_id']);//查询关联对象
+            myUtils.relObj(['module_id']);//查询关联对象
             cascadeField(form)
             generateDict(form);
             var tableIns = table.render({
                 elem: '#test-table-operate'
                 , url: '/base/searchList'
                 , where: { tableName: tableName }
-                , cellMinWidth:100
+                , cellMinWidth: 100
                 , cols: [[
                     { type: 'checkbox', fixed: 'left' }
                     , { field: 'id', title: 'id', hide: true }
@@ -269,8 +279,7 @@
                             return d.is_detail == 1 ? '是' : '否';
                         }
                     }
-                    , { field: 'dict_id', title: '关联数据字典ID', width: 100, align: 'center' }
-                    , { field: 'dict_text', title: '数据字典显示字段', width: 100, align: 'center' }
+                    , { field: 'dict_show', title: '关联数据字典', width: 120, align: 'center' }
                     , { field: 'default_field', title: '默认值', width: 100, align: 'center' }
                     , { field: 'decimal_place', title: '小数位数', width: 100, align: 'center' }
                     , { field: 'sdf', title: '日期格式', width: 100, align: 'center' }
@@ -339,6 +348,20 @@
                     for (var index in dict) {
                         var record = dict[index];
                         dq.append(`<option value="${record.id}">${record.name}</option>`);
+                    }
+                    form.render();
+                }
+            });
+            const dict_id = $("#dict_id");
+            $.ajax({
+                url: '/getDict',
+                type: 'get',
+                async: false,
+                success: function (data, textStatus) {
+                    var dict = data.arr;
+                    for (var index in dict) {
+                        var record = dict[index];
+                        dict_id.append(`<option value="${record.id}">${record.text}</option>`);
                     }
                     form.render();
                 }

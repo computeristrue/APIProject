@@ -30,6 +30,7 @@ create table if not exists project (
     kind int not null, -- 数据库类型 1、MySQL 2、SQL server
     url VARCHAR(255) not null, -- CRM域名
     authToken VARCHAR(50) not null, -- CRM的authToken
+    user_id int not null, -- 企业ID
     deleteFlag bit default 0, -- 删除标记
     dateCreated datetime, -- 创建时间
     lastUpdated datetime -- 修改时间
@@ -51,6 +52,8 @@ create table if not exists module(
     pull_api_id int, -- 拉取信息所用接口
     send_api_id int, -- 推送信息所用接口
     polling_mode int, -- 拉取信息的轮询方式 1、间隔X毫秒拉取 2、固定时间点拉取
+    hourIndex VARCHAR(30), -- 小时
+    minuteIndex VARCHAR(30), -- 分钟
     interval_ VARCHAR(30), -- 间隔时间
     condition_str VARCHAR(1000), -- 查询时补充条件
     state int, -- 是否已执行 1、是 2、否

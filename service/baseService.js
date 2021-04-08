@@ -8,6 +8,7 @@ const projectService = require('../service/projectService');
 const dataDictService = require('../service/dataDictService');
 const taskJobService = require('../service/taskJobService');
 const apiConfigService = require('../service/apiConfigService');
+const redis = require('../utils/redis');
 
 var me = {};
 
@@ -59,6 +60,14 @@ me.searchList = async (params,condition) => {
         pageCondition = condition + pageCondition;
         var listSql = me.generateListSql(tableName, pageCondition);
         results = await mysql.query(listSql);
+        if(tableName == 'userField'){
+            for (let i = 0; i < results.length; i++) {
+                let record = results[i];
+                if(record.dict_id){
+                    record.dict_show = await redis.hget('API_DATA_DICT_TEXT', record.dict_id);
+                }
+            }
+        }
     } catch (error) {
         console.log(error);
     }
@@ -191,7 +200,7 @@ me.generateUpdateSql = (params, ft, tableName) => {
         var val = params[key];
         var dbType = ft[key] ? ft[key] : 'string';
         if (dbType == 'string') {
-            val = val.replace(/'/g, "''");
+            val = val && val.replace(/'/g, "''");
             val = val ? `'${val}'` : 'null';
         }
         if ((dbType == 'double' || dbType == 'int') && key != 'id') {
@@ -237,7 +246,7 @@ me.saveAllInfo = async () => {
     await dbConfigService.refreshData();
     await userFieldService.refreshData();
     await projectService.refreshData();
-    await dataDictService.refreshData();
+    // await dataDictService.refreshData();
     await apiConfigService.refreshData();
     const sql = `update module set state = 2`;
     await mysql.query(sql);

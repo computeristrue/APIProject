@@ -70,7 +70,7 @@ const doAxios = async (API_CONFIG_ID, record) => {
             obj['content-type'] = 'application/json';
             break;
         case 2:
-            param = Qs.stringify(finallyRecord);
+            // param = Qs.stringify(finallyRecord);
             obj['content-type'] = 'application/x-www-form-urlencoded';
             break;
         case 3:

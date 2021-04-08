@@ -452,19 +452,38 @@ layui.define('view', function (exports) {
     }
     //关闭本系统
     , closeSystem: function () {
-      $.ajax({
-        url: '/admin/logout',
-        type: 'get',
-        async: false,
-        success: function (data, textStatus) {
-          console.log(data);
-          if (data.success) {
-            layer.msg(data.msg);
-            window.location.href = '/admin';
-          }else{
-            layer.msg(data.msg);
+      layer.confirm('是否登出?', { icon: 3, title: '提示' }, (index) => {
+        $.ajax({
+          url: '/admin/logout',
+          type: 'get',
+          async: false,
+          success: function (data, textStatus) {
+            console.log(data);
+            if (data.success) {
+              layer.msg(data.msg);
+              window.location.href = '/admin';
+            } else {
+              layer.msg(data.msg);
+            }
           }
-        }
+        });
+      })
+    }
+    //重启本系统
+    , reboot: function () {
+      layer.confirm('是否要立即重启', { icon: 3, title: '提示' }, (index) => {
+        setTimeout(() => {
+          layer.msg('重启成功，请刷新页面');
+          window.location.href = '/admin';
+        }, 1000 * 2);
+        $.ajax({
+          url: '/sys/execute',
+          type: 'get',
+          async: false,
+          data: { type: 1 },
+          success: function (data, textStatus) {
+          }
+        });
       });
     }
 

@@ -11,6 +11,8 @@ var dictRouter = require('./dict');
 var baseRouter = require('./base');
 var syncService = require('../service/syncService');
 var moduleService = require('../service/moduleService');
+const userFieldService = require("../service/userFieldService");
+const dataDictService = require("../service/dataDictService");
 
 router.use('/', indexRouter);
 
@@ -86,6 +88,8 @@ router.get('/download', (req, res) => {
 
 
 router.get('/getModule',moduleService.getModule);
+
+router.get('/getDict',dataDictService.getDict);
 
 
 /**
