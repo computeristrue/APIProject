@@ -205,7 +205,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">小时</label>
                         <div class="layui-input-block">
-                            <select name="hourIndex" lay-verify="required" lay-filter="dict_val" id="hourIndex">
+                            <select name="hourIndex" lay-verify="" lay-filter="dict_val" id="hourIndex">
                                 <option value="">请选择小时</option>
                             </select>
                         </div>
@@ -215,7 +215,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">分钟</label>
                         <div class="layui-input-block">
-                            <select name="minuteIndex" lay-verify="required" lay-filter="dict_val" id="minuteIndex">
+                            <select name="minuteIndex" lay-verify="" lay-filter="dict_val" id="minuteIndex">
                                 <option value="">请选择分钟</option>
                             </select>
                         </div>
@@ -432,7 +432,7 @@
                     jQuery(".mode1").hide();
                     jQuery(".mode2").show();
                 }
-            })
+            });
         }
         function createOption(form) {
             const hourIndex = jQuery('#hourIndex');

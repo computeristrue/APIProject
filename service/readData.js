@@ -59,7 +59,7 @@ const readAPI = async (redis_key, pull_api_id, id) => {
     let result = [];
     try {
         const API_CONFIG_ID = `API_CONFIG_ID_${pull_api_id}`;
-        const r = await doAxios.do(API_CONFIG_ID);
+        const r = await doAxios.do(API_CONFIG_ID,null,redis_key);
         if (r.finallyData) {
             result = r.finallyData;
         }

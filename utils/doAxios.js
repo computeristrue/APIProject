@@ -1,8 +1,9 @@
 const axios = require('axios');
 const redis = require('./redis');
 const Qs = require('qs');
+const dateUtils = require('../utils/dateUtils');
 
-const doAxios = async (API_CONFIG_ID, record) => {
+const doAxios = async (API_CONFIG_ID, record,redis_key) => {
     const method = Number(await redis.hget(API_CONFIG_ID, 'method'));
     let methodStr = '';
     switch (method) {
@@ -37,6 +38,13 @@ const doAxios = async (API_CONFIG_ID, record) => {
                 const extraValue = extraParam[extraName];
                 finallyRecord[extraName] = extraValue;
             }
+        }
+    }
+    if(redis_key){
+        const timeField = await redis.hget(redis_key, 'timeField');
+        const timestamp_ = await redis.hget(redis_key, 'timestamp_') || dateUtils.toString();
+        if (timeField) {
+            finallyRecord[timeField] = timestamp_;
         }
     }
     let data_place = await redis.hget(API_CONFIG_ID, 'data_place');
@@ -122,10 +130,6 @@ const doAxios = async (API_CONFIG_ID, record) => {
     return { finallyData: finallyData, syncResult: syncResult };
 }
 
-// (async () => {
-//     const result = await doAxios(`API_CONFIG_ID_${1}`, {});
-//     console.log(result);
-// })()
 module.exports = {
     do: doAxios
 }
