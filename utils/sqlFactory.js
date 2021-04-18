@@ -31,7 +31,7 @@ sf.MYSQL = function(ft,tableName,condition = "",isCRM = true){
                     name = fieldName.split('.')[1];
                 var keyStr = `${relTableName}_${alias}`;
                 if(!relTable[keyStr]){//owner.name owner.account employee.name employee.account
-                    forms += ` left join ${relTableName} on ${alias}_id = ${relTableName}.id`;
+                    forms += ` left join ${relTableName} on ${tableName}.${alias}_id = ${relTableName}.id`;
                     relTable[keyStr] = 1;
                 }
                 field.push(`${relTableName}.${name} as ${targetName}`);
@@ -82,7 +82,7 @@ sf.MSSQL = function(ft,tableName,condition = "",isCRM = true){
                     name = fieldName.split('.')[1];
                 var keyStr = `${relTableName}_${alias}`;
                 if(!relTable[keyStr]){//owner.name owner.account employee.name employee.account
-                    forms += ` left join ${relTableName} on ${alias}_id = ${relTableName}.id`;
+                    forms += ` left join ${relTableName} on ${tableName}.${alias}_id = ${relTableName}.id`;
                     relTable[keyStr] = 1;
                 }
                 if(item.is_date == 1){

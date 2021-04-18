@@ -108,7 +108,20 @@ const writeAPI = async (moduleId, redis_key, send_api_id, record, id, wyFieldNam
                 obj[key] = val;
             }
         }
-        const r = await doAxios.do(API_CONFIG_ID, obj);
+        const recordPlace = await redis.hget(API_CONFIG_ID,'recordPlace') || false;
+        let param = {};
+        if(recordPlace){
+            const type = recordPlace.split(':')[1] || "{}";
+            const n = recordPlace.split(':')[0];
+            if(type == '[]'){
+                param[n] = [obj];
+            }else if(type == '{}'){
+                param[n] = obj;
+            }
+        }else{
+            param = obj;
+        }
+        const r = await doAxios.do(API_CONFIG_ID, param);
         syncResult = r.syncResult || 0;
         msg = r.finallyData || "";
         if (msg) msg = JSON.stringify(msg);

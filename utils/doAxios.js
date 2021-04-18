@@ -26,9 +26,18 @@ const doAxios = async (API_CONFIG_ID, record,redis_key) => {
         for (const index in eArr) {
             if (Object.hasOwnProperty.call(eArr, index)) {
                 const item = eArr[index];
-                let arr = item.split(':');
-                if (arr[0] && arr[1]) {
-                    eObj[arr[0]] = arr[1];
+                let arr,n,v;
+                if(item.indexOf(':{') > -1){
+                    arr = item.split(':{');
+                    n = arr[0];
+                    v = `{${arr[1]}`;
+                }else{
+                    arr = item.split(':');
+                    n = arr[0];
+                    v = arr[1];
+                }
+                if (n && v) {
+                    eObj[n] = v;
                 }
             }
         }
@@ -96,7 +105,7 @@ const doAxios = async (API_CONFIG_ID, record,redis_key) => {
     if (headers) {
         operation['headers'] = headers;
     }
-    console.log(operation);
+    console.log(JSON.stringify(operation));
     let response = await axios(operation);
     const status = response.status, data = response.data;
     data_place = data_place.split('.');
@@ -104,7 +113,9 @@ const doAxios = async (API_CONFIG_ID, record,redis_key) => {
     for (const index in data_place) {
         if (Object.hasOwnProperty.call(data_place, index)) {
             const element = data_place[index];
-            if (element) {
+            if(element && element.indexOf('[') > -1){//todo 用正则分割类似于[d]结构，用来寻找数组的层级
+                finallyRecord = eval(finallyRecord[element]);
+            }else if (element) {
                 finallyData = finallyData[element];
             }
         }
@@ -114,7 +125,9 @@ const doAxios = async (API_CONFIG_ID, record,redis_key) => {
     for (const index in success_place) {
         if (Object.hasOwnProperty.call(success_place, index)) {
             const element = success_place[index];
-            if (element) {
+            if(element && element.indexOf('[') > -1){//todo 用正则分割类似于[d]结构，用来寻找数组的层级
+                finallyRecord = eval(finallyRecord.element);
+            }else if (element) {
                 successFlag = successFlag[element];
             }
         }

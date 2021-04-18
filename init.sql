@@ -118,6 +118,7 @@ create table if not exists apiConfig(
     headers VARCHAR(255), -- headers 手动填写key:val并用分号隔开
     contentType int not null, -- 数据包装方式 1、application/json 2、application/x-www-form-urlencoded 3、application/xml 4、multipart/form-data（划掉，先不搞这个）
     extraParam VARCHAR(1000), -- 附加参数 手动填写key:val并用分号隔开
+    recordPlace VARCHAR(30), -- 原数据存放位置，默认为根节点
     data_place VARCHAR(50) not null, -- 返回数据的根节点位置
     success_place VARCHAR(50) not null, -- 返回成功标记的根节点位置
     success_val VARCHAR(50) not null, -- 成功标记的值
