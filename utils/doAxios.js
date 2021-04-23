@@ -112,9 +112,18 @@ const doAxios = async (API_CONFIG_ID, record,redis_key) => {
     let finallyData = data;
     for (const index in data_place) {
         if (Object.hasOwnProperty.call(data_place, index)) {
-            const element = data_place[index];
-            if(element && element.indexOf('[') > -1){//todo 用正则分割类似于[d]结构，用来寻找数组的层级
-                finallyRecord = eval(finallyRecord[element]);
+            let element = data_place[index];
+            if(element && element.indexOf('[') > -1){
+                element = element.replace(/\[/g,'*').replace(/\]/g,'*');
+                element = element.split('*');
+                for (const i in element) {
+                    if (Object.hasOwnProperty.call(element, i)) {
+                        const el = element[i];
+                        if(el){
+                            finallyRecord = finallyData[el];
+                        }
+                    }
+                }
             }else if (element) {
                 finallyData = finallyData[element];
             }
@@ -124,9 +133,18 @@ const doAxios = async (API_CONFIG_ID, record,redis_key) => {
     success_place = success_place.split('.');
     for (const index in success_place) {
         if (Object.hasOwnProperty.call(success_place, index)) {
-            const element = success_place[index];
-            if(element && element.indexOf('[') > -1){//todo 用正则分割类似于[d]结构，用来寻找数组的层级
-                finallyRecord = eval(finallyRecord.element);
+            let element = success_place[index];
+            if(element && element.indexOf('[') > -1){
+                element = element.replace(/\[/g,'*').replace(/\]/g,'*');
+                element = element.split('*');
+                for (const i in element) {
+                    if (Object.hasOwnProperty.call(element, i)) {
+                        const el = element[i];
+                        if(el){
+                            successFlag = successFlag[el];
+                        }
+                    }
+                }
             }else if (element) {
                 successFlag = successFlag[element];
             }

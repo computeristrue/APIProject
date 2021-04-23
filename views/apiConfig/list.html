@@ -118,6 +118,18 @@
                 </div>
                 <div class="layui-col-xs6">
                     <div class="layui-form-item">
+                        <label class="layui-form-label">原数据格式</label>
+                        <div class="layui-input-block">
+                            <select name="recordKind" lay-verify="required">
+                                <option value="">请选择原数据格式</option>
+                                <option value="1" selected>JSON对象</option>
+                                <option value="2">数组</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
                         <label class="layui-form-label">数据节点</label>
                         <div class="layui-input-block">
                             <input type="text" name="data_place" lay-verify='required' autocomplete="off"
@@ -197,6 +209,20 @@
                         return type;
                     }}
                     , { field: 'recordPlace', title: '原数据包装名' }
+                    , { field: 'recordKind', title: '原数据包装格式' ,templet:(d)=>{
+                        let kind = '';
+                        switch (d.recordKind) {
+                            case 1:
+                                kind = 'JSON对象';
+                                break;
+                            case 2:
+                                kind = '数组';
+                                break;
+                            default:
+                                break;
+                        }
+                        return kind;
+                    }}
                     , { field: 'data_place', title: '数据节点' }
                     , { field: 'success_place', title: '成功节点' }
                     , { field: 'success_val', title: '成功值' }

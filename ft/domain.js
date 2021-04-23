@@ -102,6 +102,7 @@ domain.apiConfig ={
     headers                             : 'string',
     extraParam                          : 'string',
     recordPlace                         : 'string',
+    recordKind                          : 'int',
     data_place                          : 'string',
     success_place                       : 'string',
     success_val                         : 'string'

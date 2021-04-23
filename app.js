@@ -47,6 +47,8 @@ app.all('/*',(req,res,next)=>{//权限控制
   if(!session.user){
     if(m(url)){//不需要鉴权的地址
       next();
+    }else if(url == '/'){
+      next();
     }else if(url == '/noSession'){
       res.render('noSession');
     }else if(!regx.test(url)){

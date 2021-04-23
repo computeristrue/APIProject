@@ -16,6 +16,10 @@ const dataDictService = require("../service/dataDictService");
 
 router.use('/', indexRouter);
 
+router.get('/u',(req,res)=>{
+    res.render('index');
+})
+
 /**
  * 匹配以/list结尾的URL并渲染对应页面
  */
