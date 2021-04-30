@@ -3,4 +3,4 @@ public/module
 logs
 target
 zipDir
-pm2Log
+/pm2Log/
