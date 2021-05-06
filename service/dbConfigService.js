@@ -8,6 +8,7 @@ const refreshData = async () => {
     for (let i = 0; i < records.length; i++) {
         const record = records[i];
         const id = record.id;
+        await redis.del(`API_DB_ID_${id}`);
         let json = {};
         let info = {};
         let obj = {};

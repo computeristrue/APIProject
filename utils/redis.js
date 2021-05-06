@@ -217,6 +217,36 @@ r.hget = async (key,field)=>{
 }
 
 /**
+ * 按照key,field删除hset数据
+ * @param {*} key 
+ * @param {*} field 
+ */
+r.hdel = async (key,field)=>{
+    return new Promise((resolve,reject)=>{
+        client.hdel(key,field,(err,data)=>{
+            if(err){
+                log.info(err);
+                reject(err);
+            }
+            resolve(data);
+        })
+    })
+}
+
+
+/**
+ * 按照key删除数据
+ * @param {*} key 
+ */
+r.del = async (key)=>{
+    try{
+        client.del(key);
+    }catch(error){
+        log.info(error);
+    };
+}
+
+/**
  * 设置过期秒数
  * @param {*} key 
  * @param {秒数} second 

@@ -5,6 +5,8 @@ const baseSql = require('../utils/baseSql');
 const doAxios = require('../utils/doAxios');
 const dateUtils = require('../utils/dateUtils');
 const mysql = require('../utils/mysql');
+const moment = require('moment');
+const gSql = require('../utils/generateSql');
 
 /**
  * 从数据库读取数据
@@ -131,10 +133,12 @@ const readDetail = async (moduleId,mainFt, records) => {
                 }
                 let detail = [];
                 const r2 = await baseSql.query(read_db_info, selectSql);
-                r2 && r2.map(item=>{
+                for (let j = 0; j < r2.length; j++) {
+                    let item = r2[j];
+                    item = (await gSql.manageFieldValue(moduleId,item,ft,tableName)).keyVal;
                     item = JSON.parse(JSON.stringify(item));
                     detail.push(item);
-                });
+                }
                 record[detailName] = detail;
             }
         }
@@ -144,6 +148,46 @@ const readDetail = async (moduleId,mainFt, records) => {
         return records;
     };
 }
+
+// /**
+//  * 根据moduleId对应的字段配置去格式化数据
+//  * @param {*} moduleId 
+//  * @param {*} records 
+//  */
+// const parseData = async (moduleId,records)=>{
+//     try{
+//         const ft = JSON.parse(await redis.hget(`API_${moduleId}`, 'ft'));
+//         let info = {};
+//         for (let i = 0; i < ft.length; i++) {
+//             const item = ft[i];
+//             info[item.target_field] = item;
+//         }
+//     for (let i = 0; i < records.length; i++) {
+//         let record = records[i];
+//         for (const key in record) {
+//             if (Object.hasOwnProperty.call(record, key)) {
+//                 let val = record[key];
+//                 const item = info[key];
+//                 if(item){
+//                     if(item.is_date == 1){
+//                         let sdf = item.sdf || 'YYYY-MM-DD';
+//                         val = val ? moment(val).format(sdf) : '';
+//                     }
+//                     if(item.is_double == 1){
+//                         let decimal_place = item.decimal_place || 2;
+//                         val = val ? val.toFixed(decimal_place) : 0;
+//                     }
+//                     record[key] = val;
+//                 }
+//             }
+//         }
+//     }
+//     }catch(error){
+//         log.info(error);
+//     }finally{
+//         return records;
+//     };
+// }
 
 module.exports = async (moduleId, id = null) => {
     let result = [];

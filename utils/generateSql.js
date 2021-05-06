@@ -61,19 +61,19 @@ const manageFieldValue = async (moduleId, record, ft, tableName = null) => {
         } else if (fieldInfo.is_dict == 1) {
             let dict = await redis.hget('API_DATA_DICT', fieldInfo.dict_id);
             dict = JSON.parse(dict);
-            dict.forEach(d => {
+            dict && dict.forEach(d => {
                 if (d[fieldInfo['dict_text']] == val) {
                     val = d[fieldInfo['dict_val']];
                 }
             });
         } else if (fieldInfo.is_double == 1) {
             val = val ? val : 0;
-            if (fieldInfo.decimal_place) {
-                val = Number(val.toFixed(fieldInfo.decimal_place));
-            }
+            const decimal_place = fieldInfo.decimal_place || 2;
+            val = val ? Number(val.toFixed(fieldInfo.decimal_place)) : 0;
         } else if (fieldInfo.is_date == 1) {
-            if (fieldInfo.sdf && val) {
-                val = `'${moment(val).format(fieldInfo.sdf)}'`;
+            const sdf = fieldInfo.sdf || 'YYYY-MM-DD';
+            if (val) {
+                val = `'${moment(val).format(sdf)}'`;
             }
         } else if(fieldInfo.is_detail == 1){
             val = val ? JSON.stringify(val) : "";//note 明细字段

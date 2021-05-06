@@ -8,6 +8,7 @@ const refreshData = async () => {
     for (let i = 0; i < records.length; i++) {
         const record = records[i];
         const moduleId = record.moduleId;
+        await redis.del(`API_${moduleId}`);
         for (const key in record) {
             if (Object.hasOwnProperty.call(record, key)) {
                 let val = record[key];

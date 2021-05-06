@@ -100,7 +100,7 @@ const doAxios = async (API_CONFIG_ID, record,redis_key) => {
     let operation = {
         url: url,
         method: methodStr,
-        params: param
+        data: param
     }
     if (headers) {
         operation['headers'] = headers;

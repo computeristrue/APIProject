@@ -7,6 +7,7 @@ const refreshData = async()=>{
     const re = await mysql.query(sql);
     for (let i = 0; i < re.length; i++) {
         const record = re[i];
+        await redis.del(`API_CONFIG_ID_${record.id}`);
         for (const key in record) {
             if (Object.hasOwnProperty.call(record, key)) {
                 let val = record[key];

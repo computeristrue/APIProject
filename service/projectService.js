@@ -58,7 +58,7 @@ const saveBasicDB = async()=>{
       }
       const selectSql = `select id from dbConfig where isBasic = 1 and deleteFlag = 0`;
       const insertSql = `insert into dbConfig(${fieldArr.join(',')}) values(${valueArr.join(',')})`;
-      const updateSql = `update dbConfig set ${str} where isBasic = 2 and deleteFlag = 0`;
+      const updateSql = `update dbConfig set ${str} where isBasic = 1 and deleteFlag = 0`;
       const r1 = await mysql.query(selectSql);
       if(r1 && r1.length > 0){
           await mysql.query(updateSql);
@@ -75,6 +75,7 @@ const refreshData = async () => {
     const records = await mysql.query(sql);
     const record = records && records[0];
     const key = "API_BASIC_INFO";
+    await redis.del(key);
     let dbInfo = {};
     let dbType = record.kind == 1 ? 'mysql' : 'sqlServer';
     let info = {}, obj = {};

@@ -6,6 +6,7 @@ const baseSql = require('../utils/baseSql');
 const refreshData = async () => {
     var sql = `select dict_id dataId from userField where deleteFlag = 0 and dict_id is not null`;
     const records = await mysql.query(sql);
+    await redis.del(`API_DATA_DICT`);
     for (let i = 0; i < records.length; i++) {
         const record = records[i];
         const dbInfo = JSON.parse(await redis.hget("API_BASIC_INFO", 'dbInfo'));
