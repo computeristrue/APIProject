@@ -135,9 +135,26 @@ const readDetail = async (moduleId,mainFt, records) => {
                 const r2 = await baseSql.query(read_db_info, selectSql);
                 for (let j = 0; j < r2.length; j++) {
                     let item = r2[j];
-                    item = (await gSql.manageFieldValue(moduleId,item,ft,tableName)).keyVal;
-                    item = JSON.parse(JSON.stringify(item));
-                    detail.push(item);
+                    let keyVal = (await gSql.manageFieldValue(moduleId,item,ft,tableName)).keyVal;
+                    let obj = {};
+                    for (const key in keyVal) {
+                        if (Object.hasOwnProperty.call(keyVal, key)) {
+                            let val = keyVal[key];
+                            if(val){
+                                if(typeof val != 'object'){
+                                    val = val.toString();
+                                    if(val.startsWith(`'`) && val.endsWith(`'`)){
+                                        val = val.substring(1,val.length - 1);
+                                    }
+                                }
+                            }
+                            if(val == 'null'){
+                                val = "";
+                            }
+                            obj[key] = val;
+                        }
+                    }
+                    detail.push(obj);
                 }
                 record[detailName] = detail;
             }

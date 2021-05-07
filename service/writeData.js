@@ -134,7 +134,7 @@ const writeAPI = async (moduleId, redis_key, send_api_id, record, id, wyFieldNam
         }
         const r = await doAxios.do(API_CONFIG_ID, param);
         syncResult = r.syncResult || 0;
-        msg = r.finallyData || "";
+        msg = r.data || "";
         if (msg) msg = JSON.stringify(msg);
     } catch (error) {
         log.info(error);

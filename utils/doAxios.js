@@ -129,7 +129,7 @@ const doAxios = async (API_CONFIG_ID, record,redis_key) => {
                     if (Object.hasOwnProperty.call(element, i)) {
                         const el = element[i];
                         if(el){
-                            finallyRecord = finallyData[el];
+                            finallyData = finallyData[el];
                         }
                     }
                 }
@@ -168,7 +168,7 @@ const doAxios = async (API_CONFIG_ID, record,redis_key) => {
         }
     }
     console.log(finallyData,syncResult);
-    return { finallyData: finallyData, syncResult: syncResult };
+    return { finallyData: finallyData, syncResult: syncResult ,data:data};
 }
 
 module.exports = {
