@@ -100,10 +100,15 @@ const writeAPI = async (moduleId, redis_key, send_api_id, record, id, wyFieldNam
             if (Object.hasOwnProperty.call(keyVal, key)) {
                 let val = keyVal[key];
                 if(val){
-                    val = val.toString();
-                    if(val.startsWith(`'`) && val.endsWith(`'`)){
-                        val = val.substring(1,val.length - 1);
+                    if(typeof val != 'object'){
+                        val = val.toString();
+                        if(val.startsWith(`'`) && val.endsWith(`'`)){
+                            val = val.substring(1,val.length - 1);
+                        }
                     }
+                }
+                if(val == 'null'){
+                    val = "";
                 }
                 obj[key] = val;
             }
@@ -119,10 +124,12 @@ const writeAPI = async (moduleId, redis_key, send_api_id, record, id, wyFieldNam
                 param = obj;
             }
         }else if(recordKind == 2){
+            let arr = [];
+            arr.push(obj);
             if(recordPlace){
-                param[recordPlace] = [obj];
+                param[recordPlace] = arr;
             }else{
-                param = [obj];
+                param = arr;
             }
         }
         const r = await doAxios.do(API_CONFIG_ID, param);

@@ -1,3 +1,4 @@
+const log = require('./log').logger;
 const axios = require('axios');
 const redis = require('./redis');
 const Qs = require('qs');
@@ -31,6 +32,7 @@ const doAxios = async (API_CONFIG_ID, record,redis_key) => {
                     arr = item.split(':{');
                     n = arr[0];
                     v = `{${arr[1]}`;
+                    v = JSON.parse(v);
                 }else{
                     arr = item.split(':');
                     n = arr[0];
@@ -105,9 +107,16 @@ const doAxios = async (API_CONFIG_ID, record,redis_key) => {
     if (headers) {
         operation['headers'] = headers;
     }
-    console.log(JSON.stringify(operation));
-    let response = await axios(operation);
+    console.log(JSON.stringify(param));
+    let response;
+    try{
+        response = await axios(operation);
+    }catch(error){
+        log.info(error);
+    };
     const status = response.status, data = response.data;
+    console.log(status);
+    console.log(data);
     data_place = data_place.split('.');
     let finallyData = data;
     for (const index in data_place) {
@@ -158,6 +167,7 @@ const doAxios = async (API_CONFIG_ID, record,redis_key) => {
             syncResult = 2;
         }
     }
+    console.log(finallyData,syncResult);
     return { finallyData: finallyData, syncResult: syncResult };
 }
 
