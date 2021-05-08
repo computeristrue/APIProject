@@ -1,6 +1,7 @@
 const log = require('../utils/log').logger;
 const mysql = require('../utils/mysql');
 const redis = require('../utils/redis');
+const dataDictService = require('../service/dataDictService');
 
 const refreshData = async () => {
     const sql = `select u.*,m.moduleId from userField u left join module m on u.module_id = m.id where u.deleteFlag = 0 and m.deleteFlag = 0`;
@@ -36,6 +37,7 @@ const refreshData = async () => {
         }
     }
     console.log("字段配置缓存完毕");
+    dataDictService.refreshData();
 }
 
 
