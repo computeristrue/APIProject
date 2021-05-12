@@ -92,6 +92,7 @@ const writeAPI = async (moduleId, redis_key, send_api_id, record, id, wyFieldNam
     let syncResult = 0;
     let msg = "";
     let subject = wyFieldName ? wyFieldName : '推送数据';
+    let r;
     try {
         const API_CONFIG_ID = `API_CONFIG_ID_${send_api_id}`;
         let keyVal = (await gSql.manageFieldValue(moduleId,record,ft)).keyVal;
@@ -132,7 +133,7 @@ const writeAPI = async (moduleId, redis_key, send_api_id, record, id, wyFieldNam
                 param = arr;
             }
         }
-        const r = await doAxios.do(API_CONFIG_ID, param);
+        r = await doAxios.do(API_CONFIG_ID, param);
         syncResult = r.syncResult || 0;
         msg = r.data || "";
         if (msg) msg = JSON.stringify(msg);
@@ -140,7 +141,7 @@ const writeAPI = async (moduleId, redis_key, send_api_id, record, id, wyFieldNam
         log.info(error);
     } finally {
         //插入API日志
-        let remark = wyFieldName ? record[wyFieldName] : '';
+        let remark = wyFieldName ? record[wyFieldName] : r.finallyData;
         await apiLog.insert(moduleId, id, subject, syncResult, JSON.stringify(record), msg, remark);
         const kind = Number(await redis.hget(`API_${moduleId}`,'kind'));
         if (id && kind == 1) {//推送数据才回写同步状态

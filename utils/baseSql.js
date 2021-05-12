@@ -157,6 +157,7 @@ function query(dbInfo, sql) {
     try {
         if (!dbInfo) {
             log.info('dbInfo is null!');
+            return
         }
         var dbType = dbInfo.dbType;
         var info = dbInfo.info[dbType];

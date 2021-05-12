@@ -10,7 +10,6 @@ const refreshData = async () => {
     for (let i = 0; i < records.length; i++) {
         const record = records[i];
         const moduleId = record.moduleId;
-        await redis.hdel(`API_${moduleId}`,'ft');
         let info = {};
         for (const key in record) {
             if (Object.hasOwnProperty.call(record, key)) {
@@ -31,6 +30,7 @@ const refreshData = async () => {
         }
     }
     for (const moduleId in obj) {
+        await redis.hdel(`API_${moduleId}`,'ft');
         if (Object.hasOwnProperty.call(obj, moduleId)) {
             const info = obj[moduleId];
             redis.hset(`API_${moduleId}`, 'ft', JSON.stringify(info));
