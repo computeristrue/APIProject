@@ -242,10 +242,10 @@ me.delete = async (id, tableName) => {
  * 缓存所有配置信息
  */
 me.saveAllInfo = async () => {
+    await projectService.refreshData();
     await moduleService.refreshData();
     await dbConfigService.refreshData();
     await userFieldService.refreshData();
-    await projectService.refreshData();
     // await dataDictService.refreshData();
     await apiConfigService.refreshData();
     const sql = `update module set state = 2`;
