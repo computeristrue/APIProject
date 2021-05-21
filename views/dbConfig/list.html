@@ -90,6 +90,7 @@
                                 <option value="">请选择数据库类型</option>
                                 <option value="1" selected>MySQL</option>
                                 <option value="2">SQL server</option>
+                                <option value="3">Oracle</option>
                             </select>
                         </div>
                     </div>
@@ -107,7 +108,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">数据库名</label>
                         <div class="layui-input-block">
-                            <input type="text" name="database_" lay-verify='required' autocomplete="off"
+                            <input type="text" name="database_" lay-verify='' autocomplete="off"
                                 placeholder="请输入数据库名称" class="layui-input">
                         </div>
                     </div>
@@ -157,7 +158,15 @@
                     , { field: 'port', title: '端口'}
                     , { field: 'database_', title: '数据库名'}
                     , { field: 'kind', title: '类型',templet:(d)=>{
-                        return d.kind == 1 ? 'MySQL' : 'SQL Server';
+                        let str = "";
+                        if(d.kind == 1){
+                            str = 'MySQL';
+                        }else if(d.kind == 2){
+                            str = 'SQL Server';
+                        }else if(d.kind == 3){
+                            str = 'Oracle';
+                        }
+                        return str;
                     }}
                     , { field: 'remark', title: '备注'}
                     , {

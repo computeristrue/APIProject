@@ -2,6 +2,8 @@ const config = require('./config').config;
 const log = require('./log').logger;
 const mysql = require('mysql');
 const mssql = require('mssql');
+const { sleep } = require('./baseUtils');
+const oracle = require('./oracle');
 
 async function mysqlQuery(info, sql) {
     let rows = [];
@@ -32,9 +34,8 @@ function getConnection(pool, num = 1) {
             pool.getConnection((err, connection) => {
                 if (err) {
                     log.info('MySql execute Error:' + JSON.stringify(err));
-                    setTimeout(() => {
-                        getConnection(pool, num++);
-                    }, 1000 * 5);
+                    sleep(5000);
+                    getConnection(pool, ++num);
                 } else {
                     resolve(connection);
                 }
@@ -165,6 +166,8 @@ function query(dbInfo, sql) {
             return mysqlQuery(info, sql)
         } else if (dbType == 'sqlServer') {
             return mssqlQuery(info, sql);
+        } else if (dbType == 'oracle') {
+            return oracle.query(info, sql);
         }
     } catch (error) {
         log.info(error);

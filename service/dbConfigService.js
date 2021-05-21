@@ -18,15 +18,18 @@ const refreshData = async () => {
             obj.port = record.port;
         } else if (record.kind == 2) {
             kindText = 'sqlServer';
+        } else if (record.kind == 3) {
+            kindText = 'oracle';
         }
         json.dbType = kindText;
         const proArr = ['host', 'user', 'password', 'database_'];
         for (const index in proArr) {
             let key = proArr[index];
             let val = record[key];
-            if(!val) val = "";
-            if(key == 'database_') key = 'database';
-            if(key == 'host' && kindText == 'sqlServer') key = 'server';
+            if (!val) val = "";
+            if (key == 'database_') key = 'database';
+            if (key == 'host' && kindText == 'sqlServer') key = 'server';
+            if (key == 'host' && kindText == 'oracle') key = 'connectString'
             obj[key] = val;
         }
         info[kindText] = obj;

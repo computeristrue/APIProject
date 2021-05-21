@@ -99,7 +99,7 @@ create table if not exists dbConfig(
     user VARCHAR(30) not null,
     password VARCHAR(30) not null,
     port VARCHAR(30),
-    database_ VARCHAR(30) not null,
+    database_ VARCHAR(30),
     kind int not null, -- 数据库类型 1、MySQL 2、SQL server
     remark VARCHAR(255),
     isBasic int default 2, -- 是否复制的基础信息

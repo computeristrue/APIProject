@@ -8,13 +8,13 @@ const refreshData = async () => {
     for (let i = 0; i < records.length; i++) {
         const record = records[i];
         const moduleId = record.moduleId;
-        await redis.del(`API_${moduleId}`);
         for (const key in record) {
             if (Object.hasOwnProperty.call(record, key)) {
                 let val = record[key];
                 if(!val) val = "";
                 if (['deleteFlag', 'dateCreated', 'lastUpdated'].indexOf(key) < 0) {
-                    redis.hset(`API_${moduleId}`, key, val);
+                    await redis.hdel(`API_${moduleId}`,key);
+                    await redis.hset(`API_${moduleId}`, key, val);
                 }
             }
         }
