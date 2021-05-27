@@ -8,7 +8,6 @@ const refreshData = async () => {
     for (let i = 0; i < records.length; i++) {
         const record = records[i];
         const id = record.id;
-        await redis.del(`API_DB_ID_${id}`);
         let json = {};
         let info = {};
         let obj = {};
@@ -34,7 +33,8 @@ const refreshData = async () => {
         }
         info[kindText] = obj;
         json.info = info;
-        redis.set(`API_DB_ID_${id}`, json);
+        await redis.del(`API_DB_ID_${id}`);
+        await redis.set(`API_DB_ID_${id}`, json);
     }
     console.log("数据库配置缓存完毕");
 }

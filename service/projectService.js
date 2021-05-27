@@ -87,12 +87,12 @@ const refreshData = async () => {
     info[dbType] = obj;
     dbInfo.dbType = dbType;
     dbInfo.info = info;
-    redis.hset(key, 'dbInfo', JSON.stringify(dbInfo));
-    redis.hset(key, "name", record.name);
-    redis.hset(key, "path", record.path);
-    redis.hset(key, 'url', record.url);
-    redis.hset(key, 'authToken', record.authToken);
-    redis.hset(key, 'user_id', record.user_id);
+    await redis.hset(key, 'dbInfo', JSON.stringify(dbInfo));
+    await redis.hset(key, "name", record.name);
+    await redis.hset(key, "path", record.path);
+    await redis.hset(key, 'url', record.url);
+    await redis.hset(key, 'authToken', record.authToken);
+    await redis.hset(key, 'user_id', record.user_id);
     console.log('基本信息缓存完毕');
     await saveBasicDB();//更新dbConfig中的那个默认配置
 }

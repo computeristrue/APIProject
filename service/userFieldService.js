@@ -30,10 +30,10 @@ const refreshData = async () => {
         }
     }
     for (const moduleId in obj) {
-        await redis.hdel(`API_${moduleId}`,'ft');
         if (Object.hasOwnProperty.call(obj, moduleId)) {
             const info = obj[moduleId];
-            redis.hset(`API_${moduleId}`, 'ft', JSON.stringify(info));
+            await redis.hdel(`API_${moduleId}`,'ft');
+            await redis.hset(`API_${moduleId}`, 'ft', JSON.stringify(info));
         }
     }
     console.log("字段配置缓存完毕");
