@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>保存</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../../layuiadmin/style/admin.css" media="all">
+
+    <script src="../../../javascripts/jquery-3.3.1.min.js"></script>
+    <script src="../../../javascripts/basetable.js"></script>
+</head>
+
+<body>
+
+    <div class="site-text" style="margin: 5% 5% 5% 0;" id="window">
+        <input type="hidden" id="oldRecord">
+        <form class="layui-form" id="myForm" lay-filter="myForm">
+            <div class="layui-row">
+                <input type="hidden" name="id" autocomplete="off" class="layui-input">
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">模块名</label>
+                        <div class="layui-input-block">
+                            <select name="module_id" lay-verify="required" id="module_id" dict="module"
+                                lay-filter="module_id">
+                                <option value="">请选择所属模块</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">源字段</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="origin_field" lay-verify='required' autocomplete="off"
+                                placeholder="请输入源字段" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">目标字段</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="target_field" lay-verify='required' autocomplete="off"
+                                placeholder="请输入目标字段" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">唯一</label>
+                        <div class="layui-input-block">
+                            <select name="is_weiyi" lay-verify="" lay-filter="is_weiyi">
+                                <option value="">是否唯一字段</option>
+                                <option value="1">是</option>
+                                <option value="2">否</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">默认值</label>
+                        <div class="layui-input-block">
+                            <select name="is_default" lay-verify="" lay-filter="is_default">
+                                <option value="">是否默认值</option>
+                                <option value="1">是</option>
+                                <option value="2">否</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 defaultText">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">默认值</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="default_field" autocomplete="off" placeholder="请输入默认值"
+                                class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">数据字典</label>
+                        <div class="layui-input-block">
+                            <select name="is_dict" lay-verify="" lay-filter="is_dict">
+                                <option value="">是否是数据字典类型</option>
+                                <option value="1">是</option>
+                                <option value="2">否</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 dictP">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">关联字典</label>
+                        <div class="layui-input-block">
+                            <select name="dict_id" lay-verify="" id="dict_id" lay-filter="dict_id" lay-search>
+                                <option value="">请选择数据字典</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 dictP">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">读取显示字段</label>
+                        <div class="layui-input-block">
+                            <select name="dict_text" lay-verify="" lay-filter="dict_text">
+                                <option value="">请选择字段</option>
+                                <option value="item_id">id</option>
+                                <option value="text">名称</option>
+                                <option value="encode">编码</option>
+                                <option value="three_part_code">第三方编码</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 dictP">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">写入实际字段</label>
+                        <div class="layui-input-block">
+                            <select name="dict_val" lay-verify="" lay-filter="dict_val">
+                                <option value="">请选择字段</option>
+                                <option value="item_id">id</option>
+                                <option value="text">名称</option>
+                                <option value="encode">编码</option>
+                                <option value="three_part_code">第三方编码</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">数值字段</label>
+                        <div class="layui-input-block">
+                            <select name="is_double" lay-verify="" lay-filter="is_double">
+                                <option value="">是否是数值类型</option>
+                                <option value="1">是</option>
+                                <option value="2">否</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 doubleP">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">小数位数</label>
+                        <div class="layui-input-block">
+                            <input type="number" name="decimal_place" autocomplete="off" placeholder="请输入小数位数" value="2"
+                                class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">时间字段</label>
+                        <div class="layui-input-block">
+                            <select name="is_date" lay-verify="" lay-filter="is_date">
+                                <option value="">是否是时间字段</option>
+                                <option value="1">是</option>
+                                <option value="2">否</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 dateP">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">日期格式化</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="sdf" autocomplete="off" placeholder="请输入日期格式化" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">明细字段</label>
+                        <div class="layui-input-block">
+                            <select name="is_detail" lay-verify="" lay-filter="is_detail">
+                                <option value="">是否是明细字段</option>
+                                <option value="1">是</option>
+                                <option value="2">否</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">关联CRM表</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="table_name" autocomplete="off" placeholder="源字段带点必填；请输入关联CRM表名"
+                                class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-hide">
+                    <input type="button" lay-submit lay-filter="form_submit_btn" id="form_submit_btn" value="确认">
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script src="../../../layuiadmin/layui/layui.js"></script>
+    <script>
+        layui.config({
+            base: '../../../layuiadmin/' //静态资源所在路径
+        }).extend({
+            index: 'lib/index' //主入口模块
+        }).use(['index', 'table', 'view', 'form', 'util', 'myUtils'], function () {
+            var table = layui.table
+                , admin = layui.admin
+                , view = layui.view
+                , form = layui.form
+                , util = layui.util
+                , myUtils = layui.myUtils;
+            myUtils.relObj(['module_id']);//查询关联对象
+            cascadeField(form)//字段联动
+            generateDict(form);//拼接下拉字段
+            formLoadData(form);//加载数据
+        });
+        function generateDict(form) {
+            const dict_id = $("#dict_id");
+            $.ajax({
+                url: '/getDict',
+                type: 'get',
+                async: false,
+                success: function (data, textStatus) {
+                    var dict = data.arr;
+                    for (var index in dict) {
+                        var record = dict[index];
+                        dict_id.append(`<option value="${record.id}">${record.text}</option>`);
+                    }
+                    form.render();
+                }
+            });
+        }
+        function cascadeField(form) {
+            form.on('select(is_default)', function (data) {
+                if (data.value == 1) {
+                    jQuery(".defaultText").show();
+                } else if (data.value == 2) {
+                    jQuery(".defaultText").hide();
+                }
+            });
+            form.on('select(is_dict)', function (data) {
+                if (data.value == 1) {
+                    jQuery(".dictP").show();
+                } else if (data.value == 2) {
+                    jQuery(".dictP").hide();
+                }
+            });
+            form.on('select(is_double)', function (data) {
+                if (data.value == 1) {
+                    jQuery(".doubleP").show();
+                } else if (data.value == 2) {
+                    jQuery(".doubleP").hide();
+                }
+            });
+            form.on('select(is_date)', function (data) {
+                if (data.value == 1) {
+                    jQuery(".dateP").show();
+                } else if (data.value == 2) {
+                    jQuery(".dateP").hide();
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

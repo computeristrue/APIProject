@@ -42,219 +42,6 @@
         </div>
     </div>
 
-
-    <div class="site-text" style="margin: 5% 5% 5% 0;display: none;" id="window">
-        <form class="layui-form" id="myForm" lay-filter="myForm">
-            <div class="layui-row">
-                <input type="hidden" name="id" autocomplete="off" class="layui-input">
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">模块名</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="name" lay-verify='required' autocomplete="off" placeholder="模块名"
-                                class="layui-input">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">模块ID</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="moduleId" lay-verify='required' autocomplete="off"
-                                placeholder="请输入模块ID" class="layui-input">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">是否子模块</label>
-                        <div class="layui-input-block">
-                            <input type="radio" name="is_child" value="1" title="是" lay-filter="isChild">
-                            <input type="radio" name="is_child" value="2" title="否" checked lay-filter="isChild">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6 parent">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">父模块</label>
-                        <div class="layui-input-block">
-                            <select name="parent_module_id" lay-verify="" id="parent_module_id" dict="module">
-                                <option value="">请选择父模块</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">模块类型</label>
-                        <div class="layui-input-block">
-                            <select name="kind" lay-verify="required" id="kind">
-                                <option value="">请选择模块类型</option>
-                                <option value="1">推送</option>
-                                <option value="2">拉取</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">读取类型</label>
-                        <div class="layui-input-block">
-                            <select name="readKind" lay-verify="" lay-filter="readKind">
-                                <option value="">请选择读取数据类型</option>
-                                <option value="1">数据库</option>
-                                <option value="2">接口</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6 read1">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">读取数据库</label>
-                        <div class="layui-input-block">
-                            <select name="read_db_id" lay-verify="" id="read_db_id" dict="dbConfig">
-                                <option value="">请选择读取数据库</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6 read1">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">读取表名</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="table_name" lay-verify='' autocomplete="off" placeholder="请输入读取表名"
-                                class="layui-input">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6 read2">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">读取接口</label>
-                        <div class="layui-input-block">
-                            <select name="pull_api_id" lay-verify="" id="pull_api_id" dict="apiConfig">
-                                <option value="">请选择拉取信息接口</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">写入类型</label>
-                        <div class="layui-input-block">
-                            <select name="writeKind" lay-verify="" lay-filter="writeKind">
-                                <option value="">请选择写入数据类型</option>
-                                <option value="1">数据库</option>
-                                <option value="2">接口</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6 write1">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">写入数据库</label>
-                        <div class="layui-input-block">
-                            <select name="write_db_id" lay-verify="" id="write_db_id" dict="dbConfig">
-                                <option value="">请选择写入数据库</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6 write1">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">写入表名</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="target_table_name" lay-verify='' autocomplete="off"
-                                placeholder="请输入写入表名" class="layui-input">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6 write2">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">写入接口</label>
-                        <div class="layui-input-block">
-                            <select name="send_api_id" lay-verify="" id="send_api_id" dict="apiConfig">
-                                <option value="">请选择推送信息接口</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">轮询方式</label>
-                        <div class="layui-input-block">
-                            <select name="polling_mode" lay-verify="" lay-filter="polling_mode" id="polling_mode"
-                                lay-search>
-                                <option value="">请选择拉取信息轮询方式</option>
-                                <option value="1">间隔X分钟拉取</option>
-                                <option value="3">固定时间点拉取（一般模式）</option>
-                                <option value="2">固定时间点拉取</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6 mode1">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">时间设置</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="interval_" lay-verify='title' autocomplete="off"
-                                placeholder="请输入时间" class="layui-input">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6 mode2">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">小时</label>
-                        <div class="layui-input-block">
-                            <select name="hourIndex" lay-verify="" lay-filter="dict_val" id="hourIndex">
-                                <option value="">请选择小时</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6 mode2">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">分钟</label>
-                        <div class="layui-input-block">
-                            <select name="minuteIndex" lay-verify="" lay-filter="dict_val" id="minuteIndex">
-                                <option value="">请选择分钟</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">查询条件</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="condition_str" lay-verify='sqlVerify' autocomplete="off"
-                                placeholder="读取数据库时的附加条件" class="layui-input">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">时间字段</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="timeField" lay-verify='' autocomplete="off"
-                                placeholder="读取数据库时的时间字段" class="layui-input">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">时间戳</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="timestamp_" lay-verify='' autocomplete="off"
-                                placeholder="上次拉取数据的时间" class="layui-input">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-form-item layui-hide">
-                    <input type="button" lay-submit lay-filter="form_submit_btn" id="form_submit_btn" value="确认">
-                </div>
-            </div>
-        </form>
-    </div>
-
     <script src="../../../layuiadmin/layui/layui.js"></script>
     <script>
         layui.config({
@@ -270,26 +57,7 @@
                 , myUtils = layui.myUtils
                 , layer = layui.layer;
             var tableName = 'module';
-            form.verify({
-                sqlVerify: function (value, item) {
-                    if (value.indexOf(';') > -1) {
-                        return '不允许输入特殊符号';
-                    }
-                    const arr = ['delete ', 'update ', 'insert ', 'truncate ', 'drop ', 'alter ', 'add '];
-                    for (let i = 0; i < arr.length; i++) {
-                        const item = arr[i];
-                        if (value) {
-                            const val = value.toLowerCase();
-                            if (val.indexOf(item) > -1) {
-                                return '含有违法关键字';
-                            }
-                        }
-                    }
-                }
-            });
-            myUtils.relObj(['parent_module_id', 'read_db_id', 'write_db_id', 'pull_api_id', 'send_api_id']);//查询关联对象
-            cascadeField(form);
-            createOption(form);
+
             var tableIns = table.render({
                 elem: '#test-table-operate'
                 , url: '/base/searchList'
@@ -359,7 +127,7 @@
 
             var $ = layui.$, active = {
                 add: function () { //新增
-                    openMain('/base/save', null, form, 'myForm', tableIns, tableName);
+                    savePanel('/base/save', null, tableIns, tableName);
                 }
             };
             $('.test-table-operate-btn .layui-btn').on('click', function () {
@@ -371,9 +139,9 @@
             table.on('tool(test-table-operate)', function (obj) {
                 var data = obj.data;
                 if (obj.event === 'edit') {
-                    openMain('/base/save', data, form, 'myForm', tableIns, tableName);
+                    savePanel('/base/save', data, tableIns, tableName);
                 } else if (obj.event === 'view') {
-                    openMain(null, data, form, 'myForm', tableIns);
+                    savePanel(null, data, tableIns);
                 } else if (obj.event === 'del') {
                     baseDel('/base/del', data.id, tableIns, tableName);
                 } else if (obj.event === 'rebuild') {

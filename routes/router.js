@@ -31,6 +31,14 @@ router.get(/\/list$/,(req,res)=>{
     res.render(url);
 });
 
+router.get(/\/savePanel$/,(req,res)=>{
+    var url = req.url;
+    if(url.startsWith('/')){
+        url = url.substring(1,url.length);
+    }
+    res.render(url);
+});
+
 /**
  * base
  * 处理简单的增删改查

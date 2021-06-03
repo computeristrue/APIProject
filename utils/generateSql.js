@@ -69,7 +69,7 @@ const manageFieldValue = async (moduleId, record, ft, tableName = null) => {
         } else if (fieldInfo.is_double == 1) {
             val = val ? val : 0;
             const decimal_place = fieldInfo.decimal_place || 2;
-            val = val ? Number(val.toFixed(fieldInfo.decimal_place)) : 0;
+            val = val ? Number(val.toFixed(decimal_place)) : 0;
         } else if (fieldInfo.is_date == 1) {
             const sdf = fieldInfo.sdf || 'YYYY-MM-DD';
             if (val) {

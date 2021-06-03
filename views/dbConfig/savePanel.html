@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>保存</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../../layuiadmin/style/admin.css" media="all">
+
+    <script src="../../../javascripts/jquery-3.3.1.min.js"></script>
+    <script src="../../../javascripts/basetable.js"></script>
+</head>
+
+<body>
+
+    <div class="site-text" style="margin: 5% 5% 5% 0;" id="window">
+        <input type="hidden" id="oldRecord">
+        <form class="layui-form" id="myForm" lay-filter="myForm">
+            <div class="layui-row">
+                <input type="hidden" name="id" autocomplete="off" class="layui-input">
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">别名</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="name" lay-verify='required' autocomplete="off"
+                                placeholder="请输入数据库别名" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">主机</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="host" lay-verify='required' autocomplete="off"
+                                placeholder="请输入主机IP" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">账号</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="user" lay-verify='required' autocomplete="off" placeholder="请输入账号"
+                                class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">密码</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="password" lay-verify='required' autocomplete="off"
+                                placeholder="请输入密码" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">数据库类型</label>
+                        <div class="layui-input-block">
+                            <select name="kind" lay-verify="required" lay-filter="kind">
+                                <option value="">请选择数据库类型</option>
+                                <option value="1" selected>MySQL</option>
+                                <option value="2">SQL server</option>
+                                <option value="3">Oracle</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 port">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">端口号</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="port" lay-verify='' autocomplete="off" placeholder="请输入端口号"
+                                class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6" id="database_">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">数据库名</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="database_" lay-verify='' autocomplete="off" placeholder="请输入数据库名称"
+                                class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">备注信息</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="remark" lay-verify='' autocomplete="off" placeholder="请输入备注信息"
+                                class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-hide">
+                    <input type="button" lay-submit lay-filter="form_submit_btn" id="form_submit_btn" value="确认">
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script src="../../../layuiadmin/layui/layui.js"></script>
+    <script>
+        layui.config({
+            base: '../../../layuiadmin/' //静态资源所在路径
+        }).extend({
+            index: 'lib/index' //主入口模块
+        }).use(['index', 'table', 'view', 'form', 'util', 'myUtils'], function () {
+            var table = layui.table
+                , admin = layui.admin
+                , view = layui.view
+                , form = layui.form
+                , util = layui.util
+                , myUtils = layui.myUtils;
+                cascadeField(form)//字段联动
+                formLoadData(form);//加载数据
+            //字段联动
+            form.on('select(kind)', function (data) {
+                if (data.value == 1 || data.value == 2) {
+                    jQuery("#database_").show();
+                } else if (data.value == 3) {
+                    jQuery("#database_").hide();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

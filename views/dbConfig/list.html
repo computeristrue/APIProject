@@ -41,134 +41,49 @@
         </div>
     </div>
 
-
-    <div class="site-text" style="margin: 5% 5% 5% 0;display: none;" id="window">
-        <form class="layui-form" id="myForm" lay-filter="myForm">
-            <div class="layui-row">
-                <input type="hidden" name="id" autocomplete="off" class="layui-input">
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">别名</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="name" lay-verify='required' autocomplete="off"
-                                placeholder="请输入数据库别名" class="layui-input">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">主机</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="host" lay-verify='required' autocomplete="off"
-                                placeholder="请输入主机IP" class="layui-input">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">账号</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="user" lay-verify='required' autocomplete="off"
-                                placeholder="请输入账号" class="layui-input">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">密码</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="password" lay-verify='required' autocomplete="off"
-                                placeholder="请输入密码" class="layui-input">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">数据库类型</label>
-                        <div class="layui-input-block">
-                            <select name="kind" lay-verify="required" lay-filter="kind">
-                                <option value="">请选择数据库类型</option>
-                                <option value="1" selected>MySQL</option>
-                                <option value="2">SQL server</option>
-                                <option value="3">Oracle</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6 port">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">端口号</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="port" lay-verify='' autocomplete="off"
-                                placeholder="请输入端口号" class="layui-input">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">数据库名</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="database_" lay-verify='' autocomplete="off"
-                                placeholder="请输入数据库名称" class="layui-input">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">备注信息</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="remark" lay-verify='' autocomplete="off"
-                                placeholder="请输入备注信息" class="layui-input">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-form-item layui-hide">
-                    <input type="button" lay-submit lay-filter="form_submit_btn" id="form_submit_btn" value="确认">
-                </div>
-            </div>
-        </form>
-    </div>
-
     <script src="../../../layuiadmin/layui/layui.js"></script>
     <script>
         layui.config({
             base: '../../../layuiadmin/' //静态资源所在路径
         }).extend({
             index: 'lib/index' //主入口模块
-        }).use(['index', 'table', 'view', 'form', 'util', 'myUtils'], function () {
+        }).use(['index', 'table', 'view', 'form', 'util', 'myUtils', 'layer'], function () {
             var table = layui.table
                 , admin = layui.admin
                 , view = layui.view
                 , form = layui.form
                 , util = layui.util
                 , myUtils = layui.myUtils;
+            var layer = layui.layer;
             var tableName = 'dbConfig';
             var tableIns = table.render({
                 elem: '#test-table-operate'
                 , url: '/base/searchList'
                 , where: { tableName: tableName }
-                , cellMinWidth:100
+                , cellMinWidth: 100
                 , cols: [[
                     { type: 'checkbox', fixed: 'left' }
                     , { field: 'id', title: 'id', hide: true }
                     , { field: 'name', title: '别名', fixed: 'left' }
                     , { field: 'host', title: '主机IP', fixed: 'left' }
-                    , { field: 'user', title: '账号'}
-                    , { field: 'password', title: '密码'}
-                    , { field: 'port', title: '端口'}
-                    , { field: 'database_', title: '数据库名'}
-                    , { field: 'kind', title: '类型',templet:(d)=>{
-                        let str = "";
-                        if(d.kind == 1){
-                            str = 'MySQL';
-                        }else if(d.kind == 2){
-                            str = 'SQL Server';
-                        }else if(d.kind == 3){
-                            str = 'Oracle';
+                    , { field: 'user', title: '账号' }
+                    , { field: 'password', title: '密码' }
+                    , { field: 'port', title: '端口' }
+                    , { field: 'database_', title: '数据库名' }
+                    , {
+                        field: 'kind', title: '类型', templet: (d) => {
+                            let str = "";
+                            if (d.kind == 1) {
+                                str = 'MySQL';
+                            } else if (d.kind == 2) {
+                                str = 'SQL Server';
+                            } else if (d.kind == 3) {
+                                str = 'Oracle';
+                            }
+                            return str;
                         }
-                        return str;
-                    }}
-                    , { field: 'remark', title: '备注'}
+                    }
+                    , { field: 'remark', title: '备注' }
                     , {
                         field: 'dateCreated', title: '创建时间', templet: (d) => {
                             return util.toDateString(d.dateCreated, "yyyy-MM-dd HH:mm:ss");
@@ -181,12 +96,12 @@
                     }
                     , { minWidth: 180, align: 'center', fixed: 'right', toolbar: '#test-table-operate-barDemo' }
                 ]],
-                page : true
+                page: true
             });
 
             var $ = layui.$, active = {
                 add: function () { //新增
-                    openMain('/base/save', null, form, 'myForm', tableIns,tableName);
+                    savePanel('/base/save', null, tableIns, tableName);
                 }
             };
             $('.test-table-operate-btn .layui-btn').on('click', function () {
@@ -198,14 +113,13 @@
             table.on('tool(test-table-operate)', function (obj) {
                 var data = obj.data;
                 if (obj.event === 'edit') {
-                    console.log(data);
-                    if(data.isBasic == 1){
+                    if (data.isBasic == 1) {
                         layer.msg('默认配置禁止修改');
-                    }else{
-                        openMain('/base/save', data, form, 'myForm', tableIns,tableName);
+                    } else {
+                        savePanel('/base/save', data, tableIns, tableName);
                     }
                 } else if (obj.event === 'view') {
-                    openMain(null, data, form, 'myForm', tableIns);
+                    savePanel(null, data, tableIns);
                 } else if (obj.event === 'del') {
                     baseDel('/base/del', data.id, tableIns, tableName);
                 }

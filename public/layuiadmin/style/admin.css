@@ -524,3 +524,12 @@ html{background-color: #f2f2f2; color: #666;}
 
 
 
+/* 在Chrome浏览器下 */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+/* 在Firefox浏览器下 */
+input[type="number"]{
+    -moz-appearance: textfield;
+}

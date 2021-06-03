@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>保存</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../../layuiadmin/style/admin.css" media="all">
+
+    <script src="../../../javascripts/jquery-3.3.1.min.js"></script>
+    <script src="../../../javascripts/basetable.js"></script>
+</head>
+
+<body>
+
+    <div class="site-text" style="margin: 5% 5% 5% 0;" id="window">
+        <input type="hidden" id="oldRecord">
+        <form class="layui-form" id="myForm" lay-filter="myForm">
+            <div class="layui-row">
+                <input type="hidden" name="id" autocomplete="off" class="layui-input">
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">别名</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="name" lay-verify='required' autocomplete="off"
+                                placeholder="请输入接口名称" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">提交方式</label>
+                        <div class="layui-input-block">
+                            <select name="method" lay-verify="required">
+                                <option value="">请选择提交方式</option>
+                                <option value="1" selected>post</option>
+                                <option value="2">get</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs12">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">URL</label>
+                        <div class="layui-input-block">
+                            <textarea type="text" name="url" lay-verify='required' autocomplete="off"
+                                placeholder="请输入接口URL" class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs12">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">headers</label>
+                        <div class="layui-input-block">
+                            <textarea name="headers" lay-verify='' autocomplete="off"
+                                placeholder="请输入key:val并用分号隔开" class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs12">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">额外参数</label>
+                        <div class="layui-input-block">
+                            <textarea name="extraParam" lay-verify='' autocomplete="off"
+                                placeholder="请输入key:val并用分号隔开" class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">Content-Type</label>
+                        <div class="layui-input-block">
+                            <select name="contentType" lay-verify="required">
+                                <option value="">请选择包装格式</option>
+                                <option value="1" selected>application/json</option>
+                                <option value="2">application/x-www-form-urlencoded</option>
+                                <option value="3">application/xml</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">原数据包装名</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="recordPlace" lay-verify='' autocomplete="off"
+                                placeholder="请输入原数据包装名称" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">原数据格式</label>
+                        <div class="layui-input-block">
+                            <select name="recordKind" lay-verify="required">
+                                <option value="">请选择原数据格式</option>
+                                <option value="1" selected>JSON对象</option>
+                                <option value="2">数组</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">数据节点</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="data_place" lay-verify='required' autocomplete="off"
+                                placeholder="请输入数据根节点位置" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">成功节点</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="success_place" lay-verify='required' autocomplete="off"
+                                placeholder="请输入成功标记节点位置" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">成功值</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="success_val" lay-verify='required' autocomplete="off"
+                                placeholder="请输入成功标记的值" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-hide">
+                    <input type="button" lay-submit lay-filter="form_submit_btn" id="form_submit_btn" value="确认">
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script src="../../../layuiadmin/layui/layui.js"></script>
+    <script>
+        layui.config({
+            base: '../../../layuiadmin/' //静态资源所在路径
+        }).extend({
+            index: 'lib/index' //主入口模块
+        }).use(['index', 'table', 'view', 'form', 'util', 'myUtils'], function () {
+            var table = layui.table
+                , admin = layui.admin
+                , view = layui.view
+                , form = layui.form
+                , util = layui.util
+                , myUtils = layui.myUtils;
+            myUtils.relObj(['module_id']);//查询关联对象
+            formLoadData(form);//加载数据
+        });
+    </script>
+</body>
+
+</html>

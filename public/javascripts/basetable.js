@@ -411,40 +411,109 @@ function show_shopm(t) {
     })
 }
 
+// /**
+//  * 提交URL
+//  * 原数据
+//  * layui.form
+//  * formId
+//  * table实例 
+//  **/
+// function openMain(url, record, form, formId, tableIns, tableName) {
+//     if (record && typeof record == 'object') {
+//         form.val(formId, record);//如果已有数据则填充表单;
+//     }
+//     var btn = ['确定', '取消'];
+//     if (!url) {
+//         btn = ['关闭'];
+//     }
+//     layer.open({
+//         type: 1,
+//         area: ['100%', '100%'],
+//         btn: btn,
+//         content: $("#window"),
+//         yes: function (index, layero) {
+//             var submitID = 'form_submit_btn'
+//                 , submit = layero.find('#' + submitID);
+//             if (!url) {
+//                 layer.close(index);//关闭弹出层
+//                 $(`#${formId}`)[0].reset();
+//                 form.render();//重置form
+//             } else {
+//                 form.on(`submit(${submitID})`, (data => {
+//                     var params = data.field;
+//                     params.tableName = tableName;
+//                     if (!record) {
+//                         delete params.id;
+//                     }
+//                     $.ajax({
+//                         url: url,
+//                         type: 'get',
+//                         async: false,
+//                         data: params,
+//                         success: function (data, textStatus) {
+//                             layer.msg(data.msg);
+//                             layer.close(index);//关闭弹出层
+//                             $(`#${formId}`)[0].reset();
+//                             form.render();//重置form
+//                             reloadTable(tableIns);
+//                         }
+//                     });
+//                 }));
+//                 submit.trigger('click');
+//             }
+//         },
+//         btn2: function (index, layero) {
+//             $(`#${formId}`)[0].reset();
+//             form.render();//重置form
+//         }, cancel: function (index, layero) {
+//             $(`#${formId}`)[0].reset();
+//             form.render();//重置form
+//         }
+//     });
+// };
+
 /**
- * 提交URL
- * 原数据
- * layui.form
- * formId
- * table实例 
- **/
-function openMain(url, record, form, formId, tableIns, tableName) {
-    if (record && typeof record == 'object') {
-        form.val(formId, record);//如果已有数据则填充表单;
-    }
+ * 打开保存弹窗
+ */
+function savePanel(url, record, tableIns, tableName) {
     var btn = ['确定', '取消'];
     if (!url) {
         btn = ['关闭'];
     }
     layer.open({
-        type: 1,
-        area: ['100%', '100%'],
-        btn: btn,
-        content: $("#window"),
-        yes: function (index, layero) {
+        type: 2
+        , title: 'save'
+        , area: ['100%', '100%']
+        , btn: btn
+        , content: 'savePanel'
+        , success: (layero, index) => {
+            //找到它的子窗口的body
+            var body = layer.getChildFrame('body', index);  //巧妙的地方在这里哦
+            let oldRecord = record ? JSON.stringify(record) : "";
+            body.contents().find("#oldRecord").val(oldRecord);
+        }
+        , yes: function (index, layero) {
+            //找到它的子窗口的body
+            var body = layer.getChildFrame('body', index);  //巧妙的地方在这里哦
             var submitID = 'form_submit_btn'
-                , submit = layero.find('#' + submitID);
+                , submit = body.contents().find('#' + submitID);
+            console.log('iframeName:==>',layero.find('iframe')[0]['name']);
+            var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法
+            var iFrameLayUi = iframeWin.layui;
+            var iFrameForm = iFrameLayUi.form;
+            console.log(iframeWin.find(`#myForm`));
             if (!url) {
                 layer.close(index);//关闭弹出层
-                $(`#${formId}`)[0].reset();
-                form.render();//重置form
+                body.contents().find(`#myForm`)[0].reset();
+                iFrameForm.render();//重置form
             } else {
-                form.on(`submit(${submitID})`, (data => {
+                iFrameForm.on(`submit(form_submit_btn)`, (data => {
                     var params = data.field;
                     params.tableName = tableName;
                     if (!record) {
                         delete params.id;
                     }
+                    console.log(params);
                     $.ajax({
                         url: url,
                         type: 'get',
@@ -453,8 +522,8 @@ function openMain(url, record, form, formId, tableIns, tableName) {
                         success: function (data, textStatus) {
                             layer.msg(data.msg);
                             layer.close(index);//关闭弹出层
-                            $(`#${formId}`)[0].reset();
-                            form.render();//重置form
+                            body.contents().find(`#myForm`)[0].reset();
+                            iFrameForm.render();//重置form
                             reloadTable(tableIns);
                         }
                     });
@@ -463,14 +532,79 @@ function openMain(url, record, form, formId, tableIns, tableName) {
             }
         },
         btn2: function (index, layero) {
-            $(`#${formId}`)[0].reset();
-            form.render();//重置form
-        },cancel:function(index,layero){
-            $(`#${formId}`)[0].reset();
-            form.render();//重置form
+            //找到它的子窗口的body
+            var body = layer.getChildFrame('body', index);  //巧妙的地方在这里哦
+            // body.contents().find(`#${formId}`)[0].reset();
+            // // $(`#${formId}`)[0].reset();
+            // form.render();//重置form
+        }, cancel: function (index, layero) {
+            //找到它的子窗口的body
+            var body = layer.getChildFrame('body', index);  //巧妙的地方在这里哦
+            // body.contents().find(`#${formId}`)[0].reset();
+            // // $(`#${formId}`)[0].reset();
+            // form.render();//重置form
         }
-    });
-};
+    })
+}
+
+/**
+ * 按名称设置值
+ * @param {*} name 
+ * @param {*} value 
+ * @returns 
+ */
+function setValueByName(name, value) {
+    var a = jQuery(`[name=${name}]`);
+    if (!a || a.length == 0) return;
+    let tag = jQuery(`[name=${name}]`)[0].tagName;
+    switch (tag) {
+        case 'INPUT':
+            if (value) {
+                jQuery(`[name=${name}]`).val(value);
+            } else {
+                return jQuery(`[name=${name}]`).val();
+            }
+            break;
+        case 'SELECT':
+            if (value) {
+                let filter = jQuery(`[name=${name}]`).attr('lay-filter');
+                jQuery(`[name=${name}]`).val(value);
+                filter && layui.event('form', 'select(' + filter + ')', { elem: jQuery(`[name=${name}]`), value: value });//触发该标签的select事件
+            } else {
+                return jQuery(`[name=${name}]`).val();
+            }
+            break;
+        default:
+            if (value) {
+                jQuery(`[name=${name}]`).val(value);
+            } else {
+                return jQuery(`[name=${name}]`).val();
+            }
+            break;
+    }
+}
+
+/**
+ * 加载表单数据
+ * @param {*} form 
+ */
+function formLoadData(form) {
+    var oldRecord = jQuery("#oldRecord").val();
+    if (oldRecord) {
+        oldRecord = JSON.parse(oldRecord);
+        try {
+            for (const key in oldRecord) {
+                if (Object.hasOwnProperty.call(oldRecord, key)) {
+                    const value = oldRecord[key];
+                    setValueByName(key, value);
+                }
+            }
+            form.render();
+        } catch (error) {
+            console.error(error);
+        };
+    }
+}
 
 function reloadTable(tableIns) {
     var page = tableIns.page;

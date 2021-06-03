@@ -53,174 +53,6 @@
         </div>
     </div>
 
-
-    <div class="site-text" style="margin: 5% 5% 5% 0;display: none;" id="window">
-        <form class="layui-form" id="myForm" lay-filter="myForm">
-            <div class="layui-row">
-                <input type="hidden" name="id" autocomplete="off" class="layui-input">
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">模块名</label>
-                        <div class="layui-input-block">
-                            <select name="module_id" lay-verify="required" id="module_id" dict="module"
-                                lay-filter="module_id">
-                                <option value="">请选择所属模块</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">源字段</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="origin_field" lay-verify='required' autocomplete="off"
-                                placeholder="请输入源字段" class="layui-input">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">目标字段</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="target_field" lay-verify='required' autocomplete="off"
-                                placeholder="请输入目标字段" class="layui-input">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">唯一</label>
-                        <div class="layui-input-block">
-                            <input type="radio" name="is_weiyi" value="1" title="是">
-                            <input type="radio" name="is_weiyi" value="2" title="否" checked>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">默认值</label>
-                        <div class="layui-input-block">
-                            <input type="radio" name="is_default" value="1" title="是" lay-filter="is_default">
-                            <input type="radio" name="is_default" value="2" title="否" lay-filter="is_default" checked>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6 defaultText">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">默认值</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="default_field" autocomplete="off" placeholder="请输入默认值"
-                                class="layui-input">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">数据字典</label>
-                        <div class="layui-input-block">
-                            <input type="radio" name="is_dict" value="1" title="是" lay-filter="is_dict">
-                            <input type="radio" name="is_dict" value="2" title="否" lay-filter="is_dict" checked>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6 dictP">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">关联字典</label>
-                        <div class="layui-input-block">
-                            <select name="dict_id" lay-verify="" id="dict_id" lay-filter="dict_id" lay-search>
-                                <option value="">请选择数据字典</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6 dictP">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">读取显示字段</label>
-                        <div class="layui-input-block">
-                            <select name="dict_text" lay-verify="" lay-filter="dict_text">
-                                <option value="">请选择字段</option>
-                                <option value="item_id">id</option>
-                                <option value="text">名称</option>
-                                <option value="encode">编码</option>
-                                <option value="three_part_code">第三方编码</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6 dictP">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">写入实际字段</label>
-                        <div class="layui-input-block">
-                            <select name="dict_val" lay-verify="" lay-filter="dict_val">
-                                <option value="">请选择字段</option>
-                                <option value="item_id">id</option>
-                                <option value="text">名称</option>
-                                <option value="encode">编码</option>
-                                <option value="three_part_code">第三方编码</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">数值字段</label>
-                        <div class="layui-input-block">
-                            <input type="radio" name="is_double" value="1" title="是" lay-filter="is_double">
-                            <input type="radio" name="is_double" value="2" title="否" lay-filter="is_double" checked>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6 doubleP">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">小数位数</label>
-                        <div class="layui-input-block">
-                            <input type="number" name="decimal_place" autocomplete="off" placeholder="请输入小数位数"
-                                value="2" class="layui-input">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">时间字段</label>
-                        <div class="layui-input-block">
-                            <input type="radio" name="is_date" value="1" title="是" lay-filter="is_date">
-                            <input type="radio" name="is_date" value="2" title="否" lay-filter="is_date" checked>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6 dateP">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">日期格式化</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="sdf" autocomplete="off" placeholder="请输入日期格式化" class="layui-input">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">明细字段</label>
-                        <div class="layui-input-block">
-                            <input type="radio" name="is_detail" value="1" title="是" lay-filter="is_detail">
-                            <input type="radio" name="is_detail" value="2" title="否" lay-filter="is_detail" checked>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">关联CRM表</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="table_name" autocomplete="off" placeholder="源字段带点必填；请输入关联CRM表名"
-                                class="layui-input">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-form-item layui-hide">
-                    <input type="button" lay-submit lay-filter="form_submit_btn" id="form_submit_btn" value="确认">
-                </div>
-            </div>
-        </form>
-    </div>
-
     <script src="../../../layuiadmin/layui/layui.js"></script>
     <script>
         layui.config({
@@ -235,9 +67,7 @@
                 , util = layui.util
                 , myUtils = layui.myUtils;
             var tableName = "userField";
-            myUtils.relObj(['module_id']);//查询关联对象
-            cascadeField(form)
-            generateDict(form);
+
             var tableIns = table.render({
                 elem: '#test-table-operate'
                 , url: '/base/searchList'
@@ -301,7 +131,7 @@
 
             var $ = layui.$, active = {
                 add: function () { //新增
-                    openMain('/base/save', null, form, 'myForm', tableIns, tableName);
+                    savePanel('/base/save', null, tableIns, tableName);
                 },
                 reload: function () {
                     var moduleId = $("#moduleId");
@@ -329,15 +159,13 @@
             table.on('tool(test-table-operate)', function (obj) {
                 var data = obj.data;
                 if (obj.event === 'edit') {
-                    openMain('/base/save', data, form, 'myForm', tableIns, tableName);
+                    savePanel('/base/save', data, tableIns, tableName);
                 } else if (obj.event === 'view') {
-                    openMain(null, data, form, 'myForm', tableIns);
+                    savePanel(null, data, tableIns);
                 } else if (obj.event === 'del') {
                     baseDel('/base/del', data.id, tableIns, tableName);
                 }
             });
-        });
-        function generateDict(form) {
             var dq = $("#moduleId");
             $.ajax({
                 url: '/getModule',
@@ -352,56 +180,7 @@
                     form.render();
                 }
             });
-            const dict_id = $("#dict_id");
-            $.ajax({
-                url: '/getDict',
-                type: 'get',
-                async: false,
-                success: function (data, textStatus) {
-                    var dict = data.arr;
-                    for (var index in dict) {
-                        var record = dict[index];
-                        dict_id.append(`<option value="${record.id}">${record.text}</option>`);
-                    }
-                    form.render();
-                }
-            });
-        }
-        function cascadeField(form) {
-            //处理字段之间的联动
-            jQuery(".defaultText").hide();
-            form.on('radio(is_default)', function (data) {
-                if (data.value == 1) {
-                    jQuery(".defaultText").show();
-                } else if (data.value == 2) {
-                    jQuery(".defaultText").hide();
-                }
-            });
-            jQuery(".dictP").hide();
-            form.on('radio(is_dict)', function (data) {
-                if (data.value == 1) {
-                    jQuery(".dictP").show();
-                } else if (data.value == 2) {
-                    jQuery(".dictP").hide();
-                }
-            });
-            jQuery(".doubleP").hide();
-            form.on('radio(is_double)', function (data) {
-                if (data.value == 1) {
-                    jQuery(".doubleP").show();
-                } else if (data.value == 2) {
-                    jQuery(".doubleP").hide();
-                }
-            });
-            jQuery(".dateP").hide();
-            form.on('radio(is_date)', function (data) {
-                if (data.value == 1) {
-                    jQuery(".dateP").show();
-                } else if (data.value == 2) {
-                    jQuery(".dateP").hide();
-                }
-            });
-        }
+        });
     </script>
 </body>
 
