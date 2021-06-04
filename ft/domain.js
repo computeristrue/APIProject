@@ -48,7 +48,9 @@ domain.module = {
     timestamp_                          : 'string',
     hourIndex                           : 'string',
     minuteIndex                         : 'string',
-    remark                              : 'string'
+    remark                              : 'string',
+    writeKind                           : 'int',
+    readKind                            : 'int'
 }
 
 /**

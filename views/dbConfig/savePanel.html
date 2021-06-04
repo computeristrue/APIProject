@@ -53,7 +53,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">密码</label>
                         <div class="layui-input-block">
-                            <input type="text" name="password" lay-verify='required' autocomplete="off"
+                            <input type="password" name="password" lay-verify='required' autocomplete="off"
                                 placeholder="请输入密码" class="layui-input">
                         </div>
                     </div>
@@ -118,7 +118,6 @@
                 , form = layui.form
                 , util = layui.util
                 , myUtils = layui.myUtils;
-                cascadeField(form)//字段联动
                 formLoadData(form);//加载数据
             //字段联动
             form.on('select(kind)', function (data) {

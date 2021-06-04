@@ -46,6 +46,8 @@ create table if not exists module(
     parent_module_id int, -- 父模块
     kind int not null, -- 模块类型 1、推送 2、拉取
     table_name VARCHAR(30), -- 该模块读取表名
+    writeKind int, -- 写入类型 1、数据库 2、接口
+    readKind int, -- 读取类型 1、数据库 2、接口
     target_table_name VARCHAR(30), -- 该模块写入表名
     read_db_id int, -- 读取信息所用数据库
     write_db_id int, -- 写入信息所用数据库

@@ -26,17 +26,23 @@ router.get('/searchList', async (req, res) => {
     var params = req.query;
     var tableName = params.tableName;
     var moduleId = params.moduleId;
-    var condition = "";
-    if(tableName == 'userField' && moduleId){
-        condition += ` and userField.module_id = ${moduleId}`;
-    }
-    var records = await baseService.searchList(params,condition);
-    var total = await baseService.searchCount(params,condition);
+    // var condition = "";
+    // if(tableName == 'userField' && moduleId){
+    //     condition += ` and userField.module_id = ${moduleId}`;
+    // }
+    // var records = await baseService.searchList(params,condition);
+    // var total = await baseService.searchCount(params,condition);
+    // res.json({
+    //     code: 0,
+    //     msg: '查询成功',
+    //     count: total,
+    //     data: records
+    // })
     res.json({
-        code: 0,
-        msg: '查询成功',
-        count: total,
-        data: records
+        code:0,
+        msg:'查询成功',
+        count:0,
+        data:[]
     })
 });
 

@@ -6,7 +6,7 @@
             "user": "root",
             "password": "root",
             "port": "3306",
-            "database": "api"
+            "database": "mycrm"
         },
         "sqlServer": {
             "server": "127.0.0.1",
