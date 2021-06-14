@@ -1,10 +1,11 @@
 const log = require('../utils/log').logger;
 const redis = require('../utils/redis');
 const mysql = require('../utils/mysql');
+const models = require('../model');
 
 const refreshData = async () => {
-    const sql = `select * from dbConfig where deleteFlag = 0`;
-    const records = await mysql.query(sql);
+    const domain = models.Db_config;
+    const records = await domain.findAll();
     for (let i = 0; i < records.length; i++) {
         const record = records[i];
         const id = record.id;

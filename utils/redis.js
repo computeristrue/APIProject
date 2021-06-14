@@ -5,8 +5,12 @@ var log = require('../utils/log').logger;
 var redisConfig = config.redis;
 var RDS_PORT = redisConfig.port,
     RDS_HOST = redisConfig.host,
-    RDS_PASSWORD = redisConfig.password;
-var client = redis.createClient(RDS_PORT, RDS_HOST, RDS_PASSWORD);
+    RDS_PASSWORD = redisConfig.password,
+    RDS_DB = redisConfig.db;
+let operation = {};
+if(RDS_PASSWORD) operation.password = RDS_PASSWORD;
+if(RDS_DB) operation.db = RDS_DB;
+var client = redis.createClient(RDS_PORT, RDS_HOST, operation);
 
 client.on('error', (err) => {
     console.log(err);
@@ -241,6 +245,17 @@ r.hdel = async (key,field)=>{
 r.del = async (key)=>{
     try{
         client.del(key);
+    }catch(error){
+        log.info(error);
+    };
+}
+
+/**
+ * 清空当前DB数据
+ */
+r.flushdb = async()=>{
+    try{
+        client.flushdb();  
     }catch(error){
         log.info(error);
     };

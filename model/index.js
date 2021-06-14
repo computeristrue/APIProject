@@ -32,9 +32,10 @@ if (type == 'mysql') {
 console.log(Object.keys(db));
 /**
  * 添加关联关系
+ * 不用这个了，直接查询拼接
  */
-db.Module.belongsTo(db.Db_config,{as :'read_db',foreignKey:'read_db_id'});
-db.Module.belongsTo(db.Db_config,{as :'write_db',foreignKey:'write_db_id'});
+// db.Module.belongsTo(db.Db_config,{as :'read_db',foreignKey:'read_db_id'});
+// db.Module.belongsTo(db.Db_config,{as :'write_db',foreignKey:'write_db_id'});
 // db.Player.belongsTo(db.Team, { as: 'team', foreignKey: 'team_id' });
 // db.Player.belongsTo(db.Base, { as: 'base', foreignKey: 'base_id' });
 

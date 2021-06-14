@@ -1,10 +1,11 @@
 const log = require('../utils/log').logger;
 const redis = require('../utils/redis');
 const mysql = require('../utils/mysql');
+const models = require('../model');
 
 const refreshData = async () => {
-    const sql = `select * from module where deleteFlag = 0`;
-    const records = await mysql.query(sql);
+    const domain = models.Module;
+    const records = await domain.findAll();
     for (let i = 0; i < records.length; i++) {
         const record = records[i];
         const moduleId = record.moduleId;
@@ -25,8 +26,8 @@ const refreshData = async () => {
 const getModule = async(req,res)=>{
     let re = [];
     try{
-        const sql = `select id,name from module where deleteFlag = 0`;
-        re = await mysql.query(sql);
+        const domain = models.Module;
+        re = await domain.findAll();
     }catch(error){
         log.info(error);
     }finally{

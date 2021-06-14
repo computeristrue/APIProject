@@ -2,14 +2,17 @@ const log = require('../utils/log').logger;
 const mysql = require('../utils/mysql');
 const redis = require('../utils/redis');
 const dataDictService = require('../service/dataDictService');
+const models = require('../model');
 
 const refreshData = async () => {
-    const sql = `select u.*,m.moduleId from userField u left join module m on u.module_id = m.id where u.deleteFlag = 0 and m.deleteFlag = 0`;
-    const records = await mysql.query(sql);
+    const userField = models.User_field;
+    const module = models.Module;
+    const records = await userField.findAll();
     let obj = {};
     for (let i = 0; i < records.length; i++) {
         const record = records[i];
-        const moduleId = record.moduleId;
+        const moduleRecord = await module.findOne({where:{id:record.module_id}});
+        const moduleId = moduleRecord.moduleId;
         let info = {};
         for (const key in record) {
             if (Object.hasOwnProperty.call(record, key)) {

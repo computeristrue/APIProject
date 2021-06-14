@@ -8,6 +8,7 @@ const userFieldService = require('../service/userFieldService');
 const projectService = require('../service/projectService');
 const dataDictService = require('../service/dataDictService');
 const apiConfigService = require('../service/apiConfigService');
+const models = require('../model');
 
 /**
  * 统一删除
@@ -15,8 +16,16 @@ const apiConfigService = require('../service/apiConfigService');
 router.get('/del', async (req, res) => {
     var params = req.query;
     var id = params.id, tableName = params.tableName;
-    var json = await baseService.delete(id, tableName);
-    res.json(json);
+    const domain = models[tableName];
+    let json = {code:0,msg:'删除成功'};
+    try{
+        await domain.destory({where:{id:id}});
+    }catch(error){
+        log.info(error);
+        json = {code:0,msg:'删除失败'};
+    }finally{
+        res.json(json);
+    };
 });
 
 /**
@@ -26,24 +35,71 @@ router.get('/searchList', async (req, res) => {
     var params = req.query;
     var tableName = params.tableName;
     var moduleId = params.moduleId;
-    // var condition = "";
-    // if(tableName == 'userField' && moduleId){
-    //     condition += ` and userField.module_id = ${moduleId}`;
-    // }
-    // var records = await baseService.searchList(params,condition);
-    // var total = await baseService.searchCount(params,condition);
-    // res.json({
-    //     code: 0,
-    //     msg: '查询成功',
-    //     count: total,
-    //     data: records
-    // })
-    res.json({
-        code:0,
-        msg:'查询成功',
-        count:0,
-        data:[]
-    })
+    const domain = models[tableName];
+    let page = params.page;
+    let limit = params.limit;
+    let offset = (page - 1) * limit;
+    let records = [],count = 0;
+    let where = {};
+    if(tableName == 'User_field' && moduleId){
+        where = {where:{module_id:moduleId}};
+    }
+    let args = {};
+    if(tableName == 'Module'){
+        let dbconfig = {},apiconfig = {},module = {};
+        dbconfig = await baseService.getIdAndName('Db_config');
+        apiconfig = await baseService.getIdAndName('Api_config');
+        module = await baseService.getIdAndName('Module');
+        args = {
+            dbconfig:dbconfig,
+            apiconfig:apiconfig,
+            module:module
+        }
+    }else if(tableName == 'User_field'){
+        let module = {};
+        module = await baseService.getIdAndName('Module');
+        args = {
+            module:module
+        }
+    }
+    try{
+        records = await domain.findAll(where,{ offset: offset, limit: limit });
+        for (let i = 0; i < records.length; i++) {
+            let record = records[i];
+            if(tableName == 'Module'){
+                if(record.parent_module_id){
+                    record.parent_module = args.module ? args.module[record.parent_module_id] : '';
+                }
+                if(record.read_db_id){
+                    record.read_db = args.dbconfig ? args.dbconfig[record.read_db_id] : '';
+                }
+                if(record.write_db_id){
+                    record.write_db = args.dbconfig ? args.dbconfig[record.write_db_id] : '';
+                }
+                if(record.pull_api_id){
+                    record.pull_api = args.apiconfig ? args.apiconfig[record.pull_api_id] : '';
+                }
+                if(record.send_api_id){
+                    record.send_api = args.apiconfig ? args.apiconfig[record.send_api_id] : '';
+                }
+            }
+            if(tableName == 'User_field'){
+                if(record.module_id){
+                    record.module = args.module ? args.module[record.module_id] : '';
+                }
+            }
+        }
+        count = await domain.count(where);
+    }catch(error){
+        log.info(error);
+    }finally{
+        res.json({
+            code:0,
+            msg:'查询成功',
+            count:count,
+            data:records
+        })
+    };
 });
 
 /**
@@ -58,24 +114,41 @@ router.get('/save', async (req, res) => {
             p[key] = params[key];
         }
     }
-    var json = await baseService.save(p, tableName);
+    console.log(tableName,p);
+    const domain = models[tableName];
+    let record =  Object.assign({},p);
+    for (const key in record) {
+        if (Object.hasOwnProperty.call(record, key)) {
+            const val = record[key];
+            if(!val || val == '' || val == 'null'){
+                delete record[key];
+            }
+        }
+    }
+    delete record.id;
+    if(p.id){
+        await domain.update(record,{where:{id:p.id}});
+    }else{
+        await domain.create(record);
+    }
+    let json = {code:0,msg:'保存成功'};
     switch (tableName) {
-        case 'module':
+        case 'Module':
             moduleService.refreshData();
             break;
-        case 'dbConfig':
+        case 'Db_config':
             dbConfigService.refreshData();
             break;
-        case 'userField':
+        case 'User_field':
             userFieldService.refreshData();
             break;
-        case 'project':
+        case 'Project':
             projectService.refreshData();
             break;
         case 'dataDict':
             dataDictService.refreshData();
             break;
-        case 'apiConfig':
+        case 'Api_config':
             apiConfigService.refreshData();
             break;
         default:

@@ -37,12 +37,12 @@ module.exports = (sequelize,DataTypes)=>{
         target_table_name:{
             type:DataTypes.STRING
         },
-        // read_db_id:{
-        //     type:DataTypes.INTEGER
-        // },
-        // write_db_id:{
-        //     type:DataTypes.INTEGER
-        // },
+        read_db_id:{
+            type:DataTypes.INTEGER
+        },
+        write_db_id:{
+            type:DataTypes.INTEGER
+        },
         pull_api_id:{
             type:DataTypes.INTEGER
         },

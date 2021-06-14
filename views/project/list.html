@@ -80,7 +80,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">用户名</label>
                         <div class="layui-input-block">
-                            <input type="text" name="user" lay-verify='required' autocomplete="off"
+                            <input type="text" name="user" lay-verify='required' autocomplete="new-password"
                                 placeholder="请输入数据库账号" class="layui-input">
                         </div>
                     </div>
@@ -89,7 +89,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">密码</label>
                         <div class="layui-input-block">
-                            <input type="password" name="password" lay-verify='required' autocomplete="off"
+                            <input type="password" name="password" lay-verify='required' autocomplete="new-password"
                                 placeholder="请输入数据库密码" class="layui-input">
                         </div>
                     </div>
@@ -172,7 +172,7 @@
                 , view = layui.view
                 , form = layui.form
                 , util = layui.util;
-            var tableName = "project";
+            var tableName = "Project";
             form.verify({
                 onlyAZ: function (value, item) {
                     if (!/^[a-zA-Z]+$/.test(value)) {
@@ -185,6 +185,7 @@
             form.on('submit(form_sb)', function (data) {
                 //重新加载数据
                 params = data.field;
+                params.tableName = tableName;
                 $.ajax({
                     url: '/base/save',
                     type: 'get',
@@ -207,7 +208,7 @@
                 async: false,
                 success: function (data, textStatus) {
                     var code = data.code;
-                    const record = data.data;
+                    const record = data.data || {};
                     if (code == 0) {
                         form.val('myForm', record);
                     } else {

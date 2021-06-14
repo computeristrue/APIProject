@@ -56,7 +56,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">父模块</label>
                         <div class="layui-input-block">
-                            <select name="parent_module_id" lay-verify="" id="parent_module_id" dict="module">
+                            <select name="parent_module_id" lay-verify="" id="parent_module_id" dict="Module">
                                 <option value="">请选择父模块</option>
                             </select>
                         </div>
@@ -90,7 +90,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">读取数据库</label>
                         <div class="layui-input-block">
-                            <select name="read_db_id" lay-verify="" id="read_db_id" dict="dbConfig">
+                            <select name="read_db_id" lay-verify="" id="read_db_id" dict="Db_config">
                                 <option value="">请选择读取数据库</option>
                             </select>
                         </div>
@@ -109,7 +109,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">读取接口</label>
                         <div class="layui-input-block">
-                            <select name="pull_api_id" lay-verify="" id="pull_api_id" dict="apiConfig">
+                            <select name="pull_api_id" lay-verify="" id="pull_api_id" dict="Api_config">
                                 <option value="">请选择拉取信息接口</option>
                             </select>
                         </div>
@@ -131,7 +131,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">写入数据库</label>
                         <div class="layui-input-block">
-                            <select name="write_db_id" lay-verify="" id="write_db_id" dict="dbConfig">
+                            <select name="write_db_id" lay-verify="" id="write_db_id" dict="Db_config">
                                 <option value="">请选择写入数据库</option>
                             </select>
                         </div>
@@ -150,7 +150,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">写入接口</label>
                         <div class="layui-input-block">
-                            <select name="send_api_id" lay-verify="" id="send_api_id" dict="apiConfig">
+                            <select name="send_api_id" lay-verify="" id="send_api_id" dict="Api_config">
                                 <option value="">请选择推送信息接口</option>
                             </select>
                         </div>
@@ -175,7 +175,7 @@
                         <label class="layui-form-label">时间设置</label>
                         <div class="layui-input-block">
                             <input type="text" name="interval_" lay-verify='title' autocomplete="off"
-                                placeholder="请输入时间" class="layui-input">
+                                placeholder="请输入时间的cron表达式" class="layui-input">
                         </div>
                     </div>
                 </div>
@@ -283,7 +283,8 @@
         }
         function cascadeField(form) {
             //处理字段之间的联动
-            form.on('select(isChild)', function (data) {
+            jQuery(".parent").hide();
+            form.on('select(is_child)', function (data) {
                 if (data.value == 1) {
                     jQuery(".parent").show();
                 } else if (data.value == 2) {

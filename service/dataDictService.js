@@ -2,10 +2,12 @@ const log = require('../utils/log').logger;
 const redis = require('../utils/redis');
 const mysql = require('../utils/mysql');
 const baseSql = require('../utils/baseSql');
+const models = require('../model');
+const Op = require('sequelize').Op;
 
 const refreshData = async () => {
-    var sql = `select dict_id dataId from userField where deleteFlag = 0 and dict_id is not null`;
-    const records = await mysql.query(sql);
+    const userField = models.User_field;
+    const records = await userField.findAll({ where: { dict_id: { [Op.ne]: null } } });
     for (let i = 0; i < records.length; i++) {
         const record = records[i];
         const dbInfo = JSON.parse(await redis.hget("API_BASIC_INFO", 'dbInfo'));

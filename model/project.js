@@ -11,12 +11,8 @@ module.exports = (sequelize,DataTypes)=>{
             allowNull: false,
             unique:true
         },
-        path:{
-            type:DataTypes.STRING,
-            allowNull: false
-        },
         host:{
-            type:DataTypes.INTEGER,
+            type:DataTypes.STRING,
             allowNull: false
         },
         user:{
