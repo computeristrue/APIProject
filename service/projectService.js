@@ -7,7 +7,6 @@ const models = require('../model');
 
 const initData = async (req, res) => {
     try {
-        const sql = `select * from project where deleteFlag = 0`;
         const Project = models.Project;
         const record = await Project.findOne();
         res.json({

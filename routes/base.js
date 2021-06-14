@@ -36,13 +36,13 @@ router.get('/searchList', async (req, res) => {
     var tableName = params.tableName;
     var moduleId = params.moduleId;
     const domain = models[tableName];
-    let page = params.page;
-    let limit = params.limit;
+    let page = parseInt(params.page);
+    let limit = parseInt(params.limit);
     let offset = (page - 1) * limit;
     let records = [],count = 0;
-    let where = {};
+    let where = { offset: offset, limit: limit };
     if(tableName == 'User_field' && moduleId){
-        where = {where:{module_id:moduleId}};
+        where.where = {module_id:moduleId};
     }
     let args = {};
     if(tableName == 'Module'){
@@ -63,7 +63,7 @@ router.get('/searchList', async (req, res) => {
         }
     }
     try{
-        records = await domain.findAll(where,{ offset: offset, limit: limit });
+        records = await domain.findAll(where);
         for (let i = 0; i < records.length; i++) {
             let record = records[i];
             if(tableName == 'Module'){

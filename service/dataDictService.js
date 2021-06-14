@@ -11,6 +11,9 @@ const refreshData = async () => {
     for (let i = 0; i < records.length; i++) {
         const record = records[i];
         const dbInfo = JSON.parse(await redis.hget("API_BASIC_INFO", 'dbInfo'));
+        if(!record.dataId){
+            continue;
+        }
         const sql2 = `select item.encode,item.text,item.three_part_code,item.item_id from t_data_dict_item item
          left join t_data_dict data on item.dict_id = data.id where data.id = ${record.dataId}`;
         let itemInfo = await baseSql.query(dbInfo, sql2);

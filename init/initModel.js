@@ -12,6 +12,8 @@ module.exports = () => {
         }else{
             const admin = await Admin.create({name:"管理员",account:"admin",password:"1",kind:1});
         }
+        const baseService = require('../service/baseService');
+        baseService.saveAllInfo();
         const Module = models.Module;
         const DbConfig = models.Db_config;
         // const m = await Module.create({

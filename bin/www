@@ -94,8 +94,6 @@ function onListening() {
   //初始化sequelize
   const initModel = require('../init/initModel');
   initModel();
-  const baseService = require('../service/baseService');
-  baseService.saveAllInfo();
   //同步库存
   // const syncProductStorage = require('../task/syncProductStorage');
   // syncProductStorage.begin();
