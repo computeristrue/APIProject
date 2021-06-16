@@ -7,6 +7,7 @@ const dateUtils = require('../utils/dateUtils');
 const mysql = require('../utils/mysql');
 const moment = require('moment');
 const gSql = require('../utils/generateSql');
+const models = require('../model');
 
 /**
  * 从数据库读取数据
@@ -42,8 +43,8 @@ const readDB = async (redis_key, read_db_id, id) => {
         }
         result = await baseSql.query(read_db_info, selectSql);
         if (kind == 1) {//推送的时候才会查询带有明细的模块
-            const moduleId = redis_key.replace('API_','');
-            result = await readDetail(moduleId,ft,result);
+            const moduleId = redis_key.replace('API_', '');
+            result = await readDetail(moduleId, ft, result);
         }
     } catch (error) {
         log.info(error);
@@ -61,7 +62,7 @@ const readAPI = async (redis_key, pull_api_id, id) => {
     let result = [];
     try {
         const API_CONFIG_ID = `API_CONFIG_ID_${pull_api_id}`;
-        const r = await doAxios.do(API_CONFIG_ID,null,redis_key);
+        const r = await doAxios.do(API_CONFIG_ID, null, redis_key,null);
         if (r.finallyData) {
             result = r.finallyData;
         }
@@ -94,9 +95,7 @@ const writeDate = async (moduleId, date) => {
  * @param {*} moduleId 
  * @param {*} records 
  */
-const readDetail = async (moduleId,mainFt, records) => {
-    const sql = `select m.moduleId from module m left join module p on m.parent_module_id = p.id where m.deleteFlag = 0 
-    and p.deleteFlag = 0 and p.moduleId = '${moduleId}'` //查询这个模块的子模块
+const readDetail = async (moduleId, mainFt, records) => {
     try {
         let detailName = "";
         for (let i = 0; i < mainFt.length; i++) {
@@ -106,7 +105,12 @@ const readDetail = async (moduleId,mainFt, records) => {
             }
         }
         detailName = detailName ? detailName : 'detail';
-        const r = await mysql.query(sql);
+        const domain = models.Module;
+        const pRecord = await domain.findOne({ where: { moduleId: moduleId } });
+        let r;
+        if (pRecord) {
+            r = await domain.findAll({ where: { parent_module_id: pRecord.id } });
+        }
         if (r && r.length > 0) {
             const childModuleId = r[0].moduleId;
             for (let i = 0; i < records.length; i++) {
@@ -135,20 +139,20 @@ const readDetail = async (moduleId,mainFt, records) => {
                 const r2 = await baseSql.query(read_db_info, selectSql);
                 for (let j = 0; j < r2.length; j++) {
                     let item = r2[j];
-                    let keyVal = (await gSql.manageFieldValue(moduleId,item,ft,tableName)).keyVal;
+                    let keyVal = (await gSql.manageFieldValue(moduleId, item, ft, tableName)).keyVal;
                     let obj = {};
                     for (const key in keyVal) {
                         if (Object.hasOwnProperty.call(keyVal, key)) {
                             let val = keyVal[key];
-                            if(val){
-                                if(typeof val != 'object'){
+                            if (val) {
+                                if (typeof val != 'object') {
                                     val = val.toString();
-                                    if(val.startsWith(`'`) && val.endsWith(`'`)){
-                                        val = val.substring(1,val.length - 1);
+                                    if (val.startsWith(`'`) && val.endsWith(`'`)) {
+                                        val = val.substring(1, val.length - 1);
                                     }
                                 }
                             }
-                            if(val == 'null'){
+                            if (val == 'null') {
                                 val = "";
                             }
                             obj[key] = val;

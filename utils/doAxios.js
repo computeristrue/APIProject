@@ -4,7 +4,7 @@ const redis = require('./redis');
 const Qs = require('qs');
 const dateUtils = require('../utils/dateUtils');
 
-const doAxios = async (API_CONFIG_ID, record,redis_key) => {
+const doAxios = async (API_CONFIG_ID, record,redis_key,originRecord) => {
     const method = Number(await redis.hget(API_CONFIG_ID, 'method'));
     let methodStr = '';
     switch (method) {
@@ -33,6 +33,16 @@ const doAxios = async (API_CONFIG_ID, record,redis_key) => {
                     n = arr[0];
                     v = `{${arr[1]}`;
                     v = JSON.parse(v);
+                    for (const key in v) {//先这样搞一下，满足使用需求
+                        if (Object.hasOwnProperty.call(v, key)) {
+                            let value = v[key];
+                            if(value.indexOf("^") > -1){
+                                let eName = value.replace('^','');
+                                value = originRecord[eName];
+                                v[key] = value;
+                            }
+                        }
+                    }
                 }else{
                     arr = item.split(':');
                     n = arr[0];

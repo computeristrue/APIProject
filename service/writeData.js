@@ -133,7 +133,7 @@ const writeAPI = async (moduleId, redis_key, send_api_id, record, id, wyFieldNam
                 param = arr;
             }
         }
-        r = await doAxios.do(API_CONFIG_ID, param);
+        r = await doAxios.do(API_CONFIG_ID, param,redis_key,obj);
         syncResult = r.syncResult || 0;
         msg = r.data || "";
         if (msg) msg = JSON.stringify(msg);

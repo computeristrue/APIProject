@@ -7,10 +7,11 @@ const Op = require('sequelize').Op;
 
 const refreshData = async () => {
     const userField = models.User_field;
-    const records = await userField.findAll({ where: { dict_id: { [Op.ne]: null } } });
+    const records = await userField.findAll({ where: { dict_id: { [Op.ne]: null },is_dict:1 } });
     for (let i = 0; i < records.length; i++) {
         const record = records[i];
         const dbInfo = JSON.parse(await redis.hget("API_BASIC_INFO", 'dbInfo'));
+        record.dataId = record.dict_id;
         if(!record.dataId){
             continue;
         }

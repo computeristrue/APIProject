@@ -184,17 +184,18 @@ const userField = async () => {
             await domain.create(record);
         }
     }
-    const reSql = `select uf.id,m.name,uf.target_field,uf.origin_field from userfield uf left join module m on uf.module_id = m.id where uf.deleteFlag = 0`;
-    const reRecord = await mysql.query(oldDb,reSql);
-    let m = await baseService.getIdAndName('Module');
-    for (let i = 0; i < reRecord.length; i++) {
-        const re = reRecord[i];
-        let kv = {};
-        if(re.name){
-            kv.module_id = getFindKey(re.name,m);
-        }
-        await domain.update(kv, { where: { target_field: re.target_field,origin_field:re.origin_field } });
-    }
+    // const reSql = `select uf.id,m.name,uf.target_field,uf.origin_field from userfield uf left join module m on uf.module_id = m.id where uf.deleteFlag = 0`;
+    // const reRecord = await mysql.query(oldDb,reSql);
+    // let m = await baseService.getIdAndName('Module');
+    // for (let i = 0; i < reRecord.length; i++) {
+    //     const re = reRecord[i];
+    //     let kv = {};
+    //     if(re.name){
+    //         console.log(re.name,m);
+    //         kv.module_id = getFindKey(re.name,m);
+    //     }
+    //     await domain.update(kv, { where: { target_field: re.target_field,origin_field:re.origin_field } });
+    // }
     console.log('userfield表转移完毕');
 }
 
