@@ -1,6 +1,7 @@
 const log = require('../utils/log').logger;
 const oracle = require('../utils/oracle');
 const mysql = require('../utils/baseSql');
+const config = require('../custom/ZJKN');
 const moment = require('moment');
 /**
  * 凯恩电器同步库存的任务
@@ -9,27 +10,12 @@ const moment = require('moment');
 /**
  * CRM数据库
  */
-const crmDB = {
-    "dbType": "mysql",
-    "info": {
-        "mysql": {
-            "host": "127.0.0.1",
-            "user": "upcrm",
-            "password": "upcrm!@#",
-            "port": "3306",
-            "database": "wbwy"
-        }
-    }
-};
+const crmDB = config.db.crm;
 
 /**
  * Oracle数据库
  */
-const oracleDB = {
-    "user": "ZHC_KAN_CRM",
-    "password": "yuAGlq@68a71U9",
-    "connectString": "192.168.20.24/keos"
-};
+const oracleDB = config.db.oracle;
 
 /**
  * 程序入口

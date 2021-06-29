@@ -5,14 +5,14 @@ const mssql = require('mssql');
 const { sleep } = require('./baseUtils');
 const oracle = require('./oracle');
 
-async function mysqlQuery(info, sql) {
+async function mysqlQuery(info, sql,data) {
     let rows = [];
     let connection;
     try {
         const pool = mysql.createPool(info);
         connection = await getConnection(pool);
         if (connection) {
-            rows = await mq(connection, sql);
+            rows = await mq(connection, sql,data);
         } else {
             log.info('获取连接失败');
         }
@@ -44,9 +44,9 @@ function getConnection(pool, num = 1) {
     }
 }
 
-function mq(connection, sql) {
+function mq(connection, sql,data) {
     return new Promise((resolve, reject) => {
-        connection.query(sql, [], (err, rows) => {
+        connection.query(sql, data, (err, rows) => {
             if (err) {
                 log.info('异常SQL：', sql);
                 log.info('MySql execute Error:' + JSON.stringify(err));
@@ -154,7 +154,7 @@ function queryViaStreamWithParams(info, SQL, params, func) {
  * @param {配置文件中的数据库连接信息} dbInfo 
  * @param {要执行的SQL语句} sql 
  */
-function query(dbInfo, sql) {
+function query(dbInfo, sql,data = []) {
     try {
         if (!dbInfo) {
             log.info('dbInfo is null!');
@@ -163,11 +163,11 @@ function query(dbInfo, sql) {
         var dbType = dbInfo.dbType;
         var info = dbInfo.info[dbType];
         if (dbType == 'mysql') {
-            return mysqlQuery(info, sql)
-        } else if (dbType == 'sqlServer') {
+            return mysqlQuery(info, sql,data)
+        } else if (dbType == 'sqlServer') {//暂时先不支持参数吧，改动有点大
             return mssqlQuery(info, sql);
         } else if (dbType == 'oracle') {
-            return oracle.query(info, sql);
+            return oracle.query(info, sql,data);
         }
     } catch (error) {
         log.info(error);

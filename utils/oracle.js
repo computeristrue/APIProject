@@ -23,9 +23,8 @@ let connection;
 let records = [];
 
 
-const query = async (dbInfo,sql) => {
+const query = async (dbInfo,sql,data = []) => {
     try {
-        let data = [];
         connection = await oracledb.getConnection(dbInfo);
         records = await connection.execute(sql, data);
     } catch (error) {

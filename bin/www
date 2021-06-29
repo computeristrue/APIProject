@@ -94,10 +94,6 @@ function onListening() {
   //初始化sequelize
   const initModel = require('../init/initModel');
   initModel();
-  //同步库存
-  // const syncProductStorage = require('../task/syncProductStorage');
-  // syncProductStorage.begin();
-  // setInterval(() => {
-  //   syncProductStorage.begin();
-  // }, 1000 * 60 * 30);
+  const customTask = require('../task/customTask');
+  customTask.begin();
 }
