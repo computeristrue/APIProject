@@ -13,7 +13,7 @@ module.exports = (sequelize,DataTypes)=>{
         account:{
             type:DataTypes.STRING,
             allowNull: false,
-            unique:true
+            unique:"account"
         },
         password:{
             type:DataTypes.STRING,

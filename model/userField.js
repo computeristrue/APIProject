@@ -6,9 +6,9 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             autoIncrement: true
         },
-        module_id:{
-            type:DataTypes.INTEGER,
-            allowNull:false
+        module_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false
         },
         origin_field: {
             type: DataTypes.STRING,
@@ -61,6 +61,9 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING
         },
         table_name: {
+            type: DataTypes.STRING
+        },
+        remark: {
             type: DataTypes.STRING
         }
     });

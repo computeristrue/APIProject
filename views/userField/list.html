@@ -29,11 +29,17 @@
                         </div>
                         <div class="test-table-reload-btn">
                             <div class="layui-inline layui-form">
-                                <div class="layui-form-item">
+                                <div class="layui-form-item layui-inline">
                                     <div class="layui-input-block">
                                         <select name="moduleId" lay-verify="" id="moduleId">
                                             <option value="">请选择所属模块</option>
                                         </select>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item layui-inline">
+                                    <div class="layui-input-block">
+                                        <input type="text" name="target_field" id="target_field" autocomplete="off" placeholder="目标字段"
+                                            class="layui-input">
                                     </div>
                                 </div>
                             </div>
@@ -79,6 +85,7 @@
                     , { field: 'module', title: '模块名', fixed: 'left', width: 100, align: 'center' }
                     , { field: 'origin_field', title: '原字段', width: 100, align: 'center' }
                     , { field: 'target_field', title: '目标字段', width: 100, align: 'center' }
+                    , { field: 'remark', title: '备注', width: 100, align: 'center' }
                     , {
                         field: 'is_weiyi', title: '是否唯一', width: 100, align: 'center', templet: (d) => {
                             return d.is_weiyi == 1 ? '是' : '否';
@@ -135,13 +142,15 @@
                 },
                 reload: function () {
                     var moduleId = $("#moduleId");
+                    var target_field = $("#target_field");
                     //执行重载
                     table.reload('test-table-operate', {
                         page: {
                             curr: 1 //重新从第 1 页开始
                         }
                         , where: {
-                            moduleId: moduleId.val()
+                            moduleId: moduleId.val(),
+                            target_field:target_field.val()
                         }
                     });
                 }

@@ -13,7 +13,7 @@ module.exports = (sequelize,DataTypes)=>{
         moduleId:{
             type:DataTypes.STRING,
             allowNull: false,
-            unique:true
+            unique:"moduleId"
         },
         is_child:{
             type:DataTypes.INTEGER
