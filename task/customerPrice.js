@@ -18,7 +18,7 @@ const crmInfo = config.db.crm;
  * 任务入口
  */
 const begin = async () => {
-    const sql = `select * from Cust_KaiEn_SalePrice where 有效 = 1`;
+    const sql = `select * from Cust_KaiEn_SalePrice`;
     try {
         const records = await baseSql.query(mssqlInfo, sql);
         const args = await getRelInfo();
@@ -49,7 +49,10 @@ const begin = async () => {
                 }
             }
         }
-        log.info('价表数据处理完毕');
+        log.info('价表数据处理完毕,开始处理不在有效期内的数据');
+        const updateSql = `update t_customer_price set delete_flag = 0 where delete_flag = 0 and extend41 is not null and extend42 is not null and (extend41 > now() or extend42 < now())`;
+        await baseSql.query(crmInfo,updateSql);
+        log.info("价表有效期处理完毕");
     } catch (error) {
         log.info(error);
     };
@@ -169,6 +172,14 @@ const parseRecord = (record, args, isMain = true) => {
         if (record.失效时间) {
             kv.extend42 = getDate(record.失效时间);
         }
+        if (record.行号) {
+            kv.extend1 = record.行号;
+        }
+        if(record.有效 == 1){
+            kv.delete_flag = 0;
+        }else{
+            kv.delete_flag = 1;
+        }
     }
     return kv;
 }
@@ -261,13 +272,22 @@ const saveMain = async (mainRecord, args) => {
  * 保存明细
  */
 const saveDetail = async (detailRecord, args) => {
-    const isDetailExistSql = `select id from t_customer_price where delete_flag = 0 and id = ?`;
-    const isDetailExist = await baseSql.query(crmInfo, isDetailExistSql, [detailRecord.CRMID]);
-    let detailKV = parseRecord(detailRecord, args, false);
+    let isDetailExistSql, isDetailExist,dataArr = [];
     let detailCondition = "";
+    let detailId = detailRecord.CRMID;
+    if (detailRecord.CRMID) {
+        isDetailExistSql = `select id from t_customer_price where delete_flag = 0 and id = ?`;
+        dataArr = [detailRecord.CRMID];
+    } else {
+        isDetailExistSql = `select cp.id as id from t_customer_price cp left join t_customer_price_info cpi on cp.customer_price_info_id = cpi.id where cp.delete_flag = 0 and cp.extend1 = ? and cpi.decode = ?`;
+        dataArr = [detailRecord.行号, detailRecord.价表编码];
+    }
+    isDetailExist = await baseSql.query(crmInfo, isDetailExistSql, dataArr);
+    let detailKV = parseRecord(detailRecord, args, false);
     let detailIsAdd = false;
     if (isDetailExist && isDetailExist.length > 0) {
-        detailCondition = `id = ${detailRecord.CRMID}`;
+        detailId = isDetailExist[0].id;
+        detailCondition = `id = ${detailId}`;
     } else {
         detailKV = addDefaultValue(detailKV, false);
         detailIsAdd = true;
@@ -283,9 +303,9 @@ const saveDetail = async (detailRecord, args) => {
 const getDate = (str) => {
     let result = moment();
     let oStr = str;
-    try{
+    try {
         if (str && str != "") {
-            if(typeof str != 'string'){
+            if (typeof str != 'string') {
                 str = str + "";
             }
             // result = moment();
@@ -319,11 +339,11 @@ const getDate = (str) => {
             // if (millisecond) result.set('millisecond', millisecond);
             result = moment(str);
         }
-    }catch(error){
+    } catch (error) {
         log.info(error);
-    }finally{
-        if(result.year() == 10000){
-            result.set('year',9999);
+    } finally {
+        if (result.year() == 10000) {
+            result.set('year', 9999);
         }
         result = result.format('YYYY-MM-DD HH:mm:ss');
         return result;
