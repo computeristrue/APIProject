@@ -91,6 +91,9 @@ const parseData = (record, args) => {
     if (extend16) {//计价单位
         kv.extend16 = extend16;
     }
+    if(kv.name && kv.product_model){
+        kv.decode = `${kv.name}-${kv.product_model}`;
+    }
     return kv;
 }
 
