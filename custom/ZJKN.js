@@ -3,8 +3,8 @@
  */
 
 module.exports = {
-    "db":{
-        "crm":{
+    "db": {
+        "crm": {
             "dbType": "mysql",
             "info": {
                 "mysql": {
@@ -16,15 +16,30 @@ module.exports = {
                 }
             }
         },
-        "oracle":{
-            "user": "ZHC_KAN_CRM",
-            "password": "yuAGlq@68a71U9",
-            "connectString": "192.168.20.24/keos"
+        "oracle": {
+            "dbType": "oracle",
+            "info": {
+                "oracle":{
+                    "user": "ZHC_KAN_CRM",
+                    "password": "yuAGlq@68a71U9",
+                    "connectString": "192.168.20.24/keos"
+                }
+            }
         },
-        "mssql":{
-            "dbType":"sqlServer",
-            "info":{
-                "sqlServer":{
+        "DAM":{
+            "dbType": "oracle",
+            "info": {
+                "oracle":{
+                    "user": "kesupdam",
+                    "password": "kesupdam2021",
+                    "connectString": "192.168.20.24/keos"
+                }
+            }
+        },
+        "mssql": {
+            "dbType": "sqlServer",
+            "info": {
+                "sqlServer": {
                     "server": "192.168.20.33",
                     "user": "sa",
                     "password": "LSkhchx@",

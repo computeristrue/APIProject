@@ -13,13 +13,16 @@ const begin = async () => {
         //同步库存
         const syncProductStorage = require('./syncProductStorage');
         const customerPrice = require('./customerPrice');
+        const KNProduct = require('./KNProduct');
         syncProductStorage.begin();
         customerPrice.begin();
+        KNProduct.begin();
         setInterval(() => {
           syncProductStorage.begin();
         }, 1000 * 60 * 30);
         schedule.scheduleJob("00 00 05 * * *", () => {//凌晨五点执行
             customerPrice.begin();
+            KNProduct.begin();
             console.log(`${userId}定时任务`, moment().format('YYYY-MM-DD HH:mm:ss'));
         });
     }
