@@ -13,7 +13,7 @@ const crmInfo = config.db.crm;
  */
 const begin = async () => {
     try {
-        const sql = `select * from View_item`;
+        const sql = `select * from View_item where STOCKCATEGORY_CODE not like '1%' and not like '304%'`;
         const records = await baseSql.query(oracleInfo, sql);
         log.info('查询产品' + records.length + "条数据");
         if (records && records.length > 0) {
